@@ -18,7 +18,8 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'YouTubeApp'
+        'YouTubeApp',
+        'searchBar'
     ])
     .config(function ($routeProvider) {
         $routeProvider

@@ -1,0 +1,8 @@
+<div ng-controller="SearchBarCtrl">
+    <form class="well form-search">
+        <label>Search:</label>
+        <input type="text" ng-model="keywords" class="input-medium search-query" placeholder="Keywords...">
+        <button type="submit" class="btn" ng-click="search()">Search</button>
+        {{keywords}}
+    </form>
+</div>
