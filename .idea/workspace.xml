@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9310ccb0-9d71-4ef6-b589-1273e0889a00" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/client/app/app.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/app/index.html" afterPath="$PROJECT_DIR$/client/app/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/app/modules/youtube" afterPath="$PROJECT_DIR$/client/app/modules/youtube" />
     </list>
     <ignored path="Apollon.iws" />
     <ignored path=".idea/workspace.xml" />
