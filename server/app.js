@@ -75,10 +75,9 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 			playlistId: mixPlaylistId,
 			maxResults: 50
 		}, function (err, data) {
-			console.log(err);
 			if (data && data.items) {
 				for (i = 0; i < data.items.length; i++) {
-					if (data.items[i].snippet.resourceId.video) {
+					if (data.items[i].snippet.resourceId.videoId) {
 						var vidId = data.items[i].snippet.resourceId.videoId;
 						if (buffer.indexOf(vidId) === -1) buffer.push(vidId);
 					}
@@ -94,6 +93,7 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 });
 
 app.get('/recommendation-engine/next/', function (req, res) {
+	console.log(buffer);
 	if (buffer.length > 0) {
 		var videoId = buffer[0];
 		buffer.shift();
