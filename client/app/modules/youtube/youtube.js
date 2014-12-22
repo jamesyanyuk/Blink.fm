@@ -27,7 +27,7 @@ myApp.controller('YouTubeCtrl', function ($scope, YT_event) {
   });
 });
 
-myApp.directive('youtube', function ($window, YT_event, $rootScope) {
+myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtubeSrv) {
   return {
     restrict: "E",
 
@@ -107,6 +107,16 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope) {
       scope.$on(YT_event.PAUSE, function () {
         $rootScope.player.pauseVideo();
       });
+
+      scope.$on(YT_event.STATUS_CHANGE, function (event, message) {
+        if (message === "ENDED") {
+          $http.get('recommendation-engine/next').success(function (response) {
+            if (response && response.videoId) {
+              youtubeSrv.cueVideo(response.videoId);
+            }
+          })
+        }
+      })
 
     }
   };

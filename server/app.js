@@ -65,7 +65,8 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 
 	if (videoId) {
 		// Add the current videoId to buffer.
-		buffer = [videoId];
+		buffer = [];
+		buffer.push(videoId);
 
 		// Load the mix playlist and add it to buffer.
 		var mixPlaylistId = 'RD' + videoId;
@@ -88,7 +89,7 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 			}
 		});
 	} else {
-		res.send(500);
+		res.status(500).end();
 	}
 });
 

@@ -8,6 +8,7 @@ angular.module('YouTubeApp')
     return {
       cueVideo: function (videoId) {
         $rootScope.player.cueVideoById(videoId);
+        $rootScope.player.playVideo();
       }
     }
   });
