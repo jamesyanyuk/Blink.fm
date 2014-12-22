@@ -1,4 +1,4 @@
-var searchBar = angular.module('searchBar', []);
+var searchBar = angular.module('searchBar', ['YouTubeApp']);
 
 searchBar.constant('YOUTUBE_API', {
   'URL': 'https://www.googleapis.com/youtube/v3/search',
@@ -6,7 +6,7 @@ searchBar.constant('YOUTUBE_API', {
   'PART': 'id,snippet'
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $http, YOUTUBE_API) {
+searchBar.controller('SearchBarCtrl', function ($scope, $http, YOUTUBE_API, youtubeSrv) {
   $scope.search = function () {
     $http.get(YOUTUBE_API.URL, {
       params: {
@@ -24,8 +24,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $http, YOUTUBE_API) {
           $http.get('recommendation-engine/add-video/' + videoId).success(function () {
             $http.get('recommendation-engine/next').success(function (response) {
               if (response && response.videoId) {
-                var nextVideoId = response.videoId;
-                console.log(nextVideoId);
+                youtubeSrv.cueVideo(response.videoId);
               }
             })
           });

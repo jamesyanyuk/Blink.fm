@@ -27,31 +27,22 @@ myApp.controller('YouTubeCtrl', function ($scope, YT_event) {
   });
 });
 
-myApp.directive('youtube', function ($window, YT_event) {
+myApp.directive('youtube', function ($window, YT_event, $rootScope) {
   return {
     restrict: "E",
 
-    scope: {
-      height: "@",
-      width: "@",
-      videoid: "@"
-    },
-
     template: '<div></div>',
 
-    link: function (scope, element, attrs, $rootScope) {
+    link: function (scope, element, attrs) {
       var tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      var player;
-
       $window.onYouTubeIframeAPIReady = function () {
-
-        player = new YT.Player(element.children()[0], {
+        $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
-            autoplay: 0,
+            autoplay: 1,
             html5: 1,
             theme: "light",
             modesbranding: 0,
@@ -61,9 +52,9 @@ myApp.directive('youtube', function ($window, YT_event) {
             controls: 1
           },
 
-          height: scope.height,
-          width: scope.width,
-          videoId: scope.videoid,
+          height: scope.yt.height,
+          width: scope.yt.width,
+          videoId: scope.yt.videoid,
 
           events: {
             'onStateChange': function (event) {
@@ -96,35 +87,25 @@ myApp.directive('youtube', function ($window, YT_event) {
         });
       };
 
-      scope.$watch('height + width', function (newValue, oldValue) {
+      scope.$watch('yt.videoid', function (newValue, oldValue) {
         if (newValue == oldValue) {
           return;
         }
 
-        player.setSize(scope.width, scope.height);
-
-      });
-
-      scope.$watch('videoid', function (newValue, oldValue) {
-        if (newValue == oldValue) {
-          return;
-        }
-
-        player.cueVideoById(scope.videoid);
-
+        $rootScope.player.cueVideoById(scope.yt.videoid);
       });
 
       scope.$on(YT_event.STOP, function () {
-        player.seekTo(0);
-        player.stopVideo();
+        $rootScope.player.seekTo(0);
+        $rootScope.player.stopVideo();
       });
 
       scope.$on(YT_event.PLAY, function () {
-        player.playVideo();
+        $rootScope.player.playVideo();
       });
 
       scope.$on(YT_event.PAUSE, function () {
-        player.pauseVideo();
+        $rootScope.player.pauseVideo();
       });
 
     }

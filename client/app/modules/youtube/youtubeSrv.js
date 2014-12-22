@@ -4,6 +4,10 @@
 'use strict'
 
 angular.module('YouTubeApp')
-  .factory('youtubeSrv', function () {
-    return function() {}
+  .factory('youtubeSrv', function ($rootScope) {
+    return {
+      cueVideo: function (videoId) {
+        $rootScope.player.cueVideoById(videoId);
+      }
+    }
   });
