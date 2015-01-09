@@ -12,6 +12,8 @@ var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 
+var auth = require('./routes/auth');
+
 // Passport authentication strategy configuration
 var configPassport = require('./config/passport');
 
@@ -34,6 +36,8 @@ app.use(passport.session());
 app.use(flash());
 
 configPassport(passport);
+
+app.use('/auth', auth);
 
 /**
  * Development Settings

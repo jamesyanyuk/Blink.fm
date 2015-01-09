@@ -17,11 +17,13 @@ angular.module('apollonApp')
       if(!$scope.signup.user.username || !$scope.signup.user.password) {
         $scope.message = 'Field(s) left blank.';
         return false;
+      } else {
+        $scope.message = '';
       }
 
       console.log($scope.signup.user);
 
-      $http.post('/signup', $scope.signup.user)
+      $http.post('/auth/signup', $scope.signup.user)
         .success(function(data) {
           console.log('Signup success.');
         })
