@@ -9,7 +9,7 @@ var google = require('googleapis');
 var youtube = google.youtube('v3');
 
 var passport = require('passport');
-var session = require('express-sessions');
+var session = require('express-session');
 var flash = require('connect-flash');
 
 // Passport authentication strategy configuration
