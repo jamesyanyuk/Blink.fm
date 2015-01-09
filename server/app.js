@@ -8,6 +8,13 @@ var request = require('request');
 var google = require('googleapis');
 var youtube = google.youtube('v3');
 
+var passport = require('passport');
+var session = require('express-sessions');
+var flash = require('connect-flash');
+
+// Passport authentication strategy configuration
+var configPassport = require('./config/passport');
+
 var YOUTUBE_API_KEY = 'AIzaSyA7QOe5_6VAQBnO-XihFvcBOV1xomJ1gaQ';
 
 var app = express();
@@ -18,6 +25,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+app.use(session({ secret: 'randomkey',
+				  resave: true,
+				  saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+configPassport(passport);
 
 /**
  * Development Settings
