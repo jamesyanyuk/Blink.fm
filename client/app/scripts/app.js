@@ -19,7 +19,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'YouTubeApp',
-    'searchBar'
+    'searchBar',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
