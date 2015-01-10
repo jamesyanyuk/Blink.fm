@@ -8,5 +8,5 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-    .controller('MainCtrl', function ($scope) {
-    });
+  .controller('MainCtrl', function ($scope) {
+  });
