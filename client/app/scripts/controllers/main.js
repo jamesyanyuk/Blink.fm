@@ -13,6 +13,6 @@ angular.module('apollonApp', ['btford.socket-io'])
   })
   .controller('MainCtrl', ['$scope', 'socket', function ($scope, socket) {
     socket.on('connect', function(data) {
-      
+
     })
   }]);
