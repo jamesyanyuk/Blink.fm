@@ -19,21 +19,18 @@ angular
     'ngSanitize',
     'ngTouch',
     'YouTubeApp',
-    'searchBar'
+    'searchBar',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/home', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
       })
       .when('/signup', {
         templateUrl: 'views/signup.html',
