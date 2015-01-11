@@ -12,7 +12,32 @@ angular.module('apollonApp', ['btford.socket-io'])
     return socketFactory();
   })
   .controller('MainCtrl', ['$scope', 'socket', function ($scope, socket) {
-    socket.on('connect', function(data) {
+    $scope.chat = {}
+    $scope.chat.send = function() {
+      if($scope.chat.message) {
+        socket.emit('sendmessage', {
+          // todo
+          message: $scope.chat.message
+        });
+        $scope.chat.message = '';
+      }
+    }
 
-    })
+    socket.on('connect', function(data) {
+      socket.emit('join_radio', {
+        // todo: transmit user nickname
+      });
+    });
+
+    socket.on('updatechat', function(data) {
+      // todo: add received message
+    });
+
+    socket.on('client_connect', function(data) {
+      // todo: add c message
+    });
+
+    socket.on('client_disconnect', function(data) {
+      // todo: add dc message
+    });
   }]);
