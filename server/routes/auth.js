@@ -21,7 +21,6 @@ router.post('/login', function(req, res, next) {
     }
 
     passport.authenticate('local-login', function(err, user, info) {
-        console.log('testing1');
         if(err) return next(err);
         else if(!user) {
             req.flash('loginMessage', 'Incorrect username/password.');
@@ -64,7 +63,6 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/logout', function(req, res) {
-    console.log('tried logging out');
     req.logout();
     req.flash('homeMessage', 'Successfully logged out.');
     res.redirect('/');
