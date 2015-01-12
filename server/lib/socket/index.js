@@ -2,8 +2,6 @@ var idmap = [];
 
 module.exports = function(io) {
     io.sockets.on('connection', function(socket) {
-        console.log('\nTEST\n');
-
         socket.on('announce_join', function(data) {
             console.log(data.nickname + ' joined ' + data.radioid + '.');
 
