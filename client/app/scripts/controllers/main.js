@@ -12,7 +12,7 @@ angular.module('apollonApp')
     return socketFactory();
   })
   .controller('MainCtrl', ['$scope', '$routeParams', 'socket', function ($scope, $routeParams, socket) {
-    var radioid = $scope.radioid = $routeParams.username;
+    var radioId = $routeParams.username;
     var nickname = $scope.nickname;
 
     $scope.chat = {}
@@ -20,7 +20,7 @@ angular.module('apollonApp')
 
     socket.emit('join_radio', {
       nickname: 'Test',
-      radioid: radioid
+      radioId: radioId
     });
 
     $scope.chat.verify = function () {
@@ -33,7 +33,7 @@ angular.module('apollonApp')
       if ($scope.chat.message) {
         socket.emit('sendmessage', {
           nickname: 'Test',
-          radioid: radioid,
+          radioId: radioId,
           message: $scope.chat.message
         });
         $scope.chat.message = '';
