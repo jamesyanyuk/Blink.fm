@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('LoginCtrl', function ($scope, $http, $location, authSrv) {
+  .controller('LoginCtrl', function ($scope, $http, $location, $window, authSrv) {
     $scope.login = {};
     $scope.login.user = {};
     $scope.message = '';
@@ -23,7 +23,10 @@ angular.module('apollonApp')
 
       authSrv.login($scope.login.user).then(
         function (data) {
-          $location.path("/" + $scope.login.user.username);
+          // After logging in, redirect users to their own radio station.
+          $location.path($scope.login.user.username);
+          // Enforce a full page reload for YouTube player to work correctly.
+          $window.location.reload();
         },
         function (data) {
           console.log('Login failure.');
