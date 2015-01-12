@@ -12,28 +12,29 @@ angular.module('apollonApp')
     return socketFactory();
   })
   .controller('MainCtrl', ['$scope', '$routeParams', 'socket', function ($scope, $routeParams, socket) {
-    var radioid = $scope.radioid = $routeParams.username;
-    var nickname = $scope.nickname;
+    $scope.radioid = $routeParams.username;
 
     $scope.chat = {}
     $scope.chat.messages = [];
 
     socket.emit('join_radio', {
-      nickname: 'Test',
-      radioid: radioid
+      radioid: $scope.radioid
     });
 
     $scope.chat.verify = function() {
-      //if(!nickname) {
-      //
-      //}
+      if(!$scope.nickname) {
+        console.log('Requesting nickname from nickname modal module..');
+        $scope.open(socket);
+      }
     }
 
     $scope.chat.send = function() {
-      if($scope.chat.message) {
+      if(!$scope.nickname)
+        verify();
+      else if($scope.chat.message) {
         socket.emit('sendmessage', {
-          nickname: 'Test',
-          radioid: radioid,
+          nickname: $scope.nickname,
+          radioid: $scope.radioid,
           message: $scope.chat.message
         });
         $scope.chat.message = '';

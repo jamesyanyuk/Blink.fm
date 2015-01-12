@@ -19,6 +19,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'YouTubeApp',
+    'nicknameModal',
     'searchBar',
     'ui.bootstrap',
     'btford.socket-io'

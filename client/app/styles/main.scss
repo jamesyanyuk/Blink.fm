@@ -70,7 +70,7 @@ body {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
+    //max-width: 730px;
   }
 
   /* Remove the padding we set earlier */
@@ -91,5 +91,14 @@ body {
 }
 
 .chat-window {
-  background-color: #e3e3e3;
+  background-color: #F8F8F8;
+  border: 1px solid #E7E7E7;
+  padding-bottom: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.chat-input {
+  padding: 0px;
+  margin-top: 5px;
 }

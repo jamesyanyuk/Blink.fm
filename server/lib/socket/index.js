@@ -4,8 +4,7 @@ module.exports = function(io) {
     io.sockets.on('connection', function(socket) {
         console.log('\nTEST\n');
 
-        socket.on('join_radio', function(data) {
-            socket.join('radio_' + data.radioid);
+        socket.on('announce_join', function(data) {
             console.log(data.nickname + ' joined ' + data.radioid + '.');
 
             io.sockets.in('radio_' + data.radioid).emit('updatechat', {
@@ -14,6 +13,11 @@ module.exports = function(io) {
                     body: data.nickname + ' is now listening.'
                 }
             });
+        });
+
+        socket.on('join_radio', function(data) {
+            socket.join('radio_' + data.radioid);
+            console.log(socket.id + ' connected to ' + data.radioid);
         });
 
         socket.on('sendmessage', function(data) {
@@ -28,12 +32,13 @@ module.exports = function(io) {
         socket.on('disconnect', function(data) {
             console.log('Socket: ' + socket.id + ' disconnected from server.');
 
-            io.sockets.in('radio_' + data.radioid).emit('updatechat', {
-                message: {
-                    sender: '[SERVER]',
-                    body: data.nickname + ' has left.'
-                }
-            });
+            /* Will need to create a socket.id to nickname map, etc */
+            //io.sockets.in('radio_' + data.radioid).emit('updatechat', {
+            //    message: {
+            //        sender: '[SERVER]',
+            //        body: data.nickname + ' has left.'
+            //    }
+            //});
         });
     });
 }
