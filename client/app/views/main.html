@@ -1,10 +1,29 @@
 <search-bar></search-bar>
 <br>
 
-<div ng-controller="YouTubeCtrl">
-  <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
-  <br/>
-  Videoid:<input type="text" ng-model="yt.videoid">
+<div class="row">
+  <div class="col-sm-7">
+    <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
+      <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
+      <br/>
+      Videoid:<input type="text" ng-model="yt.videoid">
+    </div>
+  </div>
+  <div class="col-sm-5 chat-window" style="
+          background-color: #F8F8F8;
+          border: 1px solid #E7E7E7;
+          padding-bottom: 10px;
+          height: 200px;
+          overflow-y: scroll">
+    <ul class="list-unstyled">
+      <li><b>Test:</b> Test message</li>
+      <li ng-repeat="message in chat.messages"><b>{{message.sender}}: </b>{{message.body}}</li>
+    </ul>
+  </div>
+  <div class="col-sm-5" style="padding: 0px; margin-top: 5px">
+    <form class="form-inline">
+      <input type="text" class="form-control" ng-focus="chat.verify()" ng-model="chat.message" placeholder="Enter a message" style="width: 79%">
+      <button class="btn btn-default btn-primary" ng-click="chat.send()" style="width: 20%">Send</button>
+    </form>
+  </div>
 </div>
-
-<div
