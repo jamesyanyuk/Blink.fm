@@ -29,17 +29,9 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .when('/home', {
+      .when('/:username', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
-      })
-      .when('/:radioid', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/signup', {
-        templateUrl: 'views/signup.html',
-        controller: 'SignupCtrl'
       })
       .otherwise({
         redirectTo: '/'
