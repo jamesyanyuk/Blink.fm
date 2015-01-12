@@ -20,7 +20,8 @@ angular
     'ngTouch',
     'YouTubeApp',
     'searchBar',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'btford.socket-io'
   ])
   .config(function ($routeProvider) {
     $routeProvider

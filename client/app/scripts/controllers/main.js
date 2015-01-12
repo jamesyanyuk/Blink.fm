@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the clientApp
  */
-angular.module('apollonApp', ['btford.socket-io'])
+angular.module('apollonApp')
   .factory('socket', function(socketFactory) {
     return socketFactory();
   })
