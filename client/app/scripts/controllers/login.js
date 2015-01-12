@@ -8,27 +8,26 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('LoginCtrl', function ($scope, $http) {
+  .controller('LoginCtrl', function ($scope, $http, $location, authSrv) {
     $scope.login = {};
     $scope.login.user = {};
     $scope.message = '';
 
-    $scope.login.submit = function() {
-      if(!$scope.login.user.username || !$scope.login.user.password) {
+    $scope.login.submit = function () {
+      if (!$scope.login.user.username || !$scope.login.user.password) {
         $scope.message = 'Field(s) left blank.';
         return false;
       } else {
         $scope.message = '';
       }
 
-      console.log($scope.login.user);
-
-      $http.post('/auth/login', $scope.login.user)
-        .success(function(data) {
-          console.log('Login success.');
-        })
-        .error(function(data) {
+      authSrv.login($scope.login.user).then(
+        function (data) {
+          $location.path("/" + $scope.login.user.username);
+        },
+        function (data) {
           console.log('Login failure.');
-        });
+        }
+      );
     }
   });
