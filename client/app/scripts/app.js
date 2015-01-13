@@ -10,6 +10,7 @@
  */
 angular
   .module('apollonApp', [
+    'auth',
     'ngAnimate',
     'ngAria',
     'ngCookies',

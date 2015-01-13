@@ -1,4 +1,4 @@
-var myApp = angular.module('YouTubeApp', []);
+var myApp = angular.module('YouTubeApp', ['auth']);
 
 myApp.constant('YT_event', {
   STOP: 0,
@@ -7,7 +7,7 @@ myApp.constant('YT_event', {
   STATUS_CHANGE: 3
 });
 
-myApp.controller('YouTubeCtrl', function ($scope, YT_event) {
+myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv) {
   //initial settings
   $scope.yt = {
     width: 600,
@@ -25,6 +25,45 @@ myApp.controller('YouTubeCtrl', function ($scope, YT_event) {
   $scope.$on(YT_event.STATUS_CHANGE, function (event, data) {
     $scope.yt.playerStatus = data;
   });
+
+  var currentUser = authSrv.getCurrentUser();
+  if (currentUser) {
+    setInterval(function () {
+      var match = $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/);
+      var videoId = match[1];
+      socket.emit('youtube_player_status', {
+        radioid: currentUser.username,
+        videoId: videoId,
+        videoUrl: $rootScope.player.getVideoUrl(),
+        currentTime: $rootScope.player.getCurrentTime(),
+        playerState: $rootScope.player.getPlayerState()
+      });
+    }, 1000);
+  }
+
+  socket.on('update_player_status', function (data) {
+    if ($rootScope.player) {
+      if ($rootScope.player.getVideoUrl() !== data.videoUrl) {
+        if (data.playerState === YT_event.PLAY) {
+          console.log("In here");
+          $rootScope.player.loadVideoById(data.videoId, data.currentTime);
+        } else {
+          $rootScope.player.cueVideoById(data.videoId, data.currentTime);
+        }
+      } else {
+        if (Math.abs(data.currentTime - $rootScope.player.getCurrentTime()) > 10) {
+          $rootScope.player.seekTo(data.currentTime);
+        }
+        if (data.playerState === YT_event.PLAY) {
+          $rootScope.player.playVideo();
+        }
+        if (data.playerState === YT_event.PAUSE) {
+          $rootScope.player.pauseVideo();
+        }
+      }
+    }
+  });
+
 });
 
 myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtubeSrv) {
