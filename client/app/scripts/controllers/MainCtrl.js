@@ -8,5 +8,6 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('MainCtrl', function ($scope) {
-  });
+  .controller('MainCtrl', ['$scope', 'authSrv', function ($scope, authSrv) {
+    $scope.currentUser = authSrv.getCurrentUser();
+  }]);

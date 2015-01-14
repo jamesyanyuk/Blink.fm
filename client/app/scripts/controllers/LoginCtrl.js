@@ -26,7 +26,7 @@ angular.module('apollonApp')
           // After logging in, redirect users to their own radio station.
           $location.path($scope.login.user.username);
           // Enforce a full page reload for YouTube player to work correctly.
-          //$window.location.reload();
+          $window.location.reload();
         },
         function (data) {
           console.log('Login failure.');
