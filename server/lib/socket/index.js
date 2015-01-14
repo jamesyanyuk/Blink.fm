@@ -5,7 +5,7 @@ module.exports = function (io) {
 		socket.on('announce_join', function (data) {
 			console.log(data.nickname + ' joined ' + data.radioid + '.');
 
-			io.sockets.in('radio_' + data.radioid).emit('updatechat', {
+			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
 					body: data.nickname + ' is now listening.'
@@ -22,8 +22,8 @@ module.exports = function (io) {
 			io.sockets.in('radio_' + data.radioid).emit('update_player_status', data);
 		});
 
-		socket.on('sendmessage', function (data) {
-			io.sockets.in('radio_' + data.radioid).emit('updatechat', {
+		socket.on('send_message', function (data) {
+			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: data.nickname,
 					body: data.message
@@ -35,7 +35,7 @@ module.exports = function (io) {
 			console.log('Socket: ' + socket.id + ' disconnected from server.');
 
 			/* Will need to create a socket.id to nickname map, etc */
-			//io.sockets.in('radio_' + data.radioid).emit('updatechat', {
+			//io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 			//    message: {
 			//        sender: '[SERVER]',
 			//        body: data.nickname + ' has left.'

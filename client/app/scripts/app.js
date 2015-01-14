@@ -20,6 +20,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'YouTubeApp',
+    'Chat',
     'nicknameModal',
     'searchBar',
     'ui.bootstrap',
@@ -38,4 +39,7 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .factory('socket', function(socketFactory) {
+    return socketFactory();
   });

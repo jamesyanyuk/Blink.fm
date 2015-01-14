@@ -10,8 +10,8 @@ var myApp = angular.module('nicknameModal', []);
  * Controller of the clientApp
  */
 
-myApp.controller('NicknameModalCtrl', function ($scope, $modal) {
-  $scope.open = function(socket) {
+myApp.controller('NicknameModalCtrl', function ($scope, $rootScope, $modal) {
+  $rootScope.openNicknameModal = function(socket) {
     var modalInstance = $modal.open({
       templateUrl: 'nicknameModal.html',
       controller: 'NicknameModalInstanceCtrl',
@@ -19,17 +19,16 @@ myApp.controller('NicknameModalCtrl', function ($scope, $modal) {
     });
 
     modalInstance.result.then(function(nickname) {
-      console.log('noooooooo\n\n');
-      $scope.$parent.nickname = nickname;
+      $rootScope.nickname = nickname;
 
       socket.emit('announce_join', {
-        nickname: $scope.nickname,
-        radioid: $scope.$parent.radioid
+        nickname: $rootScope.nickname,
+        radioid: $rootScope.radioid
       });
     });
   }
 
-  $scope.$parent.open = $scope.open;
+  //$scope.$parent.open = $scope.open;
 });
 
 myApp.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {

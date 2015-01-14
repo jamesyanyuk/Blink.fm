@@ -7,7 +7,7 @@ myApp.constant('YT_event', {
   STATUS_CHANGE: 3
 });
 
-myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv) {
+myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv, socket) {
   //initial settings
   $scope.yt = {
     width: 600,
@@ -27,10 +27,14 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv)
   });
 
   var currentUser = authSrv.getCurrentUser();
+  console.log(currentUser);
+
+  // Changed polling rate to 500, since we're not expecting much load for the MVP
   if (currentUser) {
     setInterval(function () {
       var match = $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/);
       var videoId = match[1];
+
       socket.emit('youtube_player_status', {
         radioid: currentUser.username,
         videoId: videoId,
@@ -38,7 +42,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv)
         currentTime: $rootScope.player.getCurrentTime(),
         playerState: $rootScope.player.getPlayerState()
       });
-    }, 1000);
+    }, 500);
   }
 
   socket.on('update_player_status', function (data) {

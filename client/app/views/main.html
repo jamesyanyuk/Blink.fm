@@ -14,12 +14,9 @@
       <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
   </script>
-
-  <button class="btn btn-default" ng-click="open()">Open me!</button>
-  <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 </div>
 
-<div class="row">
+<div ng-controller="ChatCtrl" class="row">
   <div class="col-sm-7">
     <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
       <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
