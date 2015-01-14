@@ -27,21 +27,19 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   });
 
   var currentUser = authSrv.getCurrentUser();
-  console.log(currentUser);
 
   // Changed polling rate to 500, since we're not expecting much load for the MVP
   if (currentUser) {
     setInterval(function () {
-      var match = $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/);
-      var videoId = match[1];
-
-      socket.emit('youtube_player_status', {
-        radioid: currentUser.username,
-        videoId: videoId,
-        videoUrl: $rootScope.player.getVideoUrl(),
-        currentTime: $rootScope.player.getCurrentTime(),
-        playerState: $rootScope.player.getPlayerState()
-      });
+      if ($scope.isPlayerReady) {
+        socket.emit('broadcast_player_status', {
+          radioId: currentUser.username,
+          videoId: $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/)[1],
+          videoUrl: $rootScope.player.getVideoUrl(),
+          currentTime: $rootScope.player.getCurrentTime(),
+          playerState: $rootScope.player.getPlayerState()
+        });
+      }
     }, 500);
   }
 
@@ -49,7 +47,6 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     if ($rootScope.player) {
       if ($rootScope.player.getVideoUrl() !== data.videoUrl) {
         if (data.playerState === YT_event.PLAY) {
-          console.log("In here");
           $rootScope.player.loadVideoById(data.videoId, data.currentTime);
         } else {
           $rootScope.player.cueVideoById(data.videoId, data.currentTime);
@@ -82,6 +79,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtu
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+      scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
         $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
@@ -125,6 +123,10 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtu
               scope.$apply(function () {
                 scope.$emit(message.event, message.data);
               });
+            },
+
+            'onReady': function (event) {
+              scope.isPlayerReady = true;
             }
           }
         });

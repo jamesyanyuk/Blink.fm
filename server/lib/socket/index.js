@@ -18,8 +18,8 @@ module.exports = function (io) {
 			console.log(socket.id + ' connected to ' + data.radioid);
 		});
 
-		socket.on('youtube_player_status', function (data) {
-			io.sockets.in('radio_' + data.radioid).emit('update_player_status', data);
+		socket.on('broadcast_player_status', function (data) {
+			io.sockets.in('radio_' + data.radioId).emit('update_player_status', data);
 		});
 
 		socket.on('send_message', function (data) {
