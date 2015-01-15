@@ -11,7 +11,8 @@ angular.module('auth', [])
   .factory('authSrv', function ($q) {
     HARDCODED_USERS = [
       {'username': 'tungpham31', 'password': 'tung'},
-      {'username': 'james', 'password': 'james'}
+      {'username': 'james', 'password': 'james'},
+      {'username': 'thai', 'password': 'thai'}
     ];
 
     return {
