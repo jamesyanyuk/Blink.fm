@@ -1,11 +1,11 @@
-var idmap = [];
+var idmap = {};
 var guests = 0;
 
 module.exports = function (io) {
 	io.sockets.on('connection', function (socket) {
 		socket.on('announce_join', function (data) {
+			idmap[socket.id] = data.nickname;
 			console.log(data.nickname + ' joined ' + data.radioid + '.');
-
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
@@ -16,8 +16,8 @@ module.exports = function (io) {
 
 		socket.on('join_radio', function (data) {
 			socket.join('radio_' + data.radioid);
-			guests+=1;
 			console.log(socket.id + ' connected to ' + data.radioid);
+			guests+=1;
 		});
 
 		socket.on('broadcast_player_status', function (data) {
@@ -35,6 +35,8 @@ module.exports = function (io) {
 
 		socket.on('disconnect', function (data) {
 			console.log('Socket: ' + socket.id + ' disconnected from server.');
+			delete idmap[socket.id];
+			console.log(idmap);
 			guests-=1;
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
