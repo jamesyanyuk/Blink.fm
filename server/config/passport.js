@@ -1,6 +1,13 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
+//For Testing purpose only
+var HARDCODED_USERS = [
+      {'username': 'tungpham31', 'password': 'tung'},
+      {'username': 'james', 'password': 'james'},
+      {'username': 'thai', 'password': 'thai'}
+    ];
+
 /* For Google/Facebook authentication */
 //var configAuth = require('./auth');
 var FACEBOOK_APP_ID = "328786660647232";
@@ -17,19 +24,27 @@ module.exports = function(passport) {
             callbackURL: "http://localhost:3000/auth/facebook/callback"
         },
         function(accessToken, refreshToken, profile, done) {
-            process.nextTick(function() {
-                console.log(profile._json.email);
-                return done(null, profile);
+            console.log(profile._json.email);
+            return done(null, {
+                'kind': 'facebook',
+                'username' : profile._json.email.substring(0,profile._json.email.indexOf('@'))
             });
         }
     ));
 
-    passport.use('local-login', new LocalStrategy({
+    passport.use(new LocalStrategy({
                 usernameField: 'username',
                 passwordField: 'password',
                 passReqToCallback: true
             },
             function(req, username, password, done) {
+                for (i = 0; i < HARDCODED_USERS.length; i++) {
+                  if (HARDCODED_USERS[i].username === username && HARDCODED_USERS[i].password === password) {
+                    return done(undefined, HARDCODED_USERS[i]);
+                  }
+                }
+                console.log("User/Password does not match");
+                return done(undefined, false, req.flash('loginMessage', 'Bad username/password'));
                 // Temporarily disabled database for testing
 
                 // Check whether or not user exists in userdb
@@ -42,8 +57,6 @@ module.exports = function(passport) {
                 //         return done(undefined, false, req.flash('loginMessage', 'Bad username/password'));
                 //     } else return done(undefined, user);
                 // });
-                var user = { username: 'bob', password: 'joe' }
-                return done(undefined, user); // test
             })
     );
 
@@ -54,19 +67,19 @@ module.exports = function(passport) {
             },
             function(req, username, password, done) {
                 // Check for proper username and password input
-                var RFC822 = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-                if(username.search(RFC822) === -1 || password.length < 6 || password.length > 18)
-                    return done(undefined, false, req.flash('signupMessage', 'Fix issues below.'));
-                // Check whether or not user exists in userdb
-                userdb.createUser(username, password, db.GRP_UNVERIFIED, function(err, user) {
-                    if(err) {
-                        console.log('Username already taken.');
-                        return done(undefined, false, req.flash('signupMessage', 'Username already taken.'));
-                    } else {
-                        console.log(user);
-                        return done(undefined, user);
-                    }
-                });
+                // var RFC822 = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+                // if(username.search(RFC822) === -1 || password.length < 6 || password.length > 18)
+                //     return done(undefined, false, req.flash('signupMessage', 'Fix issues below.'));
+                // // Check whether or not user exists in userdb
+                // userdb.createUser(username, password, db.GRP_UNVERIFIED, function(err, user) {
+                //     if(err) {
+                //         console.log('Username already taken.');
+                //         return done(undefined, false, req.flash('signupMessage', 'Username already taken.'));
+                //     } else {
+                //         console.log(user);
+                //         return done(undefined, user);
+                //     }
+                // });
             })
     );
 
