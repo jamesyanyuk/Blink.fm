@@ -1,11 +1,14 @@
-var idmap = {};
+var idMap = {};
+var radioMap = {};
 var guests = 0;
 
 module.exports = function (io) {
 	io.sockets.on('connection', function (socket) {
 		socket.on('announce_join', function (data) {
-			idmap[socket.id] = data.nickname;
+			idMap[socket.id] = data.nickname;
+			radioMap[socket.id] = data.radioid;
 			console.log(data.nickname + ' joined ' + data.radioid + '.');
+			// console.log(data);
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
@@ -35,22 +38,15 @@ module.exports = function (io) {
 
 		socket.on('disconnect', function (data) {
 			console.log('Socket: ' + socket.id + ' disconnected from server.');
-			delete idmap[socket.id];
-			console.log(idmap);
+			console.log("Data: " + JSON.stringify(data));
 			guests-=1;
-			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
+			io.sockets.in('radio_' + radioMap[socket.id]).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
-					body: data.nickname + ' has left. There are currently ' + guests + ' people listening to this radio'
+					body: idMap[socket.id] + ' has left. There are currently ' + guests + ' people listening to this radio'
 				}
 			});
-			/* Will need to create a socket.id to nickname map, etc */
-			//io.sockets.in('radio_' + data.radioid).emit('update_chat', {
-			//    message: {
-			//        sender: '[SERVER]',
-			//        body: data.nickname + ' has left.'
-			//    }
-			//});
+			delete idMap[socket.id];
 		});
 	});
 }
