@@ -20,17 +20,32 @@ angular.module('apollonApp')
       } else {
         $scope.message = '';
       }
+      $http.post('/auth/login', $scope.login.user)
+          .success(function (data){
+            $http.get('/api/user')
+              .success(function (data){
+                sessionStorage.setItem('currentUser', JSON.stringify(data));    
+                // After logging in, redirect users to their own radio station.
+                $location.path(data.username);
+                // Enforce a full page reload for YouTube player to work correctly.
+                $window.location.reload();
+              })
+          });
+      // authSrv.login($scope.login.user)
+      // .then(
+      //   function (data) {
+      //     // After logging in, redirect users to their own radio station.
+      //     $location.path($scope.login.user.username);
+      //     // Enforce a full page reload for YouTube player to work correctly.
+      //     $window.location.reload();
+      //   },
+      //   function (data) {
+      //     console.log('Login failure.');
+      //   }
+      // )
+    };
 
-      authSrv.login($scope.login.user).then(
-        function (data) {
-          // After logging in, redirect users to their own radio station.
-          $location.path($scope.login.user.username);
-          // Enforce a full page reload for YouTube player to work correctly.
-          $window.location.reload();
-        },
-        function (data) {
-          console.log('Login failure.');
-        }
-      );
-    }
+    $scope.login.facebook = function(){
+      $window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "auth/facebook";  
+    };
   });
