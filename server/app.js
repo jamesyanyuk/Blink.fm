@@ -13,6 +13,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 
 var auth = require('./routes/auth');
+var api = require('./routes/api');
 
 // Passport authentication strategy configuration
 var configPassport = require('./config/passport');
@@ -38,6 +39,7 @@ app.use(flash());
 configPassport(passport);
 
 app.use('/auth', auth);
+app.use('/api',api);
 
 /**
  * Development Settings
@@ -52,10 +54,10 @@ if (app.get('env') === 'development') {
 	// Error Handling
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
+		// res.render('error', {
+		// 	message: err.message,
+		// 	error: err
+		// });
 	});
 }
 
@@ -71,10 +73,10 @@ if (app.get('env') === 'production') {
 	// no stacktraces leaked to user
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: {}
-		});
+		// res.render('error', {
+		// 	message: err.message,
+		// 	error: {}
+		// });
 	});
 }
 
