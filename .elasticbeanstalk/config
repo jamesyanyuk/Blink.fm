@@ -1,0 +1,5 @@
+[global]
+ApplicationName=BlinkFM
+DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com
+EnvironmentName=blinkfm-env
+Region=us-east-1
