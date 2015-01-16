@@ -1,10 +1,29 @@
 var LocalStrategy = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 /* For Google/Facebook authentication */
 //var configAuth = require('./auth');
+var FACEBOOK_APP_ID = "328786660647232";
+var FACEBOOK_APP_SECRET = "bd6cf63b9d9f1fbe071a8340d17d9869";
 
 module.exports = function(passport) {
+    // Use the FacebookStrategy within Passport.
+    // Strategies in Passport require a `verify` function, which accept
+    // credentials (in this case, an accessToken, refreshToken, and Facebook
+    // profile), and invoke a callback with a user object.
+    passport.use(new FacebookStrategy({
+            clientID: FACEBOOK_APP_ID,
+            clientSecret: FACEBOOK_APP_SECRET,
+            callbackURL: "http://localhost:3000/auth/facebook/callback"
+        },
+        function(accessToken, refreshToken, profile, done) {
+            process.nextTick(function() {
+                console.log(profile._json.email);
+                return done(null, profile);
+            });
+        }
+    ));
+
     passport.use('local-login', new LocalStrategy({
                 usernameField: 'username',
                 passwordField: 'password',
