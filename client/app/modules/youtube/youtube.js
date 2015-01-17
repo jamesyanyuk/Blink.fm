@@ -67,7 +67,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
 
 });
 
-myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtubeSrv) {
+myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
   return {
     restrict: "E",
 
@@ -157,7 +157,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http, youtu
         if (message === "ENDED") {
           $http.get('recommendation-engine/next').success(function (response) {
             if (response && response.videoId) {
-              youtubeSrv.cueVideo(response.videoId);
+              $rootScope.player.loadVideoById(response.videoId);
             }
           })
         }
