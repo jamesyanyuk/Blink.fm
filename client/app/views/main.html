@@ -22,7 +22,7 @@
       <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
     </div>
   </div>
-  <div class="col-sm-5 chat-window">
+  <div scroll-glue="!g" class="col-sm-5 chat-window">
     <ul class="list-unstyled">
       <li><b>Test:</b> Test message</li>
       <li ng-repeat="message in chat.messages"><b>{{message.sender}}: </b>{{message.body}}</li>
