@@ -27,6 +27,8 @@ module.exports = function(passport) {
             console.log(profile._json.email);
             return done(null, {
                 'kind': 'facebook',
+                'accessToken': accessToken,
+                'refreshToken': refreshToken,
                 'username' : profile._json.email.substring(0,profile._json.email.indexOf('@'))
             });
         }

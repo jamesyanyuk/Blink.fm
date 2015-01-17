@@ -1,15 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var FB = require('fb');
 
 router.get('/facebook', passport.authenticate('facebook', {
-    scope: ['email']
+    scope: ['email','publish_actions']
 }));
 
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/'
 }), function(req, res) {
-    res.redirect("/#/"+req.user.username);
+    FB.setAccessToken(req.user.accessToken);
+    var body = 'I am using blink.fm';
+    FB.api('me/feed', 'post', { message: body}, function (response) {
+      if(!response || response.error) {
+        console.log(!response ? 'error occurred' : response.error);
+      } else {
+        console.log('Post Id: ' + response.id);  
+      }
+      res.redirect("/#/"+req.user.username);
+    });
     return;
 });
 
