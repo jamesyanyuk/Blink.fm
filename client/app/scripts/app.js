@@ -24,7 +24,8 @@ angular
     'nicknameModal',
     'searchBar',
     'ui.bootstrap',
-    'btford.socket-io'
+    'btford.socket-io',
+    'luegg.directives'
   ])
   .config(function ($routeProvider) {
     $routeProvider
