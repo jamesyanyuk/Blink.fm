@@ -1,14 +1,19 @@
 var myApp = angular.module('Chat', []);
 
-myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', function ($scope, $rootScope, $routeParams, socket) {
+myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv', function ($scope, $rootScope, $routeParams, socket, authSrv) {
   $rootScope.radioid = $routeParams.username;
 
   $scope.chat = {}
   $scope.chat.messages = [];
 
-  var userObj = JSON.parse(sessionStorage.getItem("currentUser"));
-  if(userObj)
-    $rootScope.nickname = userObj.username;
+  authSrv.getCurrentUser(function(user){
+    if (user && user.username){
+      $rootScope.nickname = user.username;  
+    }
+  });
+  // var userObj = JSON.parse(sessionStorage.getItem("currentUser"));
+  // if(userObj)
+  //   $rootScope.nickname = userObj.username;
 
   socket.emit('join_radio', {
     radioid: $rootScope.radioid

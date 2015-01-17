@@ -26,23 +26,23 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     $scope.yt.playerStatus = data;
   });
 
-  var currentUser = authSrv.getCurrentUser();
-
-  // Changed polling rate to 500, since we're not expecting much load for the MVP
-  if (currentUser) {
-    setInterval(function () {
-      if ($scope.isPlayerReady) {
-        socket.emit('broadcast_player_status', {
-          radioId: currentUser.username,
-          videoId: $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/)[1],
-          videoUrl: $rootScope.player.getVideoUrl(),
-          currentTime: $rootScope.player.getCurrentTime(),
-          playerState: $rootScope.player.getPlayerState()
-        });
-      }
-    }, 500);
-  }
-
+  // var currentUser = authSrv.getCurrentUser();
+  authSrv.getCurrentUser(function(currentUser){
+    // Changed polling rate to 500, since we're not expecting much load for the MVP
+    if (currentUser) {
+      setInterval(function () {
+        if ($scope.isPlayerReady) {
+          socket.emit('broadcast_player_status', {
+            radioId: currentUser.username,
+            videoId: $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/)[1],
+            videoUrl: $rootScope.player.getVideoUrl(),
+            currentTime: $rootScope.player.getCurrentTime(),
+            playerState: $rootScope.player.getPlayerState()
+          });
+        }
+      }, 500);
+    }
+  });
   socket.on('update_player_status', function (data) {
     if ($rootScope.player) {
       if ($rootScope.player.getVideoUrl() !== data.videoUrl) {

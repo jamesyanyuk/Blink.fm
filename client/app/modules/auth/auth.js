@@ -8,44 +8,60 @@
  */
 
 angular.module('auth', [])
-  .factory('authSrv', function ($q) {
-    HARDCODED_USERS = [
-      {'username': 'tungpham31', 'password': 'tung'},
-      {'username': 'james', 'password': 'james'},
-      {'username': 'thai', 'password': 'thai'}
-    ];
+  .factory('authSrv', function ($q, $http) {
+    // HARDCODED_USERS = [
+    //   {'username': 'tungpham31', 'password': 'tung'},
+    //   {'username': 'james', 'password': 'james'},
+    //   {'username': 'thai', 'password': 'thai'}
+    // ];
 
     return {
       login: function (user) {
-        var deferred = $q.defer();
-        /* Comment this out for the current MVP version.
-         $http.post('/auth/login', user)
-         .success(function (data) {
-         deferred.resolve(data);
-         })
-         .error(function (data) {
-         deferred.reject(data);
-         });*/
+        // var deferred = $q.defer();
+        // /* Comment this out for the current MVP version.
+        //  $http.post('/auth/login', user)
+        //  .success(function (data) {
+        //  deferred.resolve(data);
+        //  })
+        //  .error(function (data) {
+        //  deferred.reject(data);
+        //  });*/
 
-        for (i = 0; i < HARDCODED_USERS.length; i++) {
-          if (HARDCODED_USERS[i].username === user.username && HARDCODED_USERS[i].password === user.password) {
-            sessionStorage.setItem('currentUser', JSON.stringify(user));
-            deferred.resolve();
-            return deferred.promise;
-          }
-        }
+        // for (i = 0; i < HARDCODED_USERS.length; i++) {
+        //   if (HARDCODED_USERS[i].username === user.username && HARDCODED_USERS[i].password === user.password) {
+        //     sessionStorage.setItem('currentUser', JSON.stringify(user));
+        //     deferred.resolve();
+        //     return deferred.promise;
+        //   }
+        // }
 
-        deferred.reject();
-        return deferred.promise;
+        // deferred.reject();
+        // return deferred.promise;
       },
 
-      getCurrentUser: function() {
-        if (!this.hasCurrentUser()) return null;
-        return JSON.parse(sessionStorage.getItem("currentUser"));
+      // getCurrentUser: function() {
+      //   if (!this.hasCurrentUser()) return null;
+      //   return JSON.parse(sessionStorage.getItem("currentUser"));
+      // },
+
+      getCurrentUser: function(cb) {
+        if (!this.hasCurrentUser()){
+          $http.get('/api/user')
+            .success(function(data) {
+              sessionStorage.setItem('currentUser', JSON.stringify(data));
+              console.log(data);
+              cb(data);
+            });
+        } else {
+          cb(JSON.parse(sessionStorage.getItem("currentUser")));
+        }
       },
 
       hasCurrentUser: function() {
-        if (!sessionStorage.getItem("currentUser")) return false;
+        if (!sessionStorage.getItem("currentUser")){
+          $http.get()
+        } 
+        return false;
 
         var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
         if (!currentUser || !currentUser.username) return false;
