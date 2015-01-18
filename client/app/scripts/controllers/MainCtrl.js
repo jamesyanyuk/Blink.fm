@@ -9,7 +9,6 @@
  */
 angular.module('apollonApp')
   .controller('MainCtrl', ['$scope', 'authSrv', function ($scope, authSrv) {
-    // $scope.currentUser = authSrv.getCurrentUser();
     authSrv.getCurrentUser(function (currentUser){
     	$scope.currentUser = currentUser;
     });

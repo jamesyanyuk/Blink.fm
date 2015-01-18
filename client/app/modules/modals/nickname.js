@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('nicknameModal', []);
+var nickname = angular.module('nicknameModal', []);
 
 /**
  * @ngdoc function
@@ -10,7 +10,7 @@ var myApp = angular.module('nicknameModal', []);
  * Controller of the clientApp
  */
 
-myApp.controller('NicknameModalCtrl', function ($scope, $rootScope, $modal) {
+nickname.controller('NicknameModalCtrl', function ($scope, $rootScope, $modal) {
   $rootScope.openNicknameModal = function(socket) {
     var modalInstance = $modal.open({
       templateUrl: 'nicknameModal.html',
@@ -27,11 +27,9 @@ myApp.controller('NicknameModalCtrl', function ($scope, $rootScope, $modal) {
       });
     });
   }
-
-  //$scope.$parent.open = $scope.open;
 });
 
-myApp.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
+nickname.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
   $scope.submit = function() {
     $modalInstance.close($scope.nickname);
   };

@@ -1,3 +1,4 @@
+// This is very bad practice since it will cause memory leak. Please fix ASAP.
 var idMap = {};
 var radioMap = {};
 var guests = 0;
@@ -8,7 +9,6 @@ module.exports = function (io) {
 			idMap[socket.id] = data.nickname;
 			radioMap[socket.id] = data.radioid;
 			console.log(data.nickname + ' joined ' + data.radioid + '.');
-			// console.log(data);
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
