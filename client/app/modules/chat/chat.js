@@ -5,7 +5,7 @@ var chat = angular.module('chat', []);
 
 chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
   function ($scope, $rootScope, $routeParams, socket, authSrv) {
-    $rootScope.radioid = $routeParams.username;
+    $rootScope.radioid = $scope.radioId = $routeParams.username;
 
     $scope.chat = {}
     $scope.chat.messages = [];
