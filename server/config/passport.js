@@ -10,8 +10,8 @@ var HARDCODED_USERS = [
 
 /* For Google/Facebook authentication */
 //var configAuth = require('./auth');
-var FACEBOOK_APP_ID = "328786660647232";
-var FACEBOOK_APP_SECRET = "bd6cf63b9d9f1fbe071a8340d17d9869";
+var FACEBOOK_APP_ID = "1559394300974294";
+var FACEBOOK_APP_SECRET = "50ff897b9bcece9393c233939ebc0e36";
 
 module.exports = function(passport) {
     // Use the FacebookStrategy within Passport.
