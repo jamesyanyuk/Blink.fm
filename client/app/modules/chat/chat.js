@@ -1,7 +1,9 @@
 /**
  * A module handling the controller and view for the chat feature.
  */
-angular.module('chat', []).controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
+var chat = angular.module('chat', []);
+
+chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
   function ($scope, $rootScope, $routeParams, socket, authSrv) {
     $rootScope.radioid = $routeParams.username;
 
@@ -41,3 +43,10 @@ angular.module('chat', []).controller('ChatCtrl', ['$scope', '$rootScope', '$rou
       $scope.chat.messages.push(data.message);
     });
   }]);
+
+chat.directive('chatWindow', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'modules/chat/chat.html'
+  };
+});
