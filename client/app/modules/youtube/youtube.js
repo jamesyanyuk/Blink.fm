@@ -64,7 +64,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }
     }
   });
-  socket.on('host_status', function (data){
+  socket.on('broadcaster_status', function (data){
     if ($rootScope.player){
       if (!data.isConnected){
         $rootScope.player.pauseVideo();
@@ -89,7 +89,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
         var autoplay = 1;
-        if (scope.hostStatus === 'offline'){
+        if (!scope.isBroadcasterOnline){
           autoplay = 0;
         }
         $rootScope.player = new YT.Player(element.children()[0], {

@@ -23,17 +23,11 @@ module.exports = function (io) {
 		socket.on('join_radio', function (data) {
 			socket.join('radio_' + data.radioid);
 			console.log(socket.id + ' connected to ' + data.radioid);
-			if (data.nickname){ //The host connect to the radio
-				if (radioMap[data.radioid] && !radioMap[data.radioid]['isConnected']){ //The host is reconnected
+			if (data.nickname){ //The broadcaster connect to the radio
+				if (radioMap[data.radioid] && !radioMap[data.radioid]['isConnected']){ //The broadcaster is reconnected
 					radioMap[data.radioid]['isConnected'] = true;
 					radioMap[data.radioid]['socketid'] = socket.id;
-					io.sockets.in('radio_' + data.radioid).emit('host_status', {'isConnected': true});
-					// io.sockets.in('radio_' + data.radioid).emit('update_chat', {
-					// 	message: {
-					// 		sender: '[SERVER]',
-					// 		body: 'The host ' + data.radioid + ' is back!!!'
-					// 	}
-					// });
+					io.sockets.in('radio_' + data.radioid).emit('broadcaster_status', {'isConnected': true});
 				} else {
 					radioMap[data.radioid] = {
 						'isConnected' : true,
@@ -63,21 +57,15 @@ module.exports = function (io) {
 				}
 				/* This apply for both case and also has to happens before a guest join new channel
 				so I left it outside of the condition. */
-				if (!radioMap[data.radioid]){ // If there isn't a host, create a placeholder
+				if (!radioMap[data.radioid]){ // If there isn't a broadcaster, create a placeholder
 					radioMap[data.radioid] = {
 						'isConnected' : false,
 						'socketid' : null, 
 						'guests' : {}
 					};
-					// io.sockets.in('radio_' + data.radioid).emit('update_chat', {
-					// 	message: {
-					// 		sender: '[SERVER]',
-					// 		body: 'The host is offline now'
-					// 	}
-					// });
 				}
 				if (!radioMap[data.radioid]['isConnected']){
-					io.sockets.in('radio_' + data.radioid).emit('host_status', {'isConnected': false});
+					io.sockets.in('radio_' + data.radioid).emit('broadcaster_status', {'isConnected': false});
 				}
 				radioMap[data.radioid]['guests'][socket.id] = true;
 				if (socketMap[socket.id]){ //continue to process when guest change channel
@@ -114,14 +102,8 @@ module.exports = function (io) {
 				return
 			var radioid = socketMap[socket.id]['radioid'];
 			if (radioMap[radioid]['socketid'] === socket.id){
-				// The host is disconnected
-				io.sockets.in('radio_' + radioid).emit('host_status', {'isConnected': false});
-				// io.sockets.in('radio_' + radioid).emit('update_chat', {
-				// 	message: {
-				// 		sender: '[SERVER]',
-				// 		body: 'The host ' + socketMap[socket.id]['nickname'] + ' has left.'
-				// 	}
-				// });
+				// The broadcaster is disconnected
+				io.sockets.in('radio_' + radioid).emit('broadcaster_status', {'isConnected': false});
 				radioMap[radioid]['isConnected'] = false;
 				delete socketMap[socket.id];
 			} else {

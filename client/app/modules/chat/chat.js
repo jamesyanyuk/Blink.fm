@@ -6,7 +6,7 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
 
     $scope.chat = {}
     $scope.chat.messages = [];
-    $scope.hostStatus = 'online';
+    $scope.isBroadcasterConnected = true;
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
@@ -46,12 +46,7 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
       $scope.chat.messages.push(data.message);
     });
 
-    socket.on('host_status', function (data){
-      if (data.isConnected){
-        $scope.hostStatus = 'online';
-      } else {
-        $scope.hostStatus = 'offline';
-      }
-      console.log($scope.hostStatus);
+    socket.on('broadcaster_status', function (data){
+      $scope.isBroadcasterConnected = data.isConnected;
     });
   }]);
