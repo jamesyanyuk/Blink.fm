@@ -1,0 +1,15 @@
+<div ng-controller="ChatCtrl">
+  <div scroll-glue="!g" class="chat-window">
+    <ul class="list-unstyled">
+      <li><b>[SERVER]</b> Welcome to {{radioId}}'s radio.</li>
+      <li ng-repeat="message in chat.messages"><b>{{message.sender}}: </b>{{message.body}}</li>
+    </ul>
+  </div>
+  <div class="chat-input">
+    <form class="form-inline">
+      <input type="text" class="form-control" ng-focus="chat.verify()" ng-model="chat.message"
+             placeholder="Enter a message" style="width: 79%">
+      <button class="btn btn-default btn-primary" ng-click="chat.send()" style="width: 20%">Send</button>
+    </form>
+  </div>
+</div>

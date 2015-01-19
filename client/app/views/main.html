@@ -16,29 +16,21 @@
   </script>
 </div>
 
-
 <div ng-controller="ChatCtrl" class="row">
   <div class="row" ng-switch="isBroadcasterConnected">
     <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
     <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
   </div>
+</div>
+
+<div class="row">
   <div class="col-sm-7">
     <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
       <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
     </div>
   </div>
-  <div scroll-glue="!g" class="col-sm-5 chat-window">
-    <ul class="list-unstyled">
-      <li><b>Test:</b> Test message</li>
-      <li ng-repeat="message in chat.messages"><b>{{message.sender}}: </b>{{message.body}}</li>
-    </ul>
-  </div>
-  <div class="col-sm-5 chat-input">
-    <form class="form-inline">
-      <input type="text" class="form-control" ng-focus="chat.verify()" ng-model="chat.message" placeholder="Enter a message" style="width: 79%">
-      <button class="btn btn-default btn-primary" ng-click="chat.send()" style="width: 20%">Send</button>
-    </form>
-  </div>
+
+  <chat-window class="col-sm-5"></chat-window>
 </div>
 
 
