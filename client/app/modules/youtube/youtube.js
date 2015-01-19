@@ -64,9 +64,9 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }
     }
   });
-  socket.on('broadcaster_status', function (data){
+  socket.on('update_broadcaster_status', function (data){
     if ($rootScope.player){
-      if (!data.isConnected){
+      if (!data.isBroadcasterConnected){
         $rootScope.player.pauseVideo();
       } else {
         $rootScope.player.playVideo();

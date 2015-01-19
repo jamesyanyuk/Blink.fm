@@ -46,7 +46,7 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
       $scope.chat.messages.push(data.message);
     });
 
-    socket.on('broadcaster_status', function (data){
-      $scope.isBroadcasterConnected = data.isConnected;
+    socket.on('update_broadcaster_status', function (data){
+      $scope.isBroadcasterConnected = data.isBroadcasterConnected;
     });
   }]);

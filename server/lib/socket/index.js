@@ -27,7 +27,7 @@ module.exports = function (io) {
 				if (radioMap[data.radioid] && !radioMap[data.radioid]['isConnected']){ //The broadcaster is reconnected
 					radioMap[data.radioid]['isConnected'] = true;
 					radioMap[data.radioid]['socketid'] = socket.id;
-					io.sockets.in('radio_' + data.radioid).emit('broadcaster_status', {'isConnected': true});
+					io.sockets.in('radio_' + data.radioid).emit('update_broadcaster_status', {'isBroadcasterConnected': true});
 				} else {
 					radioMap[data.radioid] = {
 						'isConnected' : true,
@@ -65,7 +65,7 @@ module.exports = function (io) {
 					};
 				}
 				if (!radioMap[data.radioid]['isConnected']){
-					io.sockets.in('radio_' + data.radioid).emit('broadcaster_status', {'isConnected': false});
+					io.sockets.in('radio_' + data.radioid).emit('update_broadcaster_status', {'isBroadcasterConnected': false});
 				}
 				radioMap[data.radioid]['guests'][socket.id] = true;
 				if (socketMap[socket.id]){ //continue to process when guest change channel
@@ -103,7 +103,7 @@ module.exports = function (io) {
 			var radioid = socketMap[socket.id]['radioid'];
 			if (radioMap[radioid]['socketid'] === socket.id){
 				// The broadcaster is disconnected
-				io.sockets.in('radio_' + radioid).emit('broadcaster_status', {'isConnected': false});
+				io.sockets.in('radio_' + radioid).emit('update_broadcaster_status', {'isBroadcasterConnected': false});
 				radioMap[radioid]['isConnected'] = false;
 				delete socketMap[socket.id];
 			} else {
