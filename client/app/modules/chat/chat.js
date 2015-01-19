@@ -1,8 +1,11 @@
-var myApp = angular.module('Chat', []);
+/**
+ * A module handling the controller and view for the chat feature.
+ */
+var chat = angular.module('chat', []);
 
-myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
+chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
   function ($scope, $rootScope, $routeParams, socket, authSrv) {
-    $rootScope.radioid = $routeParams.username;
+    $rootScope.radioid = $scope.radioId = $routeParams.username;
 
     $scope.chat = {}
     $scope.chat.messages = [];
@@ -19,7 +22,6 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
 
     $scope.chat.verify = function () {
       if (!$rootScope.nickname) {
-        console.log('Requesting nickname from nickname modal module..');
         $rootScope.openNicknameModal(socket);
       }
     }
@@ -41,3 +43,10 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
       $scope.chat.messages.push(data.message);
     });
   }]);
+
+chat.directive('chatWindow', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'modules/chat/chat.html'
+  };
+});

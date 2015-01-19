@@ -2,9 +2,6 @@
  * Created by tungpham31 on 1/11/15.
  *
  * Authentication service, which is in charge of user actions such as login, logout, get current user, etc.
- *
- * Currently, when a user logs in, the service will check if there is such a user existing in its hard-coded
- * user database. It's a terrible practice! I know, I'm ashamed of myself too.
  */
 
 angular.module('auth', [])
@@ -60,7 +57,7 @@ angular.module('auth', [])
       hasCurrentUser: function() {
         if (!sessionStorage.getItem("currentUser")){
           $http.get()
-        } 
+        }
         return false;
 
         var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));

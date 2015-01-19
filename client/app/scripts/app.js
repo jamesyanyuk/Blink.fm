@@ -20,7 +20,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'YouTubeApp',
-    'Chat',
+    'chat',
     'nicknameModal',
     'searchBar',
     'ui.bootstrap',
