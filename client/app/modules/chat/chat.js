@@ -6,15 +6,20 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
 
     $scope.chat = {}
     $scope.chat.messages = [];
+    $scope.hostStatus = 'online';
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
         $rootScope.nickname = user.username;
+        socket.emit('join_radio', {
+          radioid: $rootScope.radioid,
+          nickname: user.username
+        });
+      } else {
+        socket.emit('join_radio', {
+          radioid: $rootScope.radioid
+        });
       }
-    });
-
-    socket.emit('join_radio', {
-      radioid: $rootScope.radioid
     });
 
     $scope.chat.verify = function () {
@@ -39,5 +44,14 @@ myApp.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 
 
     socket.on('update_chat', function (data) {
       $scope.chat.messages.push(data.message);
+    });
+
+    socket.on('host_status', function (data){
+      if (data.isConnected){
+        $scope.hostStatus = 'online';
+      } else {
+        $scope.hostStatus = 'offline';
+      }
+      console.log($scope.hostStatus);
     });
   }]);

@@ -64,7 +64,15 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }
     }
   });
-
+  socket.on('host_status', function (data){
+    if ($rootScope.player){
+      if (!data.isConnected){
+        $rootScope.player.pauseVideo();
+      } else {
+        $rootScope.player.playVideo();
+      }
+    }
+  });
 });
 
 myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
@@ -78,12 +86,15 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
       scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
+        var autoplay = 1;
+        if (scope.hostStatus === 'offline'){
+          autoplay = 0;
+        }
         $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
-            autoplay: 1,
+            autoplay: autoplay,
             html5: 1,
             theme: "light",
             modesbranding: 0,

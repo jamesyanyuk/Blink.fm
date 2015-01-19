@@ -4,7 +4,8 @@ var router = express.Router();
 router.get("/user", function(req, res){
 	if (req.user){
 		res.json(req.user);
-		return;
+	} else {
+		res.json(undefined);
 	}
 });
 
