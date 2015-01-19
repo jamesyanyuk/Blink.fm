@@ -16,7 +16,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
         $rootScope.nickname = user.username;
         socket.emit('join_radio', {
           radioid: $rootScope.radioid,
-          nickname: user.username
+          isBroadcaster: user.username === $rootScope.radioid
         });
       } else {
         socket.emit('join_radio', {

@@ -43,6 +43,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }, 500);
     }
   });
+
   socket.on('update_player_status', function (data) {
     if ($rootScope.player) {
       if ($rootScope.player.getVideoUrl() !== data.videoUrl) {
@@ -64,6 +65,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }
     }
   });
+
   socket.on('update_broadcaster_status', function (data){
     if ($rootScope.player){
       if (!data.isBroadcasterConnected){
@@ -73,6 +75,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }
     }
   });
+  
 });
 
 myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
