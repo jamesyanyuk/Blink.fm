@@ -12,7 +12,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   $scope.yt = {
     width: 600,
     height: 480,
-    videoid: "KRaWnd3LJfs",
+    //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
 
@@ -43,6 +43,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
       }, 500);
     }
   });
+
   socket.on('update_player_status', function (data) {
     if ($rootScope.player) {
       if ($rootScope.player.getVideoUrl() !== data.videoUrl) {
@@ -65,6 +66,16 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     }
   });
 
+  socket.on('update_broadcaster_status', function (data){
+    if ($rootScope.player){
+      if (!data.isBroadcasterConnected){
+        $rootScope.player.loadVideoById(null); // hacky way to stop the radio.
+      } else {
+        $rootScope.player.playVideo();
+      }
+    }
+  });
+
 });
 
 myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
@@ -78,12 +89,15 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
       scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
+        var autoplay = 1;
+        if (!scope.isBroadcasterOnline){
+          autoplay = 0;
+        }
         $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
-            autoplay: 1,
+            autoplay: autoplay,
             html5: 1,
             theme: "light",
             modesbranding: 0,

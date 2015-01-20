@@ -16,6 +16,13 @@
   </script>
 </div>
 
+<div ng-controller="ChatCtrl" class="row">
+  <div class="col-sm-7" ng-switch="isBroadcasterConnected">
+    <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
+    <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-sm-7">
     <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
@@ -25,3 +32,5 @@
 
   <chat-window class="col-sm-5"></chat-window>
 </div>
+
+

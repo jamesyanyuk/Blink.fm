@@ -9,15 +9,20 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     $scope.chat = {}
     $scope.chat.messages = [];
+    $scope.isBroadcasterConnected = true;
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
         $rootScope.nickname = user.username;
+        socket.emit('join_radio', {
+          radioid: $rootScope.radioid,
+          isBroadcaster: user.username === $rootScope.radioid
+        });
+      } else {
+        socket.emit('join_radio', {
+          radioid: $rootScope.radioid
+        });
       }
-    });
-
-    socket.emit('join_radio', {
-      radioid: $rootScope.radioid
     });
 
     $scope.chat.verify = function () {
@@ -41,6 +46,10 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     socket.on('update_chat', function (data) {
       $scope.chat.messages.push(data.message);
+    });
+
+    socket.on('update_broadcaster_status', function (data){
+      $scope.isBroadcasterConnected = data.isBroadcasterConnected;
     });
   }]);
 
