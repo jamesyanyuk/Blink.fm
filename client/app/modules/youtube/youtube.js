@@ -12,7 +12,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   $scope.yt = {
     width: 600,
     height: 480,
-    videoid: "KRaWnd3LJfs",
+    //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
 
@@ -69,13 +69,13 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   socket.on('update_broadcaster_status', function (data){
     if ($rootScope.player){
       if (!data.isBroadcasterConnected){
-        $rootScope.player.pauseVideo();
+        $rootScope.player.loadVideoById(null); // hacky way to stop the radio.
       } else {
         $rootScope.player.playVideo();
       }
     }
   });
-  
+
 });
 
 myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
