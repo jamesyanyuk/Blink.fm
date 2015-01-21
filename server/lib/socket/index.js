@@ -47,12 +47,14 @@ module.exports = function(io) {
 					var radioid = socketMap[socket.id]['radioid'];
 					socket.leave('radio_' + radioid);
 					delete radioMap[radioid]['guests'][socket.id];
-					io.sockets.in('radio_' + radioid).emit('update_chat', {
-						message: {
-							sender: '[SERVER]',
-							body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' + Object.keys(radioMap[radioid]['guests']).length + ' people listening to this radio'
-						}
-					});
+					if (socketMap[socket.id]['nickname']) {
+						io.sockets.in('radio_' + radioid).emit('update_chat', {
+							message: {
+								sender: '[SERVER]',
+								body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' + Object.keys(radioMap[radioid]['guests']).length + ' people listening to this radio'
+							}
+						});
+					}
 					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
 						delete radioMap[radioid];
 					}
@@ -75,13 +77,15 @@ module.exports = function(io) {
 				if (socketMap[socket.id]) { //continue to process when guest change channel
 					// join new radio
 					socketMap[socket.id]['radioid'] = data.radioid;
-					console.log(socketMap[socket.id]['nickname'] + ' joined ' + data.radioid + '.');
-					io.sockets.in('radio_' + data.radioid).emit('update_chat', {
-						message: {
-							sender: '[SERVER]',
-							body: socketMap[socket.id]['nickname'] + ' is now listening. There are currently ' + Object.keys(radioMap[data.radioid]['guests']).length + ' people listening to this radio'
-						}
-					});
+					if (socketMap[socket.id]['nickname']) {
+						console.log(socketMap[socket.id]['nickname'] + ' joined ' + data.radioid + '.');
+						io.sockets.in('radio_' + data.radioid).emit('update_chat', {
+							message: {
+								sender: '[SERVER]',
+								body: socketMap[socket.id]['nickname'] + ' is now listening. There are currently ' + Object.keys(radioMap[data.radioid]['guests']).length + ' people listening to this radio'
+							}
+						});
+					}
 				} else {
 					// At this point, the socket is a new guest connection
 					socketMap[socket.id] = {
@@ -123,12 +127,14 @@ module.exports = function(io) {
 				//The guest is disconnected
 				if (socket.id in radioMap[radioid]['guests']) {
 					delete radioMap[radioid]['guests'][socket.id];
-					io.sockets.in('radio_' + radioid).emit('update_chat', {
-						message: {
-							sender: '[SERVER]',
-							body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' + Object.keys(radioMap[radioid]['guests']).length + ' people listening to this radio'
-						}
-					});
+					if (socketMap[socket.id]['nickname']) {
+						io.sockets.in('radio_' + radioid).emit('update_chat', {
+							message: {
+								sender: '[SERVER]',
+								body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' + Object.keys(radioMap[radioid]['guests']).length + ' people listening to this radio'
+							}
+						});
+					}
 					delete socketMap[socket.id];
 					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
 						delete radioMap[radioid];
