@@ -15,10 +15,10 @@ var flash = require('connect-flash');
 var auth = require('./routes/auth');
 var api = require('./routes/api');
 
+var keys = require('./config/keys');
+
 // Passport authentication strategy configuration
 var configPassport = require('./config/passport');
-
-var YOUTUBE_API_KEY = 'AIzaSyA7QOe5_6VAQBnO-XihFvcBOV1xomJ1gaQ';
 
 var app = express();
 
@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(session({ secret: 'randomkey',
+app.use(session({ secret: keys.sessionSecret,
 				  resave: true,
 				  saveUninitialized: true }));
 app.use(passport.initialize());
@@ -93,7 +93,7 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 		// Load the mix playlist and add it to buffer.
 		var mixPlaylistId = 'RD' + videoId;
 		youtube.playlistItems.list({
-			key: YOUTUBE_API_KEY,
+			key: keys.youtube,
 			part: 'id,snippet',
 			playlistId: mixPlaylistId,
 			maxResults: 50

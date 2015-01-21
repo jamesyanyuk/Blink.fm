@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('LoginCtrl', function($scope, $rootScope, $http, $location, $window, authSrv) {
+  .controller('LoginCtrl', function($scope, $rootScope, $http, $location, $window) {
     $scope.login = {};
     $scope.login.user = {};
     $scope.message = '';
@@ -38,5 +38,6 @@ angular.module('apollonApp')
     };
 
     $scope.login.facebook = function() {
-      $window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "auth/facebook";
+      $window.location = $window.location.protocol + '//' + $window.location.host + $window.location.pathname + 'auth/facebook';
+    };
   });

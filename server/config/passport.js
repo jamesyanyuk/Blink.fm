@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var secrets          = require('./keys');
 
 //For Testing purpose only
 var HARDCODED_USERS = [
@@ -18,12 +19,7 @@ module.exports = function(passport) {
     // Strategies in Passport require a `verify` function, which accept
     // credentials (in this case, an accessToken, refreshToken, and Facebook
     // profile), and invoke a callback with a user object.
-    passport.use(new FacebookStrategy({
-            clientID: FACEBOOK_APP_ID,
-            clientSecret: FACEBOOK_APP_SECRET,
-            callbackURL: "http://localhost:3000/auth/facebook/callback"
-        },
-        function(accessToken, refreshToken, profile, done) {
+    passport.use(new FacebookStrategy(secrets.facebook, function(accessToken, refreshToken, profile, done) {
             console.log(profile._json.email);
             return done(null, {
                 'kind': 'facebook',
