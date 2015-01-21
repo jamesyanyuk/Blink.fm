@@ -50,6 +50,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     socket.on('update_broadcaster_status', function (data){
       $rootScope.isBroadcasterConnected = data.isBroadcasterConnected;
+      console.log(data);
     });
   }]);
 

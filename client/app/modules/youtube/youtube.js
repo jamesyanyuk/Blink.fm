@@ -26,7 +26,6 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     $scope.yt.playerStatus = data;
   });
 
-  // var currentUser = authSrv.getCurrentUser();
   authSrv.getCurrentUser(function(currentUser){
     // Changed polling rate to 500, since we're not expecting much load for the MVP
     if (currentUser) {
