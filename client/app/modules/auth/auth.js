@@ -13,7 +13,6 @@ angular.module('auth', [])
           $http.get('/api/user')
             .success(function(data) {
               sessionStorage.setItem('currentUser', JSON.stringify(data));
-              console.log(data);
               cb(data);
             });
         } else {

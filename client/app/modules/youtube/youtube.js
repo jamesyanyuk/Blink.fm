@@ -26,7 +26,6 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     $scope.yt.playerStatus = data;
   });
 
-  // var currentUser = authSrv.getCurrentUser();
   authSrv.getCurrentUser(function(currentUser){
     // Changed polling rate to 500, since we're not expecting much load for the MVP
     if (currentUser) {
@@ -92,7 +91,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
         var autoplay = 1;
-        if (!scope.isBroadcasterOnline){
+        if (!$rootScope.isBroadcasterOnline){
           autoplay = 0;
         }
         $rootScope.player = new YT.Player(element.children()[0], {
