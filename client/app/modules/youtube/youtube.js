@@ -90,13 +90,9 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       scope.isPlayerReady = false;
       $window.onYouTubeIframeAPIReady = function () {
-        var autoplay = 1;
-        if (!$rootScope.isBroadcasterOnline){
-          autoplay = 0;
-        }
         $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
-            autoplay: autoplay,
+            autoplay: 0,
             html5: 1,
             theme: "light",
             modesbranding: 0,
