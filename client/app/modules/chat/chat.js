@@ -9,7 +9,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     $scope.chat = {}
     $scope.chat.messages = [];
-    $scope.isBroadcasterConnected = true;
+    $rootScope.isBroadcasterConnected = true;
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
@@ -49,7 +49,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
     });
 
     socket.on('update_broadcaster_status', function (data){
-      $scope.isBroadcasterConnected = data.isBroadcasterConnected;
+      $rootScope.isBroadcasterConnected = data.isBroadcasterConnected;
     });
   }]);
 

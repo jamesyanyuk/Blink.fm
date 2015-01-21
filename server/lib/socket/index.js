@@ -74,7 +74,7 @@ module.exports = function(io) {
 				radioMap[data.radioid]['guests'][socket.id] = true;
 				if (socketMap[socket.id]) { //continue to process when guest change channel
 					// join new radio
-					socketMap[socket.id][radioid] = data.radioid;
+					socketMap[socket.id]['radioid'] = data.radioid;
 					console.log(socketMap[socket.id]['nickname'] + ' joined ' + data.radioid + '.');
 					io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 						message: {
@@ -82,6 +82,11 @@ module.exports = function(io) {
 							body: socketMap[socket.id]['nickname'] + ' is now listening. There are currently ' + Object.keys(radioMap[data.radioid]['guests']).length + ' people listening to this radio'
 						}
 					});
+				} else {
+					// At this point, the socket is a new guest connection
+					socketMap[socket.id] = {
+						'radioid': data.radioid
+					};
 				}
 			}
 			console.log(radioMap);
@@ -105,7 +110,7 @@ module.exports = function(io) {
 			console.log('Socket: ' + socket.id + ' disconnected from server.');
 			console.log("Data: " + JSON.stringify(data));
 			if (!socketMap[socket.id])
-				return
+				return;
 			var radioid = socketMap[socket.id]['radioid'];
 			if (radioMap[radioid]['socketid'] === socket.id) {
 				// The broadcaster is disconnected
