@@ -25,10 +25,12 @@ angular.module('apollonApp')
           console.log(data);
           if (data.user){
             // After logging in, redirect users to their own radio station.
-            $location.path(data.user.username);
+            $location.path(data.user.username).replace();
             // Enforce a full page reload for YouTube player to work correctly.
-            $window.location.reload();
+            // Note: Unnecessary
+            //$window.location.reload();
           } else {
+            $scope.message = 'Incorrect username/password.';
             console.log('Login failure.');
           }
           // $http.get('/api/user')
@@ -41,6 +43,7 @@ angular.module('apollonApp')
           //   });
         })
         .error(function (data) {
+          $scope.message = 'Error logging in.';
           console.log('Login failure.');
         });
       // authSrv.login($scope.login.user)
