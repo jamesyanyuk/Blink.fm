@@ -21,14 +21,11 @@ angular.module('auth', [])
       },
 
       hasCurrentUser: function() {
-        if (!sessionStorage.getItem("currentUser")){
-          $http.get()
-        }
-        return false;
-
+        if (!sessionStorage.getItem("currentUser")) 
+          return false;  
         var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-        if (!currentUser || !currentUser.username) return false;
-
+        if (!currentUser || !currentUser.username) 
+          return false;
         return true;
       }
     }
