@@ -8,10 +8,10 @@ angular.module('auth', [])
   .factory('authSrv', function ($q, $http) {
 
     return {
-      getCurrentUser: function(cb) {
-        if (!this.hasCurrentUser()){
+      getCurrentUser: function (cb) {
+        if (!this.hasCurrentUser()) {
           $http.get('/api/user')
-            .success(function(data) {
+            .success(function (data) {
               sessionStorage.setItem('currentUser', JSON.stringify(data));
               cb(data);
             });
@@ -20,8 +20,11 @@ angular.module('auth', [])
         }
       },
 
-      hasCurrentUser: function() {
-        if (!sessionStorage.getItem("currentUser")){
+      /*
+       This function is broken and need to be fix ASAP.
+       */
+      hasCurrentUser: function () {
+        if (!sessionStorage.getItem("currentUser")) {
           $http.get()
         }
         return false;
