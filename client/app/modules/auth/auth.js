@@ -20,18 +20,12 @@ angular.module('auth', [])
         }
       },
 
-      /*
-       This function is broken and need to be fix ASAP.
-       */
-      hasCurrentUser: function () {
-        if (!sessionStorage.getItem("currentUser")) {
-          $http.get()
-        }
-        return false;
-
+      hasCurrentUser: function() {
+        if (!sessionStorage.getItem("currentUser"))
+          return false;
         var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-        if (!currentUser || !currentUser.username) return false;
-
+        if (!currentUser || !currentUser.username)
+          return false;
         return true;
       }
     }
