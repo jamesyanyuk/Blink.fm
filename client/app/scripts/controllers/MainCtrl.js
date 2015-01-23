@@ -17,9 +17,7 @@ angular.module('apollonApp')
     });
 
     socket.on('update_viewer_count', function(data) {
-      console.log("there were " + $scope.viewerCount + " people here");
       $scope.viewerCount = data.count;
-      console.log("now there are " + $scope.viewerCount);
       $scope.$apply();
     });
   }]);
