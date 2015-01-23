@@ -10,16 +10,6 @@ router.get('/facebook', passport.authenticate('facebook', {
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/'
 }), function(req, res) {
-  /*  FB.setAccessToken(req.user.accessToken);
-    var body = 'I am using blink.fm';
-    FB.api('me/feed', 'post', { message: body}, function (response) {
-      if(!response || response.error) {
-        console.log(!response ? 'error occurred' : response.error);
-      } else {
-        console.log('Post Id: ' + response.id);  
-      }
-    });*/
-
     res.redirect("/#/"+req.user.username);
     return;
 });

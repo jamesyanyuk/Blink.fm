@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('LoginCtrl', function ($scope, $rootScope, $http, $location, $window, authSrv) {
+  .controller('LoginCtrl', function ($scope, $rootScope, $http, $location, $window, authSrv, loginMethods) {
     $scope.login = {};
     $scope.login.user = {};
     $scope.message = '';
@@ -21,9 +21,8 @@ angular.module('apollonApp')
         $scope.message = '';
       }
 
-      authSrv.login($scope.login.user).then(
+      authSrv.login(loginMethods.local, $scope.login.user).then(
         function (data) {
-          console.log(data);
           if (data.user){
             // After logging in, redirect users to their own radio channel.
             $location.path(data.user.username).replace();
@@ -31,17 +30,15 @@ angular.module('apollonApp')
             $window.location.reload();
           } else {
             $scope.message = 'Incorrect username/password.';
-            console.log('Login failure.');
           }
         },
         function (data) {
           $scope.message = 'Error logging in.';
-          console.log('Login failure.');
         }
       );
     };
 
     $scope.login.facebook = function () {
-      $window.location = $window.location.protocol + '//' + $window.location.host + $window.location.pathname + 'auth/facebook';
+      authSrv.login(loginMethods.fb);
     };
   });

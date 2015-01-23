@@ -4,29 +4,40 @@
  * Authentication service, which is in charge of user actions such as login, logout, get current user, etc.
  */
 
-angular.module('auth', [])
-  .factory('authSrv', ['$q', '$http', '$location', '$rootScope', function ($q, $http, $location, $rootScope) {
+var auth = angular.module('auth', []);
 
+auth.constant('loginMethods', {
+  local: 0,
+  fb: 1
+});
+
+auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'loginMethods',
+  function ($q, $http, $location, $rootScope, $window, loginMethods) {
     return {
       /*
        Login the given user. The argument user should be in the form {'username' : 'jane', 'password' : 'doe'}.
        */
-      login: function (user) {
+      login: function (loginMethod, user) {
         var deferred = $q.defer();
 
-        $http.post('/auth/login', user)
-          .success(function (data) {
-            if (data.user && data.user.username) {
-              deferred.resolve({'user': data.user});
-              $rootScope.$broadcast('/auth/login'); // broadcast to all scopes user login event.
-            } else {
-              deferred.reject({'message': 'The returned user object is empty.'});
+        if (loginMethod === loginMethods.local) {
+          $http.post('/auth/login', user)
+            .success(function (data) {
+              if (data.user && data.user.username) {
+                deferred.resolve({'user': data.user});
+                $rootScope.$broadcast('/auth/login'); // broadcast to all scopes user login event.
+              } else {
+                deferred.reject({'message': 'The returned user object is empty.'});
+              }
+            })
+            .error(function (data) {
+              deferred.reject({'message': 'Login fails in server.'});
             }
-          })
-          .error(function (data) {
-            deferred.reject({'message': 'Login fails in server.'});
-          }
-        );
+          );
+        } else if (loginMethod === loginMethods.fb) {
+          $window.location =
+            $window.location.protocol + '//' + $window.location.host + $window.location.pathname + 'auth/facebook';
+        }
 
         return deferred.promise;
       },
