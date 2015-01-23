@@ -11,6 +11,7 @@
 angular
   .module('apollonApp', [
     'auth',
+    'navBar',
     'ngAnimate',
     'ngAria',
     'ngCookies',

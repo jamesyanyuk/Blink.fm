@@ -1,0 +1,11 @@
+<nav ng-controller="NavBarCtrl" class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#/"><strong>Blink.fm Beta</strong></a>
+    </div>
+    <search-bar ng-show="hasCurrentUser" class="navbar-form navbar-left"></search-bar>
+    <form action="/auth/logout">
+      <button type="submit" ng-show="hasCurrentUser" class="btn btn-danger navbar-btn pull-right">Logout</button>
+    </form>
+  </div>
+</nav>
