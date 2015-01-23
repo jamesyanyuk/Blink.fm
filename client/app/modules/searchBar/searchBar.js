@@ -27,7 +27,6 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
 
   $scope.search = function () {
     var maxResults = 5;
-    $scope.searchResults = [];
 
     $http.get(YOUTUBE_API.URL, {
       params: {
@@ -41,6 +40,8 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
       success(function (data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
+
+        $scope.searchResults = [];
 
         for (i = 0; i < data.items.length; i++) {
           $scope.searchResults.push({

@@ -6,7 +6,7 @@
   <div ng-show="showSearchResults" class="search-container" ng-switch="searchResults.length">
     <p class="search-result" ng-switch-when="0">No results found.</p>
     <div class="search-result" ng-switch-default ng-repeat="result in searchResults">
-      <a href="" target="_blank" ng-click="play('{{result.videoId}}')">
+      <a href="" target="_blank" ng-focus="onFocus()" ng-click="play('{{result.videoId}}')">
         <img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
       </a>
     </div>
