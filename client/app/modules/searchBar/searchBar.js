@@ -7,28 +7,32 @@ searchBar.constant('YOUTUBE_API', {
 });
 
 searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
+  $scope.showSearchResults = false;
+
   $scope.search = function () {
+    $scope.searchResults = [];
+
     $http.get(YOUTUBE_API.URL, {
       params: {
         'part': YOUTUBE_API.PART,
         'key': YOUTUBE_API.KEY,
-        'q': $scope.keywords
+        'q': $scope.keywords,
+        'order': 'relevance',
+        'maxResults': 5
       }
     }).
       success(function (data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        var videoId = data.items[0].id.videoId;
 
-        if (videoId) {
-          $http.get('recommendation-engine/add-video/' + videoId).success(function () {
-            $http.get('recommendation-engine/next').success(function (response) {
-              if (response && response.videoId) {
-                $rootScope.player.loadVideoById(response.videoId);
-              }
-            })
+        for (i = 0; i < data.items.length; i++) {
+          $scope.searchResults.push({
+            videoId: data.items[i].id.videoId,
+            title: data.items[i].snippet.title
           });
         }
+
+        $scope.showSearchResults = true;
       }).
       error(function (data, status, headers, config) {
         // called asynchronously if an error occurs
@@ -36,6 +40,21 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         console.log("Fail to retrieve list of videos from Youtube!");
         console.log(data);
       });
+  }
+
+  $scope.play = function (videoId) {
+    $scope.showSearchResults = false;
+
+    if (videoId) {
+      $http.get('recommendation-engine/add-video/' + videoId).success(function () {
+        $http.get('recommendation-engine/next').success(function (response) {
+          if (response && response.videoId) {
+            console.log('Test');
+            $rootScope.player.loadVideoById(response.videoId);
+          }
+        })
+      });
+    }
   }
 });
 
