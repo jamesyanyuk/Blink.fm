@@ -93,6 +93,10 @@ module.exports = function(io) {
 					};
 				}
 			}
+      var viewerCount = Object.keys(radioMap[data.radioid]['guests']).length;
+      io.sockets.in('radio_' + data.radioid).emit('update_viewer_count', {
+        count: viewerCount
+      });
 			console.log(radioMap);
 			console.log(socketMap);
 		});
@@ -113,8 +117,9 @@ module.exports = function(io) {
 		socket.on('disconnect', function(data) {
 			console.log('Socket: ' + socket.id + ' disconnected from server.');
 			console.log("Data: " + JSON.stringify(data));
-			if (!socketMap[socket.id])
-				return;
+			if (!socketMap[socket.id]) {
+        return;
+      }
 			var radioid = socketMap[socket.id]['radioid'];
 			if (radioMap[radioid]['socketid'] === socket.id) {
 				// The broadcaster is disconnected
@@ -139,6 +144,10 @@ module.exports = function(io) {
 					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
 						delete radioMap[radioid];
 					}
+          var viewerCount = Object.keys(radioMap[radioid]['guests']).length;
+          io.sockets.in('radio_' + radioid).emit('update_viewer_count', {
+            count: viewerCount
+          });
 				}
 			}
 		});
