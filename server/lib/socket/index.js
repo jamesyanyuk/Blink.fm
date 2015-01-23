@@ -55,6 +55,10 @@ module.exports = function(io) {
 							}
 						});
 					}
+          var viewerCount = Object.keys(radioMap[radioid]['guests']).length;
+          io.sockets.in('radio_' + radioid).emit('update_viewer_count', {
+            count: viewerCount
+          });
 					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
 						delete radioMap[radioid];
 					}
@@ -141,13 +145,15 @@ module.exports = function(io) {
 						});
 					}
 					delete socketMap[socket.id];
-					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
-						delete radioMap[radioid];
-					}
+          
           var viewerCount = Object.keys(radioMap[radioid]['guests']).length;
           io.sockets.in('radio_' + radioid).emit('update_viewer_count', {
             count: viewerCount
           });
+
+					if (Object.keys(radioMap[radioid]['guests']).length === 0 && !radioMap[radioid]['isConnected']) {
+						delete radioMap[radioid];
+					}
 				}
 			}
 		});
