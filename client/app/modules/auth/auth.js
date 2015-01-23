@@ -5,7 +5,7 @@
  */
 
 angular.module('auth', [])
-  .factory('authSrv', ['$q', '$http', '$location', function ($q, $http, $location) {
+  .factory('authSrv', ['$q', '$http', '$location', '$rootScope', function ($q, $http, $location, $rootScope) {
 
     return {
       /*
@@ -18,6 +18,7 @@ angular.module('auth', [])
           .success(function (data) {
             if (data.user && data.user.username) {
               deferred.resolve({'user': data.user});
+              $rootScope.$broadcast('/auth/login'); // broadcast to all scopes user login event.
             } else {
               deferred.reject({'message': 'The returned user object is empty.'});
             }
@@ -39,6 +40,7 @@ angular.module('auth', [])
         $http.get('/auth/logout')
           .success(function (data) {
             sessionStorage.clear();
+            $rootScope.$broadcast('/auth/logout'); // broadcast to all scopes user logout event.
             $location.path('/');
             deferred.resolve(data);
           })
@@ -55,7 +57,7 @@ angular.module('auth', [])
        {username: 'joe', 'password': 'jane'}.
        */
       getCurrentUser: function (cb) {
-        if (!hasCurrentUser()) {
+        if (!_hasCurrentUser()) {
           $http.get('/api/user')
             .success(function (data) {
               sessionStorage.setItem('currentUser', JSON.stringify(data));
@@ -75,7 +77,7 @@ angular.module('auth', [])
 /*
  Return true if there is a current user object stored in the session storage. Otherwise, return false.
  */
-function hasCurrentUser() {
+function _hasCurrentUser() {
   if (!sessionStorage.getItem("currentUser"))
     return false;
   var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
