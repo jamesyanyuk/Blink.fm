@@ -78,7 +78,6 @@ router.post('/login', function(req, res, next) {
 // });
 
 router.get('/logout', function(req, res) {
-    console.log("In logout");
     req.logout();
     res.end();
 });
