@@ -8,8 +8,25 @@ searchBar.constant('YOUTUBE_API', {
 
 searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
   $scope.showSearchResults = false;
+  $scope.noResultsFound = false;
+
+  $scope.onFocus = function () {
+    if ($scope.searchResults && $scope.searchResults.length > 0)
+      $scope.showSearchResults = true;
+  }
+
+  $scope.onBlur = function () {
+    $scope.showSearchResults = false;
+  }
+
+  $scope.inputUpdated = function () {
+    var queryLength = $scope.keywords.length;
+    if (queryLength > 5 && queryLength % 2 === 0)
+      $scope.search();
+  }
 
   $scope.search = function () {
+    var maxResults = 5;
     $scope.searchResults = [];
 
     $http.get(YOUTUBE_API.URL, {
@@ -18,7 +35,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         'key': YOUTUBE_API.KEY,
         'q': $scope.keywords,
         'order': 'relevance',
-        'maxResults': 5
+        'maxResults': maxResults
       }
     }).
       success(function (data, status, headers, config) {
@@ -28,11 +45,23 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         for (i = 0; i < data.items.length; i++) {
           $scope.searchResults.push({
             videoId: data.items[i].id.videoId,
-            title: data.items[i].snippet.title
+            title: function () {
+              var cutoffLen = 50;
+              var title = data.items[i].snippet.title;
+
+              if (title.length > cutoffLen)
+                title = title.substr(0, cutoffLen - 3) + '...';
+
+              return title;
+            }(),
+            thumbnail: data.items[i].snippet.thumbnails.default.url
           });
         }
 
-        $scope.showSearchResults = true;
+        if ($scope.searchResults.length > 0)
+          $scope.showSearchResults = true;
+        else
+          $scope.noResultsFound = true;
       }).
       error(function (data, status, headers, config) {
         // called asynchronously if an error occurs
@@ -49,7 +78,6 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
       $http.get('recommendation-engine/add-video/' + videoId).success(function () {
         $http.get('recommendation-engine/next').success(function (response) {
           if (response && response.videoId) {
-            console.log('Test');
             $rootScope.player.loadVideoById(response.videoId);
           }
         })
