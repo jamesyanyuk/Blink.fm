@@ -13,21 +13,30 @@
   </script>
 </div>
 
-<div class="row">
-  <div class="col-sm-7" ng-switch="isBroadcasterConnected">
-    <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
-    <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
-  </div>
+<div class="col-md-1" ng-controller="RecCtrl">
+  <ul class="list-unstyled">
+    <li ng-repeat="video in recommendation.videos"><b>{{video.thumbnail}}: </b>{{video.title}}</li>
+  </ul>
 </div>
 
-<div class="row">
-  <div class="col-sm-7">
-    <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
-      <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
+<div class="col-md-11">
+  <div class="row">
+    <div class="col-sm-7" ng-switch="isBroadcasterConnected">
+      <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
+      <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
     </div>
   </div>
 
-  <chat-window class="col-sm-5"></chat-window>
+  <div class="row">
+    <div class="col-sm-7">
+      <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
+        <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
+      </div>
+    </div>
+
+    <chat-window class="col-sm-5"></chat-window>
+  </div>
 </div>
+
 
 
