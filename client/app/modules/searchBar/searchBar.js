@@ -6,7 +6,7 @@ searchBar.constant('YOUTUBE_API', {
   'PART': 'id,snippet'
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, authSrv) {
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
   $scope.search = function () {
     $http.get(YOUTUBE_API.URL, {
       params: {
@@ -36,10 +36,6 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         console.log("Fail to retrieve list of videos from Youtube!");
         console.log(data);
       });
-  }
-
-  $scope.logout = function () {
-    authSrv.logout();
   }
 });
 

@@ -38,6 +38,7 @@ angular.module('auth', [])
 
         $http.get('/auth/logout')
           .success(function (data) {
+            sessionStorage.clear();
             $location.path('/');
             deferred.resolve(data);
           })

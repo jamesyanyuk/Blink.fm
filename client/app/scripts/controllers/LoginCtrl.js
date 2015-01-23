@@ -24,12 +24,11 @@ angular.module('apollonApp')
       authSrv.login($scope.login.user).then(
         function (data) {
           console.log(data);
-          if (data.user) {
-            // After logging in, redirect users to their own radio station.
+          if (data.user){
+            // After logging in, redirect users to their own radio channel.
             $location.path(data.user.username).replace();
-            // Enforce a full page reload for YouTube player to work correctly.
-            // Note: Unnecessary
-            //$window.location.reload();
+            // Enforce a full page reload for YouTube player and the nav bar to work correctly.
+            $window.location.reload();
           } else {
             $scope.message = 'Incorrect username/password.';
             console.log('Login failure.');
