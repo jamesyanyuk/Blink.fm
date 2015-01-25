@@ -10,7 +10,7 @@ router.get('/facebook', passport.authenticate('facebook', {
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/'
 }), function(req, res) {
-    facebook.broadcastToServer(req.user);
+    facebook.broadcast(req.user);
     res.redirect("/#/"+req.user.username);
     return;
 });

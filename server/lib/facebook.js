@@ -36,7 +36,7 @@ function _broadcast(id) {
 	});
 }
 
-function broadcastToServer(user) {
+function broadcast(user) {
 	if (!radioMap[user.username]) {
 		_createNewStation(user);
 	} else {
@@ -44,4 +44,4 @@ function broadcastToServer(user) {
 	}
 }
 
-exports.broadcastToServer = broadcastToServer;
+exports.broadcast = broadcast;
