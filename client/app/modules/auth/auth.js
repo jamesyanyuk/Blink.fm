@@ -77,6 +77,20 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
         } else {
           cb(JSON.parse(sessionStorage.getItem("currentUser")));
         }
+      },
+
+      /*
+       Check authentication of the current user. Redirect the user to appropriate view depending on his authentication.
+       For example, if the user is logged in and in Login view, he will be redirected to Main view. If he is in a view
+       that requires login but he isn't, he will be redirected to Login view.
+       Right now: this method should only be used in LoginCtrl.
+       */
+      checkAuth: function () {
+        this.getCurrentUser(function (currentUser) {
+          if (currentUser && currentUser.username) {
+            $location.path(currentUser.username);
+          }
+        });
       }
     }
   }]);

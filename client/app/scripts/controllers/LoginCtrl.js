@@ -9,6 +9,9 @@
  */
 angular.module('apollonApp')
   .controller('LoginCtrl', function ($scope, $rootScope, $http, $location, $window, authSrv, loginMethods) {
+    // Check authentication.
+    authSrv.checkAuth();
+
     $scope.login = {};
     $scope.login.user = {};
     $scope.message = '';
