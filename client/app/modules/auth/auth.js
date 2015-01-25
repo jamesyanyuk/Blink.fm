@@ -50,7 +50,7 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
 
         $http.get('/auth/logout')
           .success(function (data) {
-            sessionStorage.clear();
+            sessionStorage.removeItem('currentUser');
             $rootScope.$broadcast('/auth/logout'); // broadcast to all scopes user logout event.
             $location.path('/');
             deferred.resolve(data);
