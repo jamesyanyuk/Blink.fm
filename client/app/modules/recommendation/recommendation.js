@@ -1,18 +1,15 @@
 /*
-	Service for recommendation
+	Controller for recommendation
 */
 
-angular.module('rec', [])
-	.factory('recSrv', function ($scope) {
-		$scope.recList = []
-		$scope.add = function (video) {
-			$scope.recList.push({
-				"video": video,
-				"likes": 1
-			});
-		};
+var chat = angular.module('chat', []);
 
-		$scope.like = function (video) {
+chat.controller('ChatCtrl', ['$scope',
+	function ($scope) {
+		
+		$scope.recList = []
+
+		$scope.like = function(video) {
 			for (var i = 0; i < $scope.recList.length; i++) {
 				if ($scope.recList[i]['video'].id === video.id) {
 					$scope.recList[i]['likes'] ++;
@@ -23,4 +20,5 @@ angular.module('rec', [])
 				return -(a.likes - b.likes);
 			});
 		};
-	}]);
+	}
+]);

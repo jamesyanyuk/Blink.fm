@@ -6,7 +6,7 @@ searchBar.constant('YOUTUBE_API', {
   'PART': 'id,snippet'
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, authSrv, recSrv, YOUTUBE_API) {
   $scope.search = function () {
     $http.get(YOUTUBE_API.URL, {
       params: {
@@ -24,7 +24,17 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
           $http.get('recommendation-engine/add-video/' + videoId).success(function () {
             $http.get('recommendation-engine/next').success(function (response) {
               if (response && response.videoId) {
-                $rootScope.player.loadVideoById(response.videoId);
+                authSrv.getCurrenUser(function(data){
+                  if (data.username){
+                    $rootScope.player.loadVideoById(response.videoId);
+                  } else {
+                    recSrv.addVideo({ 
+                      id: response.videoId,
+                      title: response.videoTitle,
+                      thumbnail: response.videoThumbnail
+                    });
+                  }
+                });
               }
             })
           });
