@@ -16,17 +16,22 @@ angular.module('auth', [])
               cb(data);
             });
         } else {
-          cb(JSON.parse(sessionStorage.getItem("currentUser")));
+          cb(JSON.parse(sessionStorage.getItem('currentUser')));
         }
       },
 
       hasCurrentUser: function() {
-        if (!sessionStorage.getItem("currentUser"))
+        if (!sessionStorage.getItem('currentUser'))
           return false;
-        var currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+        var currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
         if (!currentUser || !currentUser.username)
           return false;
         return true;
+      },
+
+      removeCurrentUser: function() {
+        if (sessionStorage.getItem('currentUser'))
+          sessionStorage.removeItem('currentUser');
       }
     }
   });
