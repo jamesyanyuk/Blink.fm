@@ -23,54 +23,58 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
   $scope.onInputUpdated = function () {
     var queryLength = $scope.keywords.length;
     if (queryLength > 5 && queryLength % 2 === 0)
-      $scope.search();
+      $scope.search($scope.keywords);
   }
 
-  $scope.search = function () {
+  $scope.search = function (keywords) {
     var maxResults = 5;
 
-    $http.get(YOUTUBE_API.URL, {
-      params: {
-        'part': YOUTUBE_API.PART,
-        'key': YOUTUBE_API.KEY,
-        'q': $scope.keywords,
-        'order': 'relevance',
-        'maxResults': maxResults
-      }
-    }).
-      success(function (data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-
-        $scope.searchResults = [];
-
-        for (i = 0; i < data.items.length; i++) {
-          $scope.searchResults.push({
-            videoId: data.items[i].id.videoId,
-            title: function () {
-              var cutoffLen = 50;
-              var title = data.items[i].snippet.title;
-
-              if (title.length > cutoffLen)
-                title = title.substr(0, cutoffLen - 3) + '...';
-
-              return title;
-            }(),
-            thumbnail: data.items[i].snippet.thumbnails.default.url
-          });
+    if (keywords.length > 0) {
+      $http.get(YOUTUBE_API.URL, {
+        params: {
+          'part': YOUTUBE_API.PART,
+          'key': YOUTUBE_API.KEY,
+          'q': keywords,
+          'order': 'relevance',
+          'maxResults': maxResults
         }
-
-        if ($scope.searchResults.length > 0)
-          $scope.showSearchResults = true;
-        else
-          $scope.noResultsFound = true;
       }).
-      error(function (data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        console.log("Fail to retrieve list of videos from Youtube!");
-        console.log(data);
-      });
+        success(function (data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+
+          if (keywords === $scope.keywords) {
+            $scope.searchResults = [];
+
+            for (i = 0; i < data.items.length; i++) {
+              $scope.searchResults.push({
+                videoId: data.items[i].id.videoId,
+                title: function () {
+                  var cutoffLen = 50;
+                  var title = data.items[i].snippet.title;
+
+                  if (title.length > cutoffLen)
+                    title = title.substr(0, cutoffLen - 3) + '...';
+
+                  return title;
+                }(),
+                thumbnail: data.items[i].snippet.thumbnails.default.url
+              });
+            }
+
+            if ($scope.searchResults.length > 0)
+              $scope.showSearchResults = true;
+            else
+              $scope.noResultsFound = true;
+          }
+        }).
+        error(function (data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log("Fail to retrieve list of videos from Youtube!");
+          console.log(data);
+        });
+    }
   }
 
   $scope.play = function (videoId) {
