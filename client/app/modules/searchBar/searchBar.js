@@ -21,9 +21,9 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
   }
 
   $scope.onInputUpdated = function () {
-    var queryLength = $scope.keywords.length;
-    if (queryLength > 5 && queryLength % 2 === 0)
-      $scope.search($scope.keywords);
+    var query = $scope.keywords;
+    if (query.length > 5 && query.length % 2 === 0)
+      $scope.search(query);
   }
 
   $scope.search = function (keywords) {
@@ -43,7 +43,8 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
           // this callback will be called asynchronously
           // when the response is available
 
-          if (keywords === $scope.keywords) {
+          var keywordLen = $scope.keywords.length;
+          if (keywords === $scope.keywords.substr(0, keywordLen - (keywordLen % 2))) {
             $scope.searchResults = [];
 
             for (i = 0; i < data.items.length; i++) {
