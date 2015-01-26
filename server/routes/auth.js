@@ -80,8 +80,7 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res) {
     req.logout();
-    req.flash('homeMessage', 'Successfully logged out.');
-    res.redirect('/');
+    res.end();
 });
 
 module.exports = router;

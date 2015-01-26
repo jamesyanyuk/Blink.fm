@@ -1,6 +1,3 @@
-<search-bar ng-show="currentUser"></search-bar>
-<br>
-
 <div ng-controller="NicknameModalCtrl">
   <script type="text/ng-template" id="nicknameModal.html">
     <div class="modal-header">
@@ -30,7 +27,7 @@
     </div>
   </div>
 
-  <chat-window class="col-sm-5"></chat-window>
+  <chat-window class="col-sm-5" ng-controller="ChatCtrl"></chat-window>
 </div>
 
 
