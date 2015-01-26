@@ -7,11 +7,12 @@ searchBar.constant('YOUTUBE_API', {
 });
 
 searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
+  $scope.searchResults = [];
   $scope.showSearchResults = false;
   $scope.noResultsFound = false;
 
   $scope.onFocus = function () {
-    if ($scope.searchResults && $scope.searchResults.length > 0)
+    if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
   }
 
@@ -19,7 +20,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     $scope.showSearchResults = false;
   }
 
-  $scope.inputUpdated = function () {
+  $scope.onInputUpdated = function () {
     var queryLength = $scope.keywords.length;
     if (queryLength > 5 && queryLength % 2 === 0)
       $scope.search();
