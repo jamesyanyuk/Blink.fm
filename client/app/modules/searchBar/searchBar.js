@@ -1,4 +1,4 @@
-var searchBar = angular.module('searchBar', ['YouTubeApp', 'auth', 'socket']);
+var searchBar = angular.module('searchBar', ['YouTubeApp', 'auth']);
 
 searchBar.constant('YOUTUBE_API', {
   'URL': 'https://www.googleapis.com/youtube/v3/search',
@@ -28,11 +28,9 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
                     $rootScope.player.loadVideoById(response.videoId);
                   } else {
                     socket.emit('add_recommendation_video', {
-                      video: {
                         id: videoId,
                         title: data.items[0].snippet.title,
-                        thumbnail: data.items[0].snippet.thumbnails.default.url
-                      }
+                        thumbnail: data.items[0].snippet.thumbnails.default.url,
                     });
                   }
                 });

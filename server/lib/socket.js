@@ -1,7 +1,7 @@
 //A Map from socketID to its nickname and radioID
 var socketMap = {};
 
-//A Map from radioID to its status, socketID and guests
+//A Map from radioID to its status, socketID, guests and recommendationList
 var radioMap = {};
 
 module.exports = function(io) {
@@ -34,13 +34,15 @@ module.exports = function(io) {
 					radioMap[data.radioid] = {
 						'isConnected': true,
 						'socketid': socket.id,
-						'guests': {}
+						'guests': {},
+						'recommendationList': []
 					};
 				}
 				socketMap[socket.id] = {
 					'nickname': data.radioid,
 					'radioid': data.radioid
 				};
+				io.sockets.in('radio_' + data.radioid).emit('update_recommendation_list', radioMap[data.radioid]['recommendationList']);
 			} else { // The guest connect to the radio
 				if (socketMap[socket.id]) { //The guest change channel
 					//left current radio
@@ -65,7 +67,8 @@ module.exports = function(io) {
 					radioMap[data.radioid] = {
 						'isConnected': false,
 						'socketid': null,
-						'guests': {}
+						'guests': {},
+						'recommendationList': []
 					};
 				}
 				if (!radioMap[data.radioid]['isConnected']) {
@@ -74,6 +77,7 @@ module.exports = function(io) {
 					});
 				}
 				radioMap[data.radioid]['guests'][socket.id] = true;
+				io.sockets.in('radio_' + data.radioid).emit('update_recommendation_list', radioMap[data.radioid]['recommendationList']);
 				if (socketMap[socket.id]) { //continue to process when guest change channel
 					// join new radio
 					socketMap[socket.id]['radioid'] = data.radioid;
@@ -108,6 +112,45 @@ module.exports = function(io) {
 					body: data.message
 				}
 			});
+		});
+
+		socket.on('add_recommendation_video', function (data){
+			var radioid = socketMap[socket.id]['radioid'];
+			data['likes'] = {};
+			data['likes'][socket.id] = true;
+			data['likes_cnt'] = 1;
+			radioMap[radioid]['recommendationList'].push(data);
+			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', radioMap[radioid]['recommendationList']);
+		});
+
+		socket.on('like_recommendation_video', function (data){
+			var radioid = socketMap[socket.id]['radioid'];
+			var recList = radioMap[radioid]['recommendationList'];
+			for (var i=0; i<recList.length; i++){
+				if (recList[i]['id'] === data.videoid){
+					recList[i]['likes'][socket.id] = true;
+					recList[i]['likes_cnt'] = Object.keys(recList[i]['likes']).length;
+					break;
+				}
+			}
+			recList.sort(function (a,b){
+				return -(a['likes_cnt']-b['likes_cnt']);
+			})
+			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+		});
+
+		socket.on('remove_recommendation_video', function (data){
+			var radioid = socketMap[socket.id]['radioid'];
+			var recList = radioMap[radioid]['recommendationList'];
+			var pos;
+			for (var i=0; i<recList.length; i++){
+				if (recList[i]['id'] === data.videoid){
+					pos = i;
+					break;
+				}
+			}
+			recList.splice(pos, 1);
+			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
 		});
 
 		socket.on('disconnect', function(data) {

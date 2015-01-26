@@ -4,24 +4,31 @@
 
 var recommendation = angular.module('recommendation', []);
 
-recommendation.controller('RecommendationCtrl', ['$scope', function ($scope) {
-		
-		$scope.recList = []
+recommendation.controller('RecommendationCtrl', ['$scope', '$rootScope', 'socket', 'authSrv', function($scope, $rootScope, socket, authSrv) {
 
-		$scope.$on('add_recommendation', function(event, data){
-			$scope.recList.push(data);
+	$scope.recList = []
+
+	$scope.hasCurrentUser = false;
+	authSrv.getCurrentUser(function(currentUser) {
+		if (currentUser && currentUser.username) {
+			$scope.hasCurrentUser = true;
+		}
+	});
+
+	socket.on('update_recommendation_list', function(data) {
+		$scope.recList = data;
+	});
+
+	$scope.like = function(videoid) {
+		socket.emit('like_recommendation_video', {
+			videoid: videoid
 		});
+	};
 
-		$scope.like = function(video) {
-			for (var i = 0; i < $scope.recList.length; i++) {
-				if ($scope.recList[i]['video'].id === video.id) {
-					$scope.recList[i]['likes'] ++;
-					break;
-				}
-			}
-			$scope.recList.sort(function(a, b) {
-				return -(a.likes - b.likes);
-			});
-		};
-	}
-]);
+	$scope.play = function(videoid){
+		$rootScope.player.loadVideoById(videoid);
+		socket.emit('remove_recommendation_video', {
+			videoid: videoid
+		});
+	};
+}]);

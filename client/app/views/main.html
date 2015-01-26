@@ -14,11 +14,13 @@
 </div>
 
 <div class="col-sm-2" ng-controller="RecommendationCtrl">
+  <p> User Recommendation </p>
+  <div ng-show="!recList.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
   <ul class="list-unstyled">
     <li ng-repeat="video in recList">
       <img src="{{video.thumbnail}}" height="100" width="120"> 
-      <p> {{video.title}} </p>
-      <button ng-click="like()">Like</button> <button ng-click="dislike()">Dislike</button>
+      <p> {{video.title}} <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)"> Play </a> </p>
+      <p> {{video.likes_cnt}} <button ng-click="like(video.id)"><i class="fa fa-thumbs-o-up"></i></button> </p>
     </li>
   </ul>
 </div>
