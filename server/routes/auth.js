@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var FB = require('fb');
+var facebook = require('../lib/facebook');
 
 router.get('/facebook', passport.authenticate('facebook', {
     scope: ['email','publish_actions']
@@ -10,6 +10,7 @@ router.get('/facebook', passport.authenticate('facebook', {
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/'
 }), function(req, res) {
+    facebook.broadcast(req.user);
     res.redirect("/#/"+req.user.username);
     return;
 });
