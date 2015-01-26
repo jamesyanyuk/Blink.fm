@@ -1,4 +1,4 @@
-var searchBar = angular.module('searchBar', ['YouTubeApp']);
+var searchBar = angular.module('searchBar', ['YouTubeApp', 'auth', 'socket']);
 
 searchBar.constant('YOUTUBE_API', {
   'URL': 'https://www.googleapis.com/youtube/v3/search',
@@ -6,7 +6,7 @@ searchBar.constant('YOUTUBE_API', {
   'PART': 'id,snippet'
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, authSrv, recSrv, YOUTUBE_API) {
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, authSrv, socket) {
   $scope.search = function () {
     $http.get(YOUTUBE_API.URL, {
       params: {
@@ -19,19 +19,20 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, authS
         // this callback will be called asynchronously
         // when the response is available
         var videoId = data.items[0].id.videoId;
-
         if (videoId) {
           $http.get('recommendation-engine/add-video/' + videoId).success(function () {
             $http.get('recommendation-engine/next').success(function (response) {
               if (response && response.videoId) {
-                authSrv.getCurrenUser(function(data){
-                  if (data.username){
+                authSrv.getCurrentUser(function(res){
+                  if (res.username){
                     $rootScope.player.loadVideoById(response.videoId);
                   } else {
-                    recSrv.addVideo({ 
-                      id: response.videoId,
-                      title: response.videoTitle,
-                      thumbnail: response.videoThumbnail
+                    socket.emit('add_recommendation_video', {
+                      video: {
+                        id: videoId,
+                        title: data.items[0].snippet.title,
+                        thumbnail: data.items[0].snippet.thumbnails.default.url
+                      }
                     });
                   }
                 });

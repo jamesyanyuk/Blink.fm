@@ -2,12 +2,15 @@
 	Controller for recommendation
 */
 
-var chat = angular.module('chat', []);
+var recommendation = angular.module('recommendation', []);
 
-chat.controller('ChatCtrl', ['$scope',
-	function ($scope) {
+recommendation.controller('RecommendationCtrl', ['$scope', function ($scope) {
 		
 		$scope.recList = []
+
+		$scope.$on('add_recommendation', function(event, data){
+			$scope.recList.push(data);
+		});
 
 		$scope.like = function(video) {
 			for (var i = 0; i < $scope.recList.length; i++) {

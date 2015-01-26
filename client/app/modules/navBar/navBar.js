@@ -7,10 +7,11 @@
 var navBar = angular.module('navBar', ['auth']);
 
 navBar.controller('NavBarCtrl', ['authSrv', '$scope', function (authSrv, $scope) {
-  $scope.hasCurrentUser = false;
-  authSrv.getCurrentUser(function (currentUser) {
-    if (currentUser && currentUser.username) $scope.hasCurrentUser = true;
-  });
+	$scope.hasCurrentUser = true;
+  // $scope.hasCurrentUser = false;
+  // authSrv.getCurrentUser(function (currentUser) {
+  //   if (currentUser && currentUser.username) $scope.hasCurrentUser = true;
+  // });
 }]);
 
 navBar.directive('navBar', function () {

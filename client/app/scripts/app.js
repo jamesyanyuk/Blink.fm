@@ -24,6 +24,7 @@ angular
     'chat',
     'nicknameModal',
     'searchBar',
+    'recommendation',
     'ui.bootstrap',
     'btford.socket-io',
     'luegg.directives'

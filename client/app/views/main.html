@@ -13,28 +13,29 @@
   </script>
 </div>
 
-<div class="col-md-1" ng-controller="RecCtrl">
+<div class="col-sm-2" ng-controller="RecommendationCtrl">
   <ul class="list-unstyled">
-    <li ng-repeat="video in recommendation.videos"><b>{{video.thumbnail}}: </b>{{video.title}}</li>
+    <li ng-repeat="video in recList">
+      <img src="{{video.thumbnail}}" height="100" width="120"> 
+      <p> {{video.title}} </p>
+      <button ng-click="like()">Like</button> <button ng-click="dislike()">Dislike</button>
+    </li>
   </ul>
 </div>
 
-<div class="col-md-11">
-  <div class="row">
-    <div class="col-sm-7" ng-switch="isBroadcasterConnected">
-      <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
-      <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
-    </div>
-  </div>
-
+<div class="col-sm-10">
   <div class="row">
     <div class="col-sm-7">
+      <div ng-switch="isBroadcasterConnected">
+        <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
+        <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
+      </div>
       <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
         <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
       </div>
     </div>
 
-    <chat-window class="col-sm-5"></chat-window>
+    <chat-window class="col-sm-4"></chat-window>
   </div>
 </div>
 
