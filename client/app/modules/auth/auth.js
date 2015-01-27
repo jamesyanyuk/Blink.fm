@@ -88,7 +88,7 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
       checkAuth: function () {
         this.getCurrentUser(function (currentUser) {
           if (currentUser && currentUser.username) {
-            $location.path(currentUser.username);
+            $location.url(currentUser.username);
           }
         });
       }
