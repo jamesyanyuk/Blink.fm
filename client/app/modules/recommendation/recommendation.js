@@ -19,16 +19,16 @@ recommendation.controller('RecommendationCtrl', ['$scope', '$rootScope', 'socket
 		$scope.recList = data;
 	});
 
-	$scope.like = function(videoid) {
+	$scope.like = function(videoId) {
 		socket.emit('like_recommendation_video', {
-			videoid: videoid
+			id: videoId
 		});
 	};
 
-	$scope.play = function(videoid){
+	$scope.play = function(videoId){
 		$rootScope.player.loadVideoById(videoid);
 		socket.emit('remove_recommendation_video', {
-			videoid: videoid
+			id: videoId
 		});
 	};
 }]);

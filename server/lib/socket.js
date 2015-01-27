@@ -114,20 +114,29 @@ module.exports = function(io) {
 			});
 		});
 
-		socket.on('add_recommendation_video', function (data){
-			var radioid = socketMap[socket.id]['radioid'];
-			data['likes'] = {};
-			data['likes'][socket.id] = true;
-			data['likes_cnt'] = 1;
-			radioMap[radioid]['recommendationList'].push(data);
-			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', radioMap[radioid]['recommendationList']);
-		});
-
-		socket.on('like_recommendation_video', function (data){
+		socket.on('add_recommendation_video', function (video){
 			var radioid = socketMap[socket.id]['radioid'];
 			var recList = radioMap[radioid]['recommendationList'];
 			for (var i=0; i<recList.length; i++){
-				if (recList[i]['id'] === data.videoid){
+				if (recList[i]['id'] === video.id){
+					recList[i]['likes'][socket.id] = true;
+					recList[i]['likes_cnt'] = Object.keys(recList[i]['likes']).length;
+					io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+					return;
+				}
+			}
+			video['likes'] = {};
+			video['likes'][socket.id] = true;
+			video['likes_cnt'] = 1;
+			recList.push(video);
+			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+		});
+
+		socket.on('like_recommendation_video', function (video){
+			var radioid = socketMap[socket.id]['radioid'];
+			var recList = radioMap[radioid]['recommendationList'];
+			for (var i=0; i<recList.length; i++){
+				if (recList[i]['id'] === video.id){
 					recList[i]['likes'][socket.id] = true;
 					recList[i]['likes_cnt'] = Object.keys(recList[i]['likes']).length;
 					break;
@@ -139,12 +148,12 @@ module.exports = function(io) {
 			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
 		});
 
-		socket.on('remove_recommendation_video', function (data){
+		socket.on('remove_recommendation_video', function (video){
 			var radioid = socketMap[socket.id]['radioid'];
 			var recList = radioMap[radioid]['recommendationList'];
 			var pos;
 			for (var i=0; i<recList.length; i++){
-				if (recList[i]['id'] === data.videoid){
+				if (recList[i]['id'] === video.id){
 					pos = i;
 					break;
 				}
