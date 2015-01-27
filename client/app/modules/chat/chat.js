@@ -62,3 +62,15 @@ chat.directive('chatWindow', function() {
     templateUrl: 'modules/chat/chat.html'
   };
 });
+
+// Used to scroll the chat display individually from the entire chatWindow directive
+chat.directive('chatOutput', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      scope.$watchCollection(attr.chatOutput, function() {
+        element[0].scrollTop = element[0].scrollHeight;
+      });
+    }
+  };
+});

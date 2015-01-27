@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var FB = require('fb');
+var facebook = require('../lib/facebook');
 
 router.get('/facebook', passport.authenticate('facebook', {
     scope: ['email','publish_actions']
@@ -10,16 +10,7 @@ router.get('/facebook', passport.authenticate('facebook', {
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/'
 }), function(req, res) {
-  /*  FB.setAccessToken(req.user.accessToken);
-    var body = 'I am using blink.fm';
-    FB.api('me/feed', 'post', { message: body}, function (response) {
-      if(!response || response.error) {
-        console.log(!response ? 'error occurred' : response.error);
-      } else {
-        console.log('Post Id: ' + response.id);  
-      }
-    });*/
-
+    facebook.broadcast(req.user);
     res.redirect("/#/"+req.user.username);
     return;
 });
@@ -89,8 +80,7 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res) {
     req.logout();
-    req.flash('homeMessage', 'Successfully logged out.');
-    res.redirect('/');
+    res.end();
 });
 
 module.exports = router;

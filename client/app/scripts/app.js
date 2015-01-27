@@ -28,7 +28,7 @@ angular
     'btford.socket-io',
     'luegg.directives'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/login.html',
@@ -41,6 +41,8 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+
+    $locationProvider.html5Mode(true);
   })
   .factory('socket', function(socketFactory) {
     return socketFactory();

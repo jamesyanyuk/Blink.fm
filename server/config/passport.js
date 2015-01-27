@@ -21,7 +21,7 @@ module.exports = function(passport) {
     // Strategies in Passport require a `verify` function, which accept
     // credentials (in this case, an accessToken, refreshToken, and Facebook
     // profile), and invoke a callback with a user object.
-    passport.use(new FacebookStrategy(secrets.facebook, function(accessToken, refreshToken, profile, done) {
+    passport.use(new FacebookStrategy(secrets.facebook.auth, function(accessToken, refreshToken, profile, done) {
             console.log(profile._json.email);
             return done(null, {
                 'kind': 'facebook',
