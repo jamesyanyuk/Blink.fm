@@ -52,7 +52,7 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
           .success(function (data) {
             sessionStorage.removeItem('currentUser');
             $rootScope.$broadcast('/auth/logout'); // broadcast to all scopes user logout event.
-            $location.path('/');
+            $location.url('/');
             deferred.resolve(data);
           })
           .error(function (data) {
