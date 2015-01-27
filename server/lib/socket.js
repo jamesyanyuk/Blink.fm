@@ -72,7 +72,7 @@ module.exports = function(io) {
 					};
 				}
 				if (!radioMap[data.radioid]['isConnected']) {
-					io.sockets.in('radio_' + data.radioid).emit('update_broadcaster_status', {
+					socket.broadcast.to('radio_' + data.radioid).emit('update_broadcaster_status', {
 						'isBroadcasterConnected': false
 					});
 				}

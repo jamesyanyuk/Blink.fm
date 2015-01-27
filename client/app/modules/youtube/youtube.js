@@ -33,7 +33,14 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
         if ($scope.isPlayerReady) {
           socket.emit('broadcast_player_status', {
             radioId: currentUser.username,
-            videoId: $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/)[1],
+            videoId: (function () {
+              var videoIdRes = $rootScope.player.getVideoUrl().match(/[?&]v=([^&]+)/);
+
+              if (videoIdRes && videoIdRes.length > 1)
+                return videoIdRes[1];
+              else
+                return undefined;
+            })(),
             videoUrl: $rootScope.player.getVideoUrl(),
             currentTime: $rootScope.player.getCurrentTime(),
             playerState: $rootScope.player.getPlayerState()

@@ -103,6 +103,16 @@ body {
   margin-top: 5px;
 }
 
+.search-container {
+  position: absolute;
+  border: 1px solid #E7E7E7;
+}
+
+.search-result {
+  background-color: #F8F8F8;
+  width: 475px;
+}
+
 .green-icon {
   color: #019875;
 }
