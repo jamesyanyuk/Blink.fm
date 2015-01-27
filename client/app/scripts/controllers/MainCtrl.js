@@ -8,8 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('MainCtrl', ['$scope', 'authSrv', function ($scope, authSrv) {
-    
+  .controller('MainCtrl', ['$scope', 'authSrv', function ($scope, authSrv) {    
     $scope.viewerCount = 0;
     
     authSrv.getCurrentUser(function (currentUser) {
@@ -20,4 +19,5 @@ angular.module('apollonApp')
       $scope.viewerCount = data.count;
       $scope.$apply();
     });
-  }]);
+
+}]);
