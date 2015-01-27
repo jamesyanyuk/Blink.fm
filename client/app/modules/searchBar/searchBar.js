@@ -3,13 +3,14 @@ var searchBar = angular.module('searchBar', ['YouTubeApp']);
 searchBar.constant('YOUTUBE_API', {
   'URL': 'https://www.googleapis.com/youtube/v3/search',
   'KEY': 'AIzaSyC_FcJlUP1Sv5niC5ItHOTkqwoC8mwKccU',
-  'PART': 'id,snippet'
+  'PART': 'id,snippet',
+  'MAX_RESULTS': 5
+
 });
 
 searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
   $scope.searchResults = [];
   $scope.showSearchResults = false;
-  $scope.noResultsFound = false;
 
   $scope.onFocus = function () {
     if ($scope.searchResults.length > 0)
@@ -22,13 +23,11 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
 
   $scope.onInputUpdated = function () {
     var query = $scope.keywords;
-    if (query.length > 5 && query.length % 2 === 0)
+    if (query.length > 5)
       $scope.search(query);
   }
 
   $scope.search = function (keywords) {
-    var maxResults = 5;
-
     if (keywords.length > 0) {
       $http.get(YOUTUBE_API.URL, {
         params: {
@@ -36,15 +35,14 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
           'key': YOUTUBE_API.KEY,
           'q': keywords,
           'order': 'relevance',
-          'maxResults': maxResults
+          'maxResults': YOUTUBE_API.MAX_RESULTS
         }
-      }).
-        success(function (data, status, headers, config) {
+      })
+        .success(function (data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
 
-          var keywordLen = $scope.keywords.length;
-          if (keywords === $scope.keywords.substr(0, keywordLen - (keywordLen % 2))) {
+          if (keywords === $scope.keywords) {
             $scope.searchResults = [];
 
             for (i = 0; i < data.items.length; i++) {
@@ -65,11 +63,9 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
 
             if ($scope.searchResults.length > 0)
               $scope.showSearchResults = true;
-            else
-              $scope.noResultsFound = true;
           }
-        }).
-        error(function (data, status, headers, config) {
+        })
+        .error(function (data, status, headers, config) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
           console.log("Fail to retrieve list of videos from Youtube!");
@@ -80,6 +76,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
 
   $scope.play = function (videoId) {
     $scope.showSearchResults = false;
+    $scope.searchResults = [];
 
     if (videoId) {
       $http.get('recommendation-engine/add-video/' + videoId).success(function () {
