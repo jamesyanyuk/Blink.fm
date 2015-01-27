@@ -68,7 +68,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         .error(function (data, status, headers, config) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
-          console.log("Fail to retrieve list of videos from Youtube!");
+          console.log('Failed to retrieve list of videos from Youtube!');
           console.log(data);
         });
     }
@@ -77,6 +77,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
   $scope.play = function (videoId) {
     $scope.showSearchResults = false;
     $scope.searchResults = [];
+    $scope.keywords = '';
 
     if (videoId) {
       $http.get('recommendation-engine/add-video/' + videoId).success(function () {
@@ -92,7 +93,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
 
 searchBar.directive('searchBar', function () {
   return {
-    restrict: "E",
+    restrict: 'E',
     templateUrl: 'modules/searchBar/searchBar.html'
   };
 });
