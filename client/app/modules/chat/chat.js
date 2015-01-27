@@ -1,15 +1,19 @@
 /**
  * A module handling the controller and view for the chat feature.
  */
-var chat = angular.module('chat', []);
+var chat = angular.module('chat', ['nicknameModal']);
 
-chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
-  function ($scope, $rootScope, $routeParams, socket, authSrv) {
+chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv', 'nicknameSrv',
+  function ($scope, $rootScope, $routeParams, socket, authSrv, nicknameSrv) {
     $rootScope.radioid = $scope.radioId = $routeParams.username;
 
     $scope.chat = {}
     $scope.chat.messages = [];
     $scope.$parent.isBroadcasterConnected = true;
+
+    authSrv.getNicknameAsync().catch(function () {
+      nicknameSrv.openNicknameModal(socket);
+    });
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
@@ -28,18 +32,11 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
       }
     });
 
-    $scope.chat.verify = function () {
-      if (!$rootScope.nickname) {
-        $rootScope.openNicknameModal(socket);
-      }
-    }
-
     $scope.chat.send = function () {
-      if (!$rootScope.nickname)
-        verify();
-      else if ($scope.chat.message) {
+      var nickname = authSrv.getNickname();
+      if (nickname && $scope.chat.message) {
         socket.emit('send_message', {
-          nickname: $rootScope.nickname,
+          nickname: nickname,
           radioid: $rootScope.radioid,
           message: $scope.chat.message
         });
@@ -51,12 +48,12 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
       $scope.chat.messages.push(data.message);
     });
 
-    socket.on('update_broadcaster_status', function (data){
+    socket.on('update_broadcaster_status', function (data) {
       $scope.$parent.isBroadcasterConnected = data.isBroadcasterConnected;
     });
   }]);
 
-chat.directive('chatWindow', function() {
+chat.directive('chatWindow', function () {
   return {
     restrict: 'E',
     templateUrl: 'modules/chat/chat.html'
@@ -64,11 +61,11 @@ chat.directive('chatWindow', function() {
 });
 
 // Used to scroll the chat display individually from the entire chatWindow directive
-chat.directive('chatOutput', function() {
+chat.directive('chatOutput', function () {
   return {
     restrict: 'A',
-    link: function(scope, element, attr) {
-      scope.$watchCollection(attr.chatOutput, function() {
+    link: function (scope, element, attr) {
+      scope.$watchCollection(attr.chatOutput, function () {
         element[0].scrollTop = element[0].scrollHeight;
       });
     }

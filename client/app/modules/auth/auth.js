@@ -24,8 +24,10 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
           $http.post('/auth/login', user)
             .success(function (data) {
               if (data.user && data.user.username) {
-                deferred.resolve({'user': data.user});
+                sessionStorage.setItem('nickname', data.user.username);
+                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
                 $rootScope.$broadcast('/auth/login'); // broadcast to all scopes user login event.
+                deferred.resolve({'user': data.user});
               } else {
                 deferred.reject({'message': 'The returned user object is empty.'});
               }
@@ -76,6 +78,44 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
             });
         } else {
           cb(JSON.parse(sessionStorage.getItem("currentUser")));
+        }
+      },
+
+      /*
+       Return the user's nickname in session storage. If not exist, get current user to get username. If none exists,
+       return null.
+       */
+      getNicknameAsync: function () {
+        var deferred = $q.defer();
+
+        if (sessionStorage.getItem('nickname')) {
+          deferred.resolve(sessionStorage.getItem('nickname'));
+        } else {
+          this.getCurrentUser(function (currentUser) {
+            if (currentUser && currentUser.username) {
+              sessionStorage.setItem('nickname', currentUser.username);
+              deferred.resolve(currentUser.username);
+            }
+            else deferred.reject();
+          });
+        }
+
+        return deferred.promise;
+      },
+
+      /*
+       Return the user's nickname in session storage if one exists, otherwise, return null.
+       */
+      getNickname: function () {
+        return sessionStorage.getItem('nickname');
+      },
+
+      /*
+       Set user's nickname.
+       */
+      setNickname: function (nickname) {
+        if (nickname) {
+          sessionStorage.setItem('nickname', nickname);
         }
       },
 
