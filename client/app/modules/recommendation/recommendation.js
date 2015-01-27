@@ -26,7 +26,7 @@ recommendation.controller('RecommendationCtrl', ['$scope', '$rootScope', 'socket
 	};
 
 	$scope.play = function(videoId){
-		$rootScope.player.loadVideoById(videoid);
+		$rootScope.player.loadVideoById(videoId);
 		socket.emit('remove_recommendation_video', {
 			id: videoId
 		});
