@@ -19,5 +19,4 @@ angular.module('apollonApp')
       $scope.viewerCount = data.count;
       $scope.$apply();
     });
-
 }]);
