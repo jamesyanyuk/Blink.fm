@@ -10,8 +10,8 @@ myApp.constant('YT_event', {
 myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv, socket) {
   //initial settings
   $scope.yt = {
-    width: 500,
-    height: 400,
+    width: 525,
+    height: 450,
     //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
