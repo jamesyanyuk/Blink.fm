@@ -14,9 +14,9 @@
 </div>
 
 <div class="col-sm-2 rec-container" ng-controller="RecommendationCtrl">
-  <p> User Recommendation </p>
+  <p> User Suggestion </p>
   <div ng-show="!recList.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
-  <ul class="list-unstyled">
+  <ol class="list-unstyled">
     <li ng-repeat="video in recList">
       <div tooltip-placement="bottom" tooltip-html-unsafe='<img src="{{video.thumbnail}}" height="90" width="150">'> 
         <span class="rec-title"> {{video.title}} </span>
@@ -24,7 +24,7 @@
       </div>
       <div style="text-align: right"> {{video.likes_cnt}} <a href=""><i class="fa fa-thumbs-o-up" ng-click="like(video.id)"></i></a> </div>
     </li>
-  </ul>
+  </ol>
 </div>
 
 <div class="col-sm-10">
