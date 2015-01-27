@@ -5,8 +5,7 @@ var socketMap = {};
 var radioMap = {};
 
 module.exports = function(io) {
-	io.on('connection', function(socket) {
-		
+	io.on('connection', function(socket) {		
     socket.on('announce_join', function(data) {
 			socketMap[socket.id] = {
 				'nickname': data.nickname,
@@ -42,7 +41,6 @@ module.exports = function(io) {
 						'guests': {}
 					};
 				}
-
         // broadcaster came from another channel --> notify that channel
 				if (socketMap[socket.id]) {
           var prevRadio = socketMap[socket.id]['radioid'];
@@ -67,8 +65,7 @@ module.exports = function(io) {
               !radioMap[prevRadio]['isConnected']) {
             delete radioMap[prevRadio];
           }
-        }
-        
+        }        
         socketMap[socket.id] = {
           'nickname': data.username,
           'radioid': data.radioid
@@ -76,8 +73,7 @@ module.exports = function(io) {
 			} 
 
       // The guest connect to the radio
-      else {   
-        
+      else {        
         // If there isn't a broadcaster, create a placeholder
         if (!radioMap[data.radioid]) { 
           radioMap[data.radioid] = {
@@ -86,7 +82,6 @@ module.exports = function(io) {
             'guests': {}
           };
         }
-
         // guest came from another channel --> notify that channel
 				if (socketMap[socket.id]) {
 					var prevRadio = socketMap[socket.id]['radioid'];
@@ -149,8 +144,7 @@ module.exports = function(io) {
           radioMap[data.username]['socketid'] = socket.id;
           radioMap[data.username]['isConnected'] = false;
         }
-      }			
-
+      }
       // update viewer count of the new channel
       var viewerCount = Object.keys(radioMap[data.radioid]['guests']).length;
       io.sockets.in('radio_' + data.radioid).emit('update_viewer_count', {
@@ -197,13 +191,11 @@ module.exports = function(io) {
 							}
 						});
 					}
-					delete socketMap[socket.id];
-          
+					delete socketMap[socket.id];        
           var viewerCount = Object.keys(radioMap[radioid]['guests']).length;
           io.sockets.in('radio_' + radioid).emit('update_viewer_count', {
             count: viewerCount
           });
-
 					if (Object.keys(radioMap[radioid]['guests']).length === 0 && 
               !radioMap[radioid]['isConnected']) {
 						delete radioMap[radioid];
