@@ -6,7 +6,9 @@ var secrets          = require('./keys');
 var HARDCODED_USERS = [
       {'username': 'tungpham31', 'password': 'tung'},
       {'username': 'james', 'password': 'james'},
-      {'username': 'thai', 'password': 'thai'}
+      {'username': 'thai', 'password': 'thai'},
+      {'username': 'freddy', 'password': 'freddy'},
+      {'username': 'hugo', 'password': 'hugo'}
     ];
 
 /* For Google/Facebook authentication */

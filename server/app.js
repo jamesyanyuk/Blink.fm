@@ -128,4 +128,8 @@ app.get('/recommendation-engine/next/', function (req, res) {
 	}
 });
 
+app.get('*', function (req, res) {
+	res.sendFile(path.join(__dirname, '../client/app', 'index.html'));
+});
+
 module.exports = app;
