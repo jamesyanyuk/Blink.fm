@@ -18,9 +18,11 @@
   <div ng-show="!recList.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
   <ul class="list-unstyled">
     <li ng-repeat="video in recList">
-      <img src="{{video.thumbnail}}" height="100" width="120"> 
-      <p> {{video.title}} <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)"> Play </a> </p>
-      <p> {{video.likes_cnt}} <button ng-click="like(video.id)"><i class="fa fa-thumbs-o-up"></i></button> </p>
+      <div tooltip-placement="bottom" tooltip-html-unsafe='<img src="{{video.thumbnail}}" height="90" width="150">'> 
+        <span class="rec-title"> {{video.title}} </span>
+        <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)"> Play </a> 
+      </div>
+      <div style="text-align: right"> {{video.likes_cnt}} <a href=""><i class="fa fa-thumbs-o-up" ng-click="like(video.id)"></i></a> </div>
     </li>
   </ul>
 </div>
