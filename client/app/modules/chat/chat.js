@@ -16,11 +16,14 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
         $rootScope.nickname = user.username;
         socket.emit('join_radio', {
           radioid: $rootScope.radioid,
+          username: user.username,
           isBroadcaster: user.username === $rootScope.radioid
         });
       } else {
         socket.emit('join_radio', {
-          radioid: $rootScope.radioid
+          radioid: $rootScope.radioid,
+          isBroadcaster: false,
+          username: null
         });
       }
     });
@@ -50,7 +53,6 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     socket.on('update_broadcaster_status', function (data){
       $scope.$parent.isBroadcasterConnected = data.isBroadcasterConnected;
-      console.log(data);
     });
   }]);
 

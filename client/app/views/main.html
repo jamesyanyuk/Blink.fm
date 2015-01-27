@@ -25,6 +25,9 @@
     <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
       <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
     </div>
+    <div>
+      {{viewerCount}} people watching
+    </div>
   </div>
 
   <chat-window class="col-sm-5" ng-controller="ChatCtrl"></chat-window>

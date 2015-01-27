@@ -8,16 +8,15 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('MainCtrl', ['$scope', '$routeParams', '$location', '$window', 'authSrv',
-    function ($scope, $routeParams, $location, $window, authSrv) {
-      // Enforce a full page reload for YouTube player to work correctly.
-      if (!$routeParams.reload) {
-        $location.search('reload', 1);
-        $window.location.href = $window.location.href + "?reload=1";
-        $window.location.reload();
-      }
+  .controller('MainCtrl', ['$scope', 'authSrv', function ($scope, authSrv) {    
+    $scope.viewerCount = 0;
+    
+    authSrv.getCurrentUser(function (currentUser) {
+      $scope.currentUser = currentUser;
+    });
 
-      authSrv.getCurrentUser(function (currentUser) {
-        $scope.currentUser = currentUser;
-      });
-    }]);
+    socket.on('update_viewer_count', function(data) {
+      $scope.viewerCount = data.count;
+      $scope.$apply();
+    });
+}]);
