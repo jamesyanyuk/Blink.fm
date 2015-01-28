@@ -11,6 +11,8 @@
 angular
   .module('apollonApp', [
     'auth',
+    'angulartics', 
+    'angulartics.google.analytics',
     'navBar',
     'ngAnimate',
     'ngAria',
@@ -27,8 +29,6 @@ angular
     'ui.bootstrap',
     'btford.socket-io',
     'luegg.directives',
-    'angulartics', 
-    'angulartics.google.analytics',
   ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
