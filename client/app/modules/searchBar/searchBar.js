@@ -48,7 +48,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
               $scope.searchResults.push({
                 videoId: data.items[i].id.videoId,
                 title: function () {
-                  var cutoffLen = 50;
+                  var cutoffLen = 70;
                   var title = data.items[i].snippet.title;
 
                   if (title.length > cutoffLen)
@@ -77,7 +77,9 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     $scope.showSearchResults = false;
     $scope.searchResults = [];
     $scope.keywords = '';
+    console.log(video);
     video = JSON.parse(video);
+
     if (video.videoId) {
       $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
         $http.get('recommendation-engine/next').success(function (response) {

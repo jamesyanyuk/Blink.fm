@@ -122,13 +122,20 @@ body {
 }
 
 .rec-container {
-  height: 450px;
+  background-color: #F8F8F8;
+  border: 1px solid #E7E7E7;
+  height: 470px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.rec-title{
-  color: #663399;
+.thumb-container {
+  padding-right: 0;
+  padding-bottom: 5px;
+}
+
+.title-container {
+  padding-left: 0;
 }
 
 /* Let's get this party started */ 
@@ -152,3 +159,7 @@ body {
 ::-webkit-scrollbar-thumb:window-inactive { 
   background: rgba(255,0,0,0.4); 
 } 
+
+.container {
+   width: 1250px !important;
+ }
