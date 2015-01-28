@@ -1,7 +1,7 @@
 /**
  * A module handling the controller and view for the chat feature.
  */
-var chat = angular.module('chat', ['nicknameModal']);
+var chat = angular.module('chat', ['auth']);
 
 chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv', 'nicknameSrv',
   function ($scope, $rootScope, $routeParams, socket, authSrv, nicknameSrv) {
@@ -17,7 +17,6 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
-        $rootScope.nickname = user.username;
         socket.emit('join_radio', {
           radioid: $rootScope.radioid,
           username: user.username,
@@ -68,6 +67,17 @@ chat.directive('chatOutput', function () {
       scope.$watchCollection(attr.chatOutput, function () {
         element[0].scrollTop = element[0].scrollHeight;
       });
+    }
+  };
+});
+
+chat.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
+  $scope.message = '';
+  $scope.submit = function () {
+    if ($scope.nickname) {
+      $modalInstance.close($scope.nickname);
+    } else {
+      $scope.message = 'Nickname cannot be empty!'
     }
   };
 });
