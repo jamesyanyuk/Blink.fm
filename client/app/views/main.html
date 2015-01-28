@@ -3,12 +3,14 @@
     <div class="modal-header">
       <h3 class="modal-title">Enter a Nickname</h3>
     </div>
+    <div class="alert alert-danger" ng-if="message.length != 0">
+      {{message}}
+    </div>
     <div class="modal-body">
       <input type="text" class="form-control" ng-model="nickname" placeholder="Enter a nickname" style="width: 79%">
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" ng-click="submit()">Submit</button>
-      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
   </script>
 </div>

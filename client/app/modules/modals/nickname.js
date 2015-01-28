@@ -14,8 +14,13 @@ nickname.controller('NicknameModalCtrl', function ($scope, $rootScope, $modal, a
 });
 
 nickname.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
+  $scope.message = '';
   $scope.submit = function () {
-    $modalInstance.close($scope.nickname);
+    if ($scope.nickname) {
+      $modalInstance.close($scope.nickname);
+    } else {
+      $scope.message = 'Nickname cannot be empty!'
+    }
   };
 });
 
@@ -27,6 +32,7 @@ nickname.factory('nicknameSrv', ['$rootScope', '$modal', '$q', 'authSrv', functi
       var modalInstance = $modal.open({
         templateUrl: 'nicknameModal.html',
         controller: 'NicknameModalInstanceCtrl',
+        backdrop: 'static',
         size: 'sm'
       });
 
