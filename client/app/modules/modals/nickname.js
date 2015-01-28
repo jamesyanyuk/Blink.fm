@@ -30,7 +30,7 @@ nickname.factory('nicknameSrv', ['$rootScope', '$modal', '$q', 'authSrv', functi
       var deferred = $q.defer();
 
       var modalInstance = $modal.open({
-        templateUrl: 'nicknameModal.html',
+        templateUrl: 'modules/modals/nickname_modal.html',
         controller: 'NicknameModalInstanceCtrl',
         backdrop: 'static',
         size: 'sm'
