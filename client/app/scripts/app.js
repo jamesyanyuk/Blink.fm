@@ -26,7 +26,9 @@ angular
     'searchBar',
     'ui.bootstrap',
     'btford.socket-io',
-    'luegg.directives'
+    'luegg.directives',
+    'angulartics', 
+    'angulartics.google.analytics',
   ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
