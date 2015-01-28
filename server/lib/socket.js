@@ -15,9 +15,7 @@ module.exports = function(io) {
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: '[SERVER]',
-					body: data.nickname + ' is now listening. There are currently ' +
-						Object.keys(radioMap[data.radioid]['guests']).length +
-						' people listening to this radio'
+					body: data.nickname + ' has joined the chat room.'
 				}
 			});
 		});
@@ -54,8 +52,7 @@ module.exports = function(io) {
 						io.sockets.in('radio_' + prevRadio).emit('update_chat', {
 							message: {
 								sender: '[SERVER]',
-								body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' +
-									viewerCount + ' people listening to this radio'
+								body: socketMap[socket.id]['nickname'] + ' has left.'
 							}
 						});
 					}
@@ -102,8 +99,7 @@ module.exports = function(io) {
 						io.sockets.in('radio_' + prevRadio).emit('update_chat', {
 							message: {
 								sender: '[SERVER]',
-								body: socketMap[socket.id]['nickname'] + ' has left. There are currently ' +
-									viewerCount + ' people listening to this radio'
+								body: socketMap[socket.id]['nickname'] + ' has left.'
 							}
 						});
 					}
@@ -121,9 +117,7 @@ module.exports = function(io) {
 						io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 							message: {
 								sender: '[SERVER]',
-								body: socketMap[socket.id]['nickname'] + ' is now listening. There are currently ' +
-									Object.keys(radioMap[data.radioid]['guests']).length +
-									' people listening to this radio'
+								body: socketMap[socket.id]['nickname'] + ' has joined the chat room.'
 							}
 						});
 					}
@@ -237,9 +231,7 @@ module.exports = function(io) {
 						io.sockets.in('radio_' + radioid).emit('update_chat', {
 							message: {
 								sender: '[SERVER]',
-								body: socketMap[socket.id]['nickname'] +
-									' has left. There are currently ' + Object.keys(radioMap[radioid]['guests']).length +
-									' people listening to this radio'
+								body: socketMap[socket.id]['nickname'] + ' has left.'
 							}
 						});
 					}
