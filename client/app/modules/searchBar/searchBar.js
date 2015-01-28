@@ -48,7 +48,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
               $scope.searchResults.push({
                 videoId: data.items[i].id.videoId,
                 title: function () {
-                  var cutoffLen = 70;
+                  var cutoffLen = 50;
                   var title = data.items[i].snippet.title;
 
                   if (title.length > cutoffLen)
