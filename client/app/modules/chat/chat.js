@@ -70,14 +70,3 @@ chat.directive('chatOutput', function () {
     }
   };
 });
-
-chat.controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
-  $scope.message = '';
-  $scope.submit = function () {
-    if ($scope.nickname) {
-      $modalInstance.close($scope.nickname);
-    } else {
-      $scope.message = 'Nickname cannot be empty!'
-    }
-  };
-});
