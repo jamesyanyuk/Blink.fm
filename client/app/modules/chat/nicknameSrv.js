@@ -6,7 +6,7 @@ angular.module('chat')
 
         var modalInstance = $modal.open({
           templateUrl: 'modules/chat/nickname_modal.html',
-          controller: 'NicknameModalCtrl',
+          controller: 'NicknameModalInstanceCtrl',
           backdrop: 'static',
           size: 'sm'
         });

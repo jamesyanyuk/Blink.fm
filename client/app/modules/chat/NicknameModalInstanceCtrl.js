@@ -3,7 +3,7 @@
  */
 
 angular.module('chat')
-  .controller('NicknameModalCtrl', function ($scope, $modalInstance) {
+  .controller('NicknameModalInstanceCtrl', function ($scope, $modalInstance) {
     $scope.message = '';
     $scope.submit = function () {
       if ($scope.nickname) {

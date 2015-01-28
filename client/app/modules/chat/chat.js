@@ -11,6 +11,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
     $scope.chat.messages = [];
     $scope.$parent.isBroadcasterConnected = true;
 
+    // Check if current user has nickname, otherwise, open modal to ask for user's nickname.
     authSrv.getNicknameAsync().catch(function () {
       nicknameSrv.openNicknameModal(socket);
     });
@@ -31,8 +32,8 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
       }
     });
 
+    var nickname = authSrv.getNickname();
     $scope.chat.send = function () {
-      var nickname = authSrv.getNickname();
       if (nickname && $scope.chat.message) {
         socket.emit('send_message', {
           nickname: nickname,
