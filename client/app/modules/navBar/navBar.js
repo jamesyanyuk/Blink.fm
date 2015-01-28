@@ -13,15 +13,18 @@ navBar.controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location',
   authSrv.getCurrentUser(function (currentUser) {
     if (currentUser && currentUser.username) {
       $scope.hasCurrentUser = true;
+      $scope.showSearchBar = true;
     }
   });
 
   $rootScope.$on('/auth/login', function(event) {
     $scope.hasCurrentUser = true;
+    $scope.showSearchBar = true;
   });
 
   $rootScope.$on('/auth/logout', function(event) {
     $scope.hasCurrentUser = false;
+    $scope.showSearchBar = false;
   });
 
   $scope.logout = function() {

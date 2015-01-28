@@ -21,12 +21,9 @@
       <div class="col-sm-6 thumb-container">
         <img src="{{video.thumbnail}}" height="90" width="130">
       </div>
-      <!-- <div tooltip-placement="bottom" tooltip-html-unsafe='<img src="{{video.thumbnail}}" height="90" width="150">'>  -->
       <div class="col-sm-6 title-container"> 
-        {{video.title}} 
+        {{video.title}} <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)"> Play </a>  
         <div style="text-align: right"> {{video.likes_cnt}} <a href=""><i class="fa fa-thumbs-o-up" ng-click="like(video.id)"></i></a> </div>
-      </div>
-      <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)"> Play </a> 
       </div>
       
     </li>
