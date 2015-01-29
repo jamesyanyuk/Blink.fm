@@ -51,6 +51,8 @@
 <script src="bower_components/angular-touch/angular-touch.js"></script>
 <script src="bower_components/angular-socket-io/socket.js"></script>
 <script src="bower_components/angular-scroll-glue/src/scrollglue.js"></script>
+<script src="bower_components/angulartics/src/angulartics.js"></script>
+<script src="bower_components/angulartics/src/angulartics-ga.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -65,8 +67,7 @@
 <script src="scripts/controllers/MainCtrl.js"></script>
 <script src="scripts/controllers/LoginCtrl.js"></script>
 <script src="scripts/controllers/SignupCtrl.js"></script>
-<script src="bower_components/angulartics/src/angulartics.js"></script>
-<script src="bower_components/angulartics/src/angulartics-ga.js"></script>
+<script src="scripts/services/gAnalytics.js"></script>
 <!-- endbuild -->
 
 <!-- Add your site or application content here -->
@@ -77,8 +78,8 @@
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
-  // if the host is blink.fm, send pageview to GA
-  if (document.location.hostname === 'blink.fm') {
+  // if the host is localhost, don't send pageview to GA.
+  if (document.location.hostname !== 'localhost') {
 
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
