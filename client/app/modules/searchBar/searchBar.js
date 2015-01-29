@@ -77,8 +77,6 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     $scope.showSearchResults = false;
     $scope.searchResults = [];
     $scope.keywords = '';
-    console.log(video);
-    video = JSON.parse(video);
 
     if (video.videoId) {
       $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
