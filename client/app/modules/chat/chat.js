@@ -12,9 +12,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
     $scope.$parent.isBroadcasterConnected = true;
 
     // Check if current user has nickname, otherwise, open modal to ask for user's nickname.
-    authSrv.getNicknameAsync().catch(function () {
-      nicknameSrv.openNicknameModal(socket);
-    });
+    authSrv.getNickname(nicknameSrv);
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
@@ -33,15 +31,16 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
     });
 
     $scope.chat.send = function () {
-      var nickname = authSrv.getNickname();
-      if (nickname && $scope.chat.message) {
-        socket.emit('send_message', {
-          nickname: nickname,
-          radioid: $rootScope.radioid,
-          message: $scope.chat.message
-        });
-        $scope.chat.message = '';
-      }
+      authSrv.getNickname(nicknameSrv).then(function (nickname) {
+        if (nickname && $scope.chat.message) {
+          socket.emit('send_message', {
+            nickname: nickname,
+            radioid: $rootScope.radioid,
+            message: $scope.chat.message
+          });
+          $scope.chat.message = '';
+        }
+      });
     }
 
     socket.on('update_chat', function (data) {

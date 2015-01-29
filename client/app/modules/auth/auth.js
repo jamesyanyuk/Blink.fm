@@ -24,8 +24,7 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
           $http.post('/auth/login', user)
             .success(function (data) {
               if (data.user && data.user.username) {
-                sessionStorage.setItem('nickname', data.user.username);
-                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                _cacheUser(data.user);
                 $rootScope.$broadcast('/auth/login'); // broadcast to all scopes user login event.
                 deferred.resolve({'user': data.user});
               } else {
@@ -72,9 +71,9 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
       getCurrentUser: function (cb) {
         if (!_hasCurrentUser()) {
           $http.get('/api/user')
-            .success(function (data) {
-              sessionStorage.setItem('currentUser', JSON.stringify(data));
-              cb(data);
+            .success(function (user) {
+              _cacheUser(user);
+              cb(user);
             });
         } else {
           cb(JSON.parse(sessionStorage.getItem("currentUser")));
@@ -85,38 +84,35 @@ auth.factory('authSrv', ['$q', '$http', '$location', '$rootScope', '$window', 'l
        Return the user's nickname in session storage. If not exist, get current user to get username. If none exists,
        return null.
        */
-      getNicknameAsync: function () {
+      getNickname: function (nicknameSrv) {
         var deferred = $q.defer();
 
+        // If nickname in cache, return right away.
         if (sessionStorage.getItem('nickname')) {
           deferred.resolve(sessionStorage.getItem('nickname'));
-        } else {
-          this.getCurrentUser(function (currentUser) {
-            if (currentUser && currentUser.username) {
-              sessionStorage.setItem('nickname', currentUser.username);
-              deferred.resolve(currentUser.username);
-            }
-            else deferred.reject();
-          });
+          return deferred.promise;
         }
+
+        this.getCurrentUser(function (currentUser) {
+          // If a user exists, return the username as nickname.
+          if (currentUser && currentUser.username) {
+            deferred.resolve(currentUser.username);
+            return deferred.promise;
+          }
+
+          // Otherwise, open nickname modal to ask user to enter their nickname.
+          nicknameSrv.openNicknameModal().then(
+            function (nickname) {
+              _cacheNickname(nickname);
+              deferred.resolve(nickname);
+            },
+            function (error) {
+              deferred.reject(error);
+            }
+          );
+        });
 
         return deferred.promise;
-      },
-
-      /*
-       Return the user's nickname in session storage if one exists, otherwise, return null.
-       */
-      getNickname: function () {
-        return sessionStorage.getItem('nickname');
-      },
-
-      /*
-       Set user's nickname.
-       */
-      setNickname: function (nickname) {
-        if (nickname) {
-          sessionStorage.setItem('nickname', nickname);
-        }
       },
 
       /*
@@ -149,4 +145,23 @@ function _hasCurrentUser() {
   if (!currentUser || !currentUser.username)
     return false;
   return true;
+}
+
+/*
+ Add the given user to session storage.
+ */
+function _cacheUser(user) {
+  if (user && user.username) {
+    sessionStorage.setItem('currentUser', JSON.stringify(user));
+    sessionStorage.setItem('nickname', user.username);
+  }
+}
+
+/*
+ Add user's nickname to session storage.
+ */
+function _cacheNickname(nickname) {
+  if (nickname) {
+    sessionStorage.setItem('nickname', nickname);
+  }
 }

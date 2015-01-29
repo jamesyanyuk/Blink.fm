@@ -1,7 +1,7 @@
 angular.module('chat')
-  .factory('nicknameSrv', ['$rootScope', '$modal', '$q', 'authSrv', function ($rootScope, $modal, $q, authSrv) {
+  .factory('nicknameSrv', ['$rootScope', '$modal', '$q', 'socket', function ($rootScope, $modal, $q, socket) {
     return {
-      openNicknameModal: function (socket) {
+      openNicknameModal: function () {
         var deferred = $q.defer();
 
         var modalInstance = $modal.open({
@@ -15,7 +15,6 @@ angular.module('chat')
         modalInstance.result.then(
           function (nickname) {
             if (nickname) {
-              authSrv.setNickname(nickname);
               socket.emit('announce_join', {
                 nickname: nickname,
                 radioid: $rootScope.radioid
@@ -24,8 +23,8 @@ angular.module('chat')
             }
             else deferred.reject();
           },
-          function () {
-            deferred.reject();
+          function (error) {
+            deferred.reject(error);
           }
         );
 
