@@ -32,8 +32,8 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
       }
     });
 
-    var nickname = authSrv.getNickname();
     $scope.chat.send = function () {
+      var nickname = authSrv.getNickname();
       if (nickname && $scope.chat.message) {
         socket.emit('send_message', {
           nickname: nickname,

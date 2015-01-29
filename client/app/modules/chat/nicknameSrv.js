@@ -8,6 +8,7 @@ angular.module('chat')
           templateUrl: 'modules/chat/nickname_modal.html',
           controller: 'NicknameModalInstanceCtrl',
           backdrop: 'static',
+          keyboard: false,
           size: 'sm'
         });
 
