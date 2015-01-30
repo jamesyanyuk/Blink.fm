@@ -8,11 +8,19 @@ searchBar.constant('YOUTUBE_API', {
 
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
+searchBar.constant('KEYS', {
+  'ARROW_UP': 38,
+  'ARROW_DOWN': 40,
+  'ENTER': 13
+});
+
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, KEYS) {
   $scope.searchResults = [];
+  $scope.searchFocusIndex = undefined;
   $scope.showSearchResults = false;
 
   $scope.onFocus = function () {
+    $scope.searchFocusIndex = -1;
     if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
   }
@@ -25,6 +33,25 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     var query = $scope.keywords;
     if (query.length > 5)
       $scope.search(query);
+  }
+
+  $scope.updateFocusIndex = function (event) {
+    if ($scope.showSearchResults) {
+      var index = $scope.searchFocusIndex;
+      switch (event.keyCode) {
+        case KEYS.ARROW_UP:
+          if (index > 0 || index === -1)
+            $scope.searchFocusIndex--;
+          break;
+        case KEYS.ARROW_DOWN:
+          if (index < (YOUTUBE_API.MAX_RESULTS - 1) || index === -1)
+            $scope.searchFocusIndex++;
+          break;
+        case KEYS.ENTER:
+          if (index >= 0 && index < YOUTUBE_API.MAX_RESULTS)
+            $scope.play($scope.searchResults[index].videoId);
+      }
+    }
   }
 
   $scope.search = function (keywords) {
