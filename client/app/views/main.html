@@ -13,20 +13,22 @@
   </script>
 </div>
 
-<div class="rec-container" ng-controller="RecommendationCtrl">
+<div class="col-sm-3 rec-container" ng-controller="RecommendationCtrl">
   <p ng-show="recList.length">User Suggestion</p>
   <div ng-show="!recList.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
   <ol class="list-unstyled">
     <li ng-repeat="video in recList">
-      <div class="thumb-container">
-        <img src="{{video.thumbnail}}" height="75" width="90">
-      </div>
-      <div class="title-container">
-        {{video.title}}
+      <div class="row">
+        <div class="col-sm-6 thumb-container">
+          <img src="{{video.thumbnail}}" height="75" width="90">
+        </div>
+        <div class="col-sm-6 title-container">
+          {{video.title}}
+        </div>
       </div>
       <div style="text-align: right; padding-right:5px">
         <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)" tooltip-placement="bottom" tooltip="Play Now"><i class="fa fa-play-circle"></i></a>
-        <a href="" ng-show="hasCurrentUser" ng-click="addToQueue(video.id)" tooltip-placement="bottom" tooltip="Add To Queue"><i class="fa fa-plus-square"></i></a> <!-- To be implement  -->
+        <a href="" ng-show="hasCurrentUser" ng-click="addToQueue(video.id)" tooltip-placement="bottom" tooltip="Add To Queue"><i class="fa fa-plus-square"></i></a> <!-- To be implement -->
         {{video.likes_cnt}}
         <a href=""><i class="fa fa-thumbs-o-up" ng-click="like(video.id)" tooltip-placement="bottom" tooltip="Like"></i></a>
       </div>
@@ -34,25 +36,19 @@
   </ol>
 </div>
 
-<div class="col-sm-12">
+<div class="col-sm-6 video-container">
+  <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}">
+    <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
+  </div>
   <div class="row">
-    <div class="col-sm-12 video-container">
-      <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}">
-        <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
-      </div>
-      <div class="row">
-        <div ng-switch="isBroadcasterConnected" class="col-sm-6">
-          <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> Online Channel </span>
-          <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> Offline Channel </span>
-        </div>
-        <div class="col-sm-6" style="text-align: right">
-          {{viewerCount}} people watching
-        </div>
-      </div>
+    <div ng-switch="isBroadcasterConnected" class="col-sm-6">
+      <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> Online Channel </span>
+      <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> Offline Channel </span>
+    </div>
+    <div class="col-sm-6" style="text-align: right">
+      {{viewerCount}} people watching
     </div>
   </div>
 </div>
 
-<chat-window class="chat-container" ng-controller="ChatCtrl"></chat-window>
-
-
+<chat-window class="col-sm-3 chat-container" style="padding-left: 0" ng-controller="ChatCtrl"></chat-window>

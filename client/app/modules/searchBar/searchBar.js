@@ -89,7 +89,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
                 socket.emit('add_recommendation_video', {
                     id: video.videoId,
                     title: video.title,
-                    thumbnail: video.thumbnail,
+                    thumbnail: video.thumbnail
                 });
               }
             });
