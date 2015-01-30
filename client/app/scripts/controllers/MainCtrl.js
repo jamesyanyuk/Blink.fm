@@ -8,8 +8,8 @@
  * Controller of the clientApp
  */
 angular.module('apollonApp')
-  .controller('MainCtrl', ['$analytics', '$scope', 'authSrv', 'gAnalytics',
-    function ($analytics, $scope, authSrv, gAnalytics) {
+  .controller('MainCtrl', ['$analytics', '$scope', 'authSrv', 'gAnalytics', 'socket',
+    function ($analytics, $scope, authSrv, gAnalytics, socket) {
       gAnalytics.track();
 
       $scope.viewerCount = 0;
