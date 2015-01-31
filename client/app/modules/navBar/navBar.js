@@ -9,9 +9,11 @@ var navBar = angular.module('navBar', ['auth']);
 navBar.controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location',
   function (authSrv, $scope, $rootScope, $location) {
     $scope.hasCurrentUser = false;
+    $scope.currenUser;
     authSrv.getCurrentUser(function (currentUser) {
       if (currentUser && currentUser.username) {
         $scope.hasCurrentUser = true;
+        $scope.currentUser = currentUser;
       }
     });
 

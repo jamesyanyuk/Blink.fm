@@ -25,11 +25,11 @@
     <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
       <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
     </div>
-    <div>
-      {{viewerCount}} people watching
+    {{viewerCount}} people watching
+    <div class="row" id="video_queue">
+      <playing-queue></playing-queue>
     </div>
   </div>
-
   <chat-window class="col-sm-5" ng-controller="ChatCtrl"></chat-window>
 </div>
 

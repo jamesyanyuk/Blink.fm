@@ -120,3 +120,7 @@ body {
 .red-icon {
   color: #CF000F;
 }
+
+dnd-list, dnd-list > dnd-draggable { 
+    position: relative;
+}

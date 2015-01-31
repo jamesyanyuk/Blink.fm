@@ -6,11 +6,11 @@
   <div ng-show="showSearchResults" class="search-container" ng-switch="searchResults.length">
     <p class="search-result" ng-switch-when="0">No results found.</p>
     <div class="search-result" ng-switch-default ng-repeat="result in searchResults">
-      <span class="glyphicon glyphicon-play-circle" ng-click="play(result.videoId)"></span>
-      <span class="glyphicon glyphicon-plus-sign"></span>
-      <a href="" ng-focus="onFocus()" ng-click="play(result.videoId)">
+      <div>
+        <a href="" class="glyphicon glyphicon-play" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Play this video" ng-click="play(result.videoId)"></a>
+        <a href="" class="glyphicon glyphicon-plus" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Add this video to queue" ng-click="addToQueue(result)"></a>
         <img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
-      </a>
+      </div>
     </div>
   </div>
 </form>

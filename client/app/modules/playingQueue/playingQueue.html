@@ -1,6 +1,7 @@
-<div id="queue" ng-controller="QueueCtrl">
-  <ul dnd-list="videoList"
-      dnd-horizontal-list="true">
-      <li ng-repeat="video in videoList"
-          
+<div class="row" dnd-list="playingQueue" dnd-horizontal-list="true" 
+  ng-controller="QueueCtrl" style="overflow-x: scroll">
+  <div class="col-sm-3 thumbnail" ng-repeat="video in playingQueue" ng-click="play($index)" dnd-draggable="video" dnd-dragstart="dragStart($index)" dnd-moved="dragEnd($index, video)">
+      <img src="{{video.thumbnail}}" height="90" width="120">
+      <div class="caption">{{video.title}}</div>
+  </div>
 </div>

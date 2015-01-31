@@ -87,8 +87,16 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
           }
         })
       });
-    }
-  }
+    };
+  };
+
+  $scope.addToQueue = function(videoObject) {
+    $rootScope.playingQueue.push(videoObject);
+    socket.emit('update_playing_queue', {
+      username: $scope.$parent.currentUser,
+      queue: $rootScope.playingQueue
+    });
+  };
 });
 
 searchBar.directive('searchBar', function () {

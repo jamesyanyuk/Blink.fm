@@ -1,6 +1,6 @@
 //A Map from socketID to its nickname and radioID
 var socketMap = {};
-//A Map from radioID to its status, socketID and guests
+//A Map from radioID to its status, socketID, queue and guests
 var radioMap = {};
 module.exports = function(io) {
 	io.on('connection', function(socket) {
@@ -34,6 +34,7 @@ module.exports = function(io) {
 					radioMap[data.radioid] = {
 						'isConnected': true,
 						'socketid': socket.id,
+            'queue': {},
 						'guests': {}
 					};
 				}
@@ -73,6 +74,7 @@ module.exports = function(io) {
 					radioMap[data.radioid] = {
 						'isConnected': false,
 						'socketid': null,
+            'queue': {},
 						'guests': {}
 					};
 				}
