@@ -27,7 +27,7 @@
     </div>
     {{viewerCount}} people watching
     <div class="row" id="video_queue">
-      <playing-queue></playing-queue>
+      <playing-queue ng-controller="QueueCtrl" ng-show="isBroadcaster"></playing-queue>
     </div>
   </div>
   <chat-window class="col-sm-5" ng-controller="ChatCtrl"></chat-window>

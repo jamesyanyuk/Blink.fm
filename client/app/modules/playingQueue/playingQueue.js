@@ -5,7 +5,13 @@ queue
   function($rootScope, $scope, $location, authSrv) {
   $scope.isBroadcaster = false;
   $rootScope.playingQueue = [];
-  
+  if (sessionStorage.getItem('queue')) {
+    $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('queue'));
+  }
+  $rootScope.$watch('playingQueue', function(newValue, oldValue) {
+    sessionStorage.setItem('queue', JSON.stringify(newValue));
+  }, true);
+
   function getRadioIdFromPath(path) {
     return path.substring(1);
   }
@@ -15,16 +21,13 @@ queue
     }
   });
   $scope.dragStart = function(index) {
-    console.log('drag start');
     $rootScope.playingQueue.splice(index,1);
   };
   $scope.dragEnd = function(index, item) {
-    console.log('drag end');
     $rootScope.playingQueue.splice(index, 0, item);
   };
   $scope.play = function(index) {
     var removedVideo = $rootScope.playingQueue.splice(index, 1)[0];
-    console.log(removedVideo);
     $rootScope.player.loadVideoById(removedVideo.videoId);
   }
 }])
