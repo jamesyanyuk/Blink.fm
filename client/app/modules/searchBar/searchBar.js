@@ -40,15 +40,14 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
       var index = $scope.searchFocusIndex;
       switch (event.keyCode) {
         case KEYS.ARROW_UP:
-          if (index > 0 || index === -1)
-            $scope.searchFocusIndex--;
+          if (index > -1)
+            $scope.searchFocusIndex = (index + $scope.searchResults.length - 1) % $scope.searchResults.length;
           break;
         case KEYS.ARROW_DOWN:
-          if (index < (YOUTUBE_API.MAX_RESULTS - 1) || index === -1)
-            $scope.searchFocusIndex++;
+          $scope.searchFocusIndex = (index + $scope.searchResults.length + 1) % $scope.searchResults.length;
           break;
         case KEYS.ENTER:
-          if (index >= 0 && index < YOUTUBE_API.MAX_RESULTS)
+          if (index >= 0 && index < $scope.searchResults.length)
             $scope.play($scope.searchResults[index].videoId);
       }
     }
