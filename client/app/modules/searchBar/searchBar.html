@@ -9,7 +9,7 @@
       <div>
         <a href="" class="glyphicon glyphicon-play" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Play this video" ng-click="play(result.videoId)"></a>
         <a href="" class="glyphicon glyphicon-plus" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Add this video to queue" ng-click="addToQueue(result)"></a>
-        <img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
+        <a ng-click="addToQueue(result)" ng-focus="onFocus()" ng-blur="onBlur()"><img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}</a>
       </div>
     </div>
   </div>
