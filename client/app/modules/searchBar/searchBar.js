@@ -15,17 +15,16 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
   $scope.onFocus = function () {
     if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
-  }
-
+  };
   $scope.onBlur = function () {
     $scope.showSearchResults = false;
-  }
+  };
 
   $scope.onInputUpdated = function () {
     var query = $scope.keywords;
     if (query.length > 5)
       $scope.search(query);
-  }
+  };
 
   $scope.search = function (keywords) {
     if (keywords.length > 0) {

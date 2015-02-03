@@ -1,6 +1,11 @@
-<div class="row" dnd-list="playingQueue" dnd-horizontal-list="true" style="overflow-x: scroll">
-  <div class="col-sm-3 thumbnail" ng-repeat="video in playingQueue" ng-click="play($index)" dnd-draggable="video" dnd-dragstart="dragStart($index)" dnd-moved="dragEnd($index, video)">
-      <img src="{{video.thumbnail}}" height="90" width="120">
-      <div class="caption">{{video.title}}</div>
+<div class="row" dnd-list="playingQueue" dnd-horizontal-list="false"
+     style="display: block; width: 100%; overflow-x: scroll; overflow-y: hidden; white-space: nowrap">
+  <div class="thumbnail" ng-repeat="video in playingQueue" dnd-draggable="video" dnd-dragstart="dragStart($index)"
+      style="border: none;display: inline-block;width: 25%;height: 100%;vertical-align: top"
+      ng-model="hovered" ng-mouseenter="hovered=true;" ng-mouseleave="hovered=false;">
+    <img src="{{video.thumbnail}}" height="90" width="120" ng-click="play($index)">
+    <div class="caption" style="width: 100%;display: block;white-space: pre-line">{{video.title}}</div>
+    <span ng-show="hovered" class="glyphicon glyphicon-remove-circle" ng-click="remove($index)"
+          style="position: absolute;top: 0px;left: 0px"></span>
   </div>
 </div>

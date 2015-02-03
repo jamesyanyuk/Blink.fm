@@ -121,6 +121,11 @@ body {
   color: #CF000F;
 }
 
-dnd-list, dnd-list > dnd-draggable { 
+div[dnd-list], div[dnd-list] > .thumbnail {
     position: relative;
 }
+
+.dndDraggingSource {
+  display: none;
+}
+
