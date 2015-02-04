@@ -80,4 +80,8 @@ if (app.get('env') === 'production') {
 	});
 }
 
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../client/app', 'index.html'));
+});
+
 module.exports = app;
