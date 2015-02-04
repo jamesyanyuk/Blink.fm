@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by tungpham31 on 1/29/15.
  */
@@ -10,9 +12,10 @@ angular.module('apollonApp')
        */
       track: function () {
         $interval(function () {
-          if ($rootScope.player && $rootScope.player.getPlayerState() === 1)
+          if ($rootScope.player && $rootScope.player.getPlayerState() === 1){
             $analytics.eventTrack('user_live', {category: 'test', label: 'test'});
+          }
         }, 30000);
       }
-    }
+    };
   }]);
