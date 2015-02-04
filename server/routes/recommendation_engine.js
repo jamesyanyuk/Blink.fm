@@ -33,6 +33,8 @@ router.get('/add-video/:videoId', function (req, res) {
                 }
 
             }
+
+            // save playlist to session
             req.session.buffer = buffer;
             res.end();
         });
