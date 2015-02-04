@@ -105,10 +105,10 @@ app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
 						if (buffer.indexOf(vidId) === -1) buffer.push(vidId);
 					}
 				}
-				res.end();
-			} else {
-				res.status(500).end();
+
 			}
+
+            res.end();
 		});
 	} else {
 		res.status(500).end();
