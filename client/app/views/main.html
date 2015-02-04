@@ -37,18 +37,10 @@
 </div>
 
 <div class="col-sm-7 video-container">
-  <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}">
+  <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px; height: {{yt.height}}">
+    <div youtube-controls class="yt-controls-container"></div>
     <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
-  </div>
-  <div class="row">
-    <div ng-switch="isBroadcasterConnected" class="col-sm-6">
-      <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> Online Channel </span>
-      <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> Offline Channel </span>
-    </div>
-    <div class="col-sm-6" style="text-align: right">
-      {{viewerCount}} people watching
-    </div>
   </div>
 </div>
 
-<chat-window class="col-sm-3 chat-container" style="padding-left: 0" ng-controller="ChatCtrl"></chat-window>
+<chat-window class="col-sm-3 chat-container" ng-controller="ChatCtrl"></chat-window>

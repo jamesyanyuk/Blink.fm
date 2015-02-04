@@ -12,7 +12,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   $scope.yt = {
     width: angular.element(".video-container").width(),
     // 5:3 aspect ratio
-    height: angular.element(".video-container").width() * (3 / 5),
+    height: angular.element(".video-container").height(),
     //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
@@ -181,5 +181,12 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       })
 
     }
+  };
+});
+
+myApp.directive('youtubeControls', function () {
+  return {
+    restrict: 'A',
+    templateUrl: 'modules/youtube/controls.html'
   };
 });
