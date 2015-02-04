@@ -8,14 +8,12 @@ var google = require('googleapis');
 var youtube = google.youtube('v3');
 var keys = require('../config/keys');
 
-var buffer = [];
-
 router.get('/add-video/:videoId', function (req, res) {
     var videoId = req.params.videoId;
 
     if (videoId) {
         // Add the current videoId to buffer.
-        buffer = [];
+        var buffer = [];
         buffer.push(videoId);
 
         // Load the mix playlist and add it to buffer.
@@ -35,7 +33,7 @@ router.get('/add-video/:videoId', function (req, res) {
                 }
 
             }
-
+            req.session.buffer = buffer;
             res.end();
         });
     } else {
@@ -44,6 +42,7 @@ router.get('/add-video/:videoId', function (req, res) {
 });
 
 router.get('/next/', function (req, res) {
+    var buffer = req.session.buffer;
 
     if (buffer.length > 0) {
         var videoId = buffer[0];
