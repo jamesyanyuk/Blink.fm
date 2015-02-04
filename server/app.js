@@ -5,8 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
-var google = require('googleapis');
-var youtube = google.youtube('v3');
 
 var passport = require('passport');
 var session = require('express-session');
@@ -14,6 +12,7 @@ var flash = require('connect-flash');
 
 var auth = require('./routes/auth');
 var api = require('./routes/api');
+var recommendation_engine = require('./routes/recommendation_engine');
 
 var keys = require('./config/keys');
 
@@ -40,6 +39,7 @@ configPassport(passport);
 
 app.use('/auth', auth);
 app.use('/api',api);
+app.use('/recommendation-engine', recommendation_engine);
 
 /**
  * Development Settings
@@ -80,56 +80,8 @@ if (app.get('env') === 'production') {
 	});
 }
 
-var buffer = [];
-
-app.get('/recommendation-engine/add-video/:videoId', function (req, res) {
-	var videoId = req.params.videoId;
-
-	if (videoId) {
-		// Add the current videoId to buffer.
-		buffer = [];
-		buffer.push(videoId);
-
-		// Load the mix playlist and add it to buffer.
-		var mixPlaylistId = 'RD' + videoId;
-		youtube.playlistItems.list({
-			key: keys.youtube,
-			part: 'id,snippet',
-			playlistId: mixPlaylistId,
-			maxResults: 50
-		}, function (err, data) {
-			if (data && data.items) {
-				for (i = 0; i < data.items.length; i++) {
-					if (data.items[i].snippet.resourceId.videoId) {
-						var vidId = data.items[i].snippet.resourceId.videoId;
-						if (buffer.indexOf(vidId) === -1) buffer.push(vidId);
-					}
-				}
-				res.end();
-			} else {
-				res.status(500).end();
-			}
-		});
-	} else {
-		res.status(500).end();
-	}
-});
-
-app.get('/recommendation-engine/next/', function (req, res) {
-	console.log(buffer);
-	if (buffer.length > 0) {
-		var videoId = buffer[0];
-		buffer.shift();
-		res.send({
-			'videoId': videoId
-		})
-	} else {
-		res.status(500).end();
-	}
-});
-
 app.get('*', function (req, res) {
-	res.sendFile(path.join(__dirname, '../client/app', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/app', 'index.html'));
 });
 
 module.exports = app;
