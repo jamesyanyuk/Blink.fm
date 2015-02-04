@@ -8,11 +8,20 @@ searchBar.constant('YOUTUBE_API', {
 
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API) {
+searchBar.constant('KEYS', {
+  'ARROW_UP': 38,
+  'ARROW_DOWN': 40,
+  'ENTER': 13
+});
+
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, KEYS) {
   $scope.searchResults = [];
+  // -1 is the default value
+  $scope.searchFocusIndex = -1;
   $scope.showSearchResults = false;
 
   $scope.onFocus = function () {
+    $scope.searchFocusIndex = -1;
     if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
   }
@@ -25,6 +34,24 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     var query = $scope.keywords;
     if (query.length > 5)
       $scope.search(query);
+  }
+
+  $scope.updateFocusIndex = function (event) {
+    if ($scope.showSearchResults) {
+      var index = $scope.searchFocusIndex;
+      switch (event.keyCode) {
+        case KEYS.ARROW_UP:
+          if (index > -1)
+            $scope.searchFocusIndex = (index + $scope.searchResults.length - 1) % $scope.searchResults.length;
+          break;
+        case KEYS.ARROW_DOWN:
+          $scope.searchFocusIndex = (index + $scope.searchResults.length + 1) % $scope.searchResults.length;
+          break;
+        case KEYS.ENTER:
+          if (index >= 0 && index < $scope.searchResults.length)
+            $scope.play($scope.searchResults[index].videoId);
+      }
+    }
   }
 
   $scope.search = function (keywords) {
