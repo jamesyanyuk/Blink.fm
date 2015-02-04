@@ -7,24 +7,51 @@ searchBar.constant('YOUTUBE_API', {
   'MAX_RESULTS': 5
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, authSrv, socket) {
+searchBar.constant('KEYS', {
+  'ARROW_UP': 38,
+  'ARROW_DOWN': 40,
+  'ENTER': 13
+});
+
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, KEYS) {
   $scope.searchResults = [];
+  // -1 is the default value
+  $scope.searchFocusIndex = -1;
   $scope.showSearchResults = false;
 
   $scope.onFocus = function () {
+    $scope.searchFocusIndex = -1;
     if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
-  }
+  };
 
   $scope.onBlur = function () {
     $scope.showSearchResults = false;
-  }
+  };
 
   $scope.onInputUpdated = function () {
     var query = $scope.keywords;
     if (query.length > 5)
       $scope.search(query);
-  }
+  };
+
+  $scope.updateFocusIndex = function (event) {
+    if ($scope.showSearchResults) {
+      var index = $scope.searchFocusIndex;
+      switch (event.keyCode) {
+        case KEYS.ARROW_UP:
+          if (index > -1)
+            $scope.searchFocusIndex = (index + $scope.searchResults.length - 1) % $scope.searchResults.length;
+          break;
+        case KEYS.ARROW_DOWN:
+          $scope.searchFocusIndex = (index + $scope.searchResults.length + 1) % $scope.searchResults.length;
+          break;
+        case KEYS.ENTER:
+          if (index >= 0 && index < $scope.searchResults.length)
+            $scope.play($scope.searchResults[index].videoId);
+      }
+    }
+  };
 
   $scope.search = function (keywords) {
     if (keywords.length > 0) {
@@ -71,7 +98,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
           console.log(data);
         });
     }
-  }
+  };
 
   $scope.play = function (video) {
     $scope.showSearchResults = false;
@@ -82,14 +109,14 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
       $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
         $http.get('recommendation-engine/next').success(function (response) {
           if (response && response.videoId) {
-            authSrv.getCurrentUser(function(res){
-              if (res.username){
+            authSrv.getCurrentUser(function (res) {
+              if (res.username) {
                 $rootScope.player.loadVideoById(response.videoId);
               } else {
                 socket.emit('add_recommendation_video', {
-                    id: video.videoId,
-                    title: video.title,
-                    thumbnail: video.thumbnail
+                  id: video.videoId,
+                  title: video.title,
+                  thumbnail: video.thumbnail
                 });
               }
             });
@@ -97,7 +124,8 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
         })
       });
     }
-  }
+  };
+
 });
 
 searchBar.directive('searchBar', function () {

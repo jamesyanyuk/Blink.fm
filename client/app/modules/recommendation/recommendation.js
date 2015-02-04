@@ -1,34 +1,39 @@
-/*
-	Controller for recommendation
-*/
+/**
+ * A module for controller of recommendation list
+ */
 
 var recommendation = angular.module('recommendation', []);
 
-recommendation.controller('RecommendationCtrl', ['$scope', '$rootScope', 'socket', 'authSrv', function($scope, $rootScope, socket, authSrv) {
+recommendation.controller('RecommendationCtrl', ['$scope', '$rootScope', 'socket', 'authSrv',
+  function ($scope, $rootScope, socket, authSrv) {
 
-	$scope.recList = []
+    $scope.recList = [];
+    $scope.hasCurrentUser = false;
 
-	$scope.hasCurrentUser = false;
-	authSrv.getCurrentUser(function(currentUser) {
-		if (currentUser && currentUser.username) {
-			$scope.hasCurrentUser = true;
-		}
-	});
+    $scope.$on('$locationChangeSuccess', function(event) {
+      console.log(event);
+    });
 
-	socket.on('update_recommendation_list', function(data) {
-		$scope.recList = data;
-	});
+    authSrv.getCurrentUser(function (currentUser) {
+      if (currentUser && currentUser.username) {
+        $scope.hasCurrentUser = true;
+      }
+    });
 
-	$scope.like = function(videoId) {
-		socket.emit('like_recommendation_video', {
-			id: videoId
-		});
-	};
+    socket.on('update_recommendation_list', function (data) {
+      $scope.recList = data;
+    });
 
-	$scope.play = function(videoId){
-		$rootScope.player.loadVideoById(videoId);
-		socket.emit('remove_recommendation_video', {
-			id: videoId
-		});
-	};
-}]);
+    $scope.like = function (videoId) {
+      socket.emit('like_recommendation_video', {
+        id: videoId
+      });
+    };
+
+    $scope.play = function (videoId) {
+      $rootScope.player.loadVideoById(videoId);
+      socket.emit('remove_recommendation_video', {
+        id: videoId
+      });
+    };
+  }]);

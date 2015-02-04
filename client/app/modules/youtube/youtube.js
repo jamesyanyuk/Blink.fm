@@ -17,6 +17,12 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     playerStatus: "NOT PLAYING"
   };
 
+  angular.element(window).bind('resize',function() {
+    console.log(angular.element(".video-container").height());
+    $rootScope.player.setSize(angular.element(".video-container").width(),
+                      angular.element(".video-container").height());
+  });
+
   $scope.YT_event = YT_event;
 
   $scope.sendControlEvent = function (ctrlEvent) {

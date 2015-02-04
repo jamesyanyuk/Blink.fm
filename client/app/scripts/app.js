@@ -24,7 +24,6 @@ angular
     'ngTouch',
     'YouTubeApp',
     'chat',
-    'nicknameModal',
     'searchBar',
     'recommendation',
     'ui.bootstrap',

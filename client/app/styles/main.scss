@@ -1,4 +1,6 @@
 @import "variables";
+@import "partials/searchbar";
+
 // bower:scss
 // endbower
 
@@ -145,6 +147,7 @@ body {
 .chat-input {
   padding: 10px 4px 0 4px;
   height: 50px;
+  padding-top: 10px;
 }
 
 .search-container {

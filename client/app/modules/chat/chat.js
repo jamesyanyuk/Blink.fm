@@ -1,19 +1,18 @@
 /**
  * A module handling the controller and view for the chat feature.
  */
-var chat = angular.module('chat', []);
+var chat = angular.module('chat', ['auth']);
 
-chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv',
-  function ($scope, $rootScope, $routeParams, socket, authSrv) {
+chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', 'authSrv', 'nicknameSrv',
+  function ($scope, $rootScope, $routeParams, socket, authSrv, nicknameSrv) {
     $rootScope.radioid = $scope.radioId = $routeParams.username;
 
-    $scope.chat = {}
+    $scope.chat = {};
     $scope.chat.messages = [];
     $scope.$parent.isBroadcasterConnected = true;
 
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
-        $rootScope.nickname = user.username;
         socket.emit('join_radio', {
           radioid: $rootScope.radioid,
           username: user.username,
@@ -28,35 +27,29 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
       }
     });
 
-    $scope.chat.verify = function () {
-      if (!$rootScope.nickname) {
-        $rootScope.openNicknameModal(socket);
-      }
-    }
-
     $scope.chat.send = function () {
-      if (!$rootScope.nickname)
-        verify();
-      else if ($scope.chat.message) {
-        socket.emit('send_message', {
-          nickname: $rootScope.nickname,
-          radioid: $rootScope.radioid,
-          message: $scope.chat.message
-        });
-        $scope.chat.message = '';
-      }
-    }
+      authSrv.getNickname(nicknameSrv).then(function (nickname) {
+        if (nickname && $scope.chat.message) {
+          socket.emit('send_message', {
+            nickname: nickname,
+            radioid: $rootScope.radioid,
+            message: $scope.chat.message
+          });
+          $scope.chat.message = '';
+        }
+      });
+    };
 
     socket.on('update_chat', function (data) {
       $scope.chat.messages.push(data.message);
     });
 
-    socket.on('update_broadcaster_status', function (data){
+    socket.on('update_broadcaster_status', function (data) {
       $scope.$parent.isBroadcasterConnected = data.isBroadcasterConnected;
     });
   }]);
 
-chat.directive('chatWindow', function() {
+chat.directive('chatWindow', function () {
   return {
     restrict: 'E',
     templateUrl: 'modules/chat/chat.html'
@@ -64,11 +57,11 @@ chat.directive('chatWindow', function() {
 });
 
 // Used to scroll the chat display individually from the entire chatWindow directive
-chat.directive('chatOutput', function() {
+chat.directive('chatOutput', function () {
   return {
     restrict: 'A',
-    link: function(scope, element, attr) {
-      scope.$watchCollection(attr.chatOutput, function() {
+    link: function (scope, element, attr) {
+      scope.$watchCollection(attr.chatOutput, function () {
         element[0].scrollTop = element[0].scrollHeight;
       });
     }
