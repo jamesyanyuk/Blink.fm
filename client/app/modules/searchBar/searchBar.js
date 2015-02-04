@@ -16,10 +16,11 @@ searchBar.constant('KEYS', {
 
 searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, KEYS) {
   $scope.searchResults = [];
-  $scope.searchFocusIndex = undefined;
+  $scope.searchFocusIndex = null;
   $scope.showSearchResults = false;
 
   $scope.onFocus = function () {
+    // -1 is the default value
     $scope.searchFocusIndex = -1;
     if ($scope.searchResults.length > 0)
       $scope.showSearchResults = true;
