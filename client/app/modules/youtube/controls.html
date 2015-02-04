@@ -1,9 +1,9 @@
 <div class="yt-controls-info">
   <div ng-switch="isBroadcasterConnected" class="yt-controls-info-left">
-    <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> Online Channel </span>
-    <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> Offline Channel </span>
+    <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> LIVE </span>
+    <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> OFFLINE </span>
   </div>
   <div style="text-align: right" class="yt-controls-info-right">
-    {{viewerCount}} people watching
+    {{viewerCount}} <i class="fa fa-users"></i>
   </div>
 </div>

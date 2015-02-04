@@ -113,15 +113,19 @@ body {
 }
 
 .yt-controls-info {
-  background-color: #e0e0e0;
   width: 100%;
   height: 36px;
   padding: 8px 10px 0 10px;
+  color: #eeeeff;
+  font-size: 1.5em;
 }
 
 .yt-controls-info-left {
   width: 50%;
   float: left;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: absolute;
 }
 
 .yt-controls-info-right {

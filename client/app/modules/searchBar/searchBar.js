@@ -13,7 +13,7 @@ searchBar.constant('KEYS', {
   'ENTER': 13
 });
 
-searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTUBE_API, KEYS) {
+searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, authSrv, YOUTUBE_API, KEYS) {
   $scope.searchResults = [];
   // -1 is the default value
   $scope.searchFocusIndex = -1;
@@ -104,7 +104,7 @@ searchBar.controller('SearchBarCtrl', function ($scope, $rootScope, $http, YOUTU
     $scope.showSearchResults = false;
     $scope.searchResults = [];
     $scope.keywords = '';
-
+    console.log(video);
     if (video.videoId) {
       $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
         $http.get('recommendation-engine/next').success(function (response) {

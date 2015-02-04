@@ -18,7 +18,6 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   };
 
   angular.element(window).bind('resize',function() {
-    console.log(angular.element(".video-container").height());
     $rootScope.player.setSize(angular.element(".video-container").width(),
                       angular.element(".video-container").height());
   });
@@ -112,7 +111,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
             modesbranding: 0,
             color: "white",
             iv_load_policy: 3,
-            showinfo: 1,
+            showinfo: 0,
             controls: 1
           },
 
