@@ -1,8 +1,8 @@
 <div class="col-sm-2 rec-container" ng-controller="RecommendationCtrl">
-  <p ng-show="recList.length">User Suggestion</p>
-  <div ng-show="!recList.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
+  <p ng-show="recVideos.length">User Suggestion</p>
+  <div ng-show="!recVideos.length" class="ng-hide">There is no video in the suggested list now. Please search video to add.</div>
   <ol class="list-unstyled">
-    <li ng-repeat="video in recList">
+    <li ng-repeat="video in recVideos">
       <div class="row">
         <div class="col-sm-6 thumb-container">
           <img src="{{video.thumbnail}}" height="75" width="90">

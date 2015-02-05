@@ -161,52 +161,52 @@ module.exports = function(io) {
 			});
 		});
 
-		socket.on('add_recommendation_video', function(video) {
+		socket.on('recommendation:addVideo', function(video) {
 			var radioid = socketMap[socket.id]['radioid'];
-			var recList = radioMap[radioid]['recommendationList'];
-			for (var i = 0; i < recList.length; i++) {
-				if (recList[i]['id'] === video.id) {
-					recList[i]['likes'][socket.id] = true;
-					recList[i]['likes_cnt'] = Object.keys(recList[i]['likes']).length;
-					io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+			var recVideos = radioMap[radioid]['recommendationList'];
+			for (var i = 0; i < recVideos.length; i++) {
+				if (recVideos[i]['id'] === video.id) {
+					recVideos[i]['likes'][socket.id] = true;
+					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
+					io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 					return;
 				}
 			}
 			video['likes'] = {};
 			video['likes'][socket.id] = true;
 			video['likes_cnt'] = 1;
-			recList.push(video);
-			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+			recVideos.push(video);
+			io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 		});
 
-		socket.on('like_recommendation_video', function(video) {
+		socket.on('recommendation:likeVideo', function(video) {
 			var radioid = socketMap[socket.id]['radioid'];
-			var recList = radioMap[radioid]['recommendationList'];
-			for (var i = 0; i < recList.length; i++) {
-				if (recList[i]['id'] === video.id) {
-					recList[i]['likes'][socket.id] = true;
-					recList[i]['likes_cnt'] = Object.keys(recList[i]['likes']).length;
+			var recVideos = radioMap[radioid]['recommendationList'];
+			for (var i = 0; i < recVideos.length; i++) {
+				if (recVideos[i]['id'] === video.id) {
+					recVideos[i]['likes'][socket.id] = true;
+					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
 					break;
 				}
 			}
-			recList.sort(function(a, b) {
+			recVideos.sort(function(a, b) {
 				return -(a['likes_cnt'] - b['likes_cnt']);
-			})
-			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+			});
+			io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 		});
 
-		socket.on('remove_recommendation_video', function(video) {
+		socket.on('recommendation:removeVideo', function(video) {
 			var radioid = socketMap[socket.id]['radioid'];
-			var recList = radioMap[radioid]['recommendationList'];
+			var recVideos = radioMap[radioid]['recommendationList'];
 			var pos;
-			for (var i = 0; i < recList.length; i++) {
-				if (recList[i]['id'] === video.id) {
+			for (var i = 0; i < recVideos.length; i++) {
+				if (recVideos[i]['id'] === video.id) {
 					pos = i;
 					break;
 				}
 			}
-			recList.splice(pos, 1);
-			io.sockets.in('radio_' + radioid).emit('update_recommendation_list', recList);
+			recVideos.splice(pos, 1);
+			io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 		});
 
 		socket.on('disconnect', function(data) {

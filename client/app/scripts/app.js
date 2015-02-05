@@ -11,7 +11,7 @@
 angular
   .module('apollonApp', [
     'auth',
-    'angulartics', 
+    'angulartics',
     'angulartics.google.analytics',
     'navBar',
     'ngAnimate',
