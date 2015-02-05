@@ -121,11 +121,16 @@ body {
   color: #CF000F;
 }
 
-div[dnd-list], div[dnd-list] > .thumbnail {
-    position: relative;
+#queue {
+  display:block;
+  width:100%;
+  overflow-x:scroll;
+  white-space:nowrap;
 }
 
-.dndDraggingSource {
-  display: none;
+.video-title {
+  width:100%;
+  display:block;
+  white-space:pre-line
 }
 

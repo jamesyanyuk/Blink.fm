@@ -11,9 +11,8 @@
 angular
   .module('apollonApp', [
     'auth',
-    'angulartics', 
+    'angulartics',
     'angulartics.google.analytics',
-    'dndLists',
     'navBar',
     'ngAnimate',
     'ngAria',
@@ -28,8 +27,9 @@ angular
     'chat',
     'searchBar',
     'ui.bootstrap',
+    'ui.sortable',
     'btford.socket-io',
-    'luegg.directives',
+    'luegg.directives'
   ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

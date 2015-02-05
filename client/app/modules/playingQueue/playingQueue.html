@@ -1,11 +1,8 @@
-<div class="row" dnd-list="playingQueue" dnd-horizontal-list="true"
-     style="display: block; width: 100%; overflow-x: scroll; overflow-y: hidden; white-space: nowrap">
-  <div class="thumbnail" ng-repeat="video in playingQueue track by $index" dnd-draggable="video" dnd-dragstart="dragStart($index)"
-      style="border: none;display: inline-block;width: 25%;height: 100%;vertical-align: top"
-      ng-model="hovered" ng-mouseenter="hovered=true;" ng-mouseleave="hovered=false;">
+<div id="queue" class="row" ui-sortable ng-model="playingQueue">
+  <div class="thumbnail video" ng-repeat="video in playingQueue track by $index" ng-style="thumbnailStyle"
+      ng-model="hover" ng-mouseenter="hover=true;" ng-mouseleave="hover=false;">
     <img src="{{video.thumbnail}}" height="90" width="120" ng-click="play($index)">
-    <div class="caption" style="width: 100%;display: block;white-space: pre-line">{{video.title}}</div>
-    <span ng-show="hovered" class="glyphicon glyphicon-remove-circle" ng-click="remove($index)"
-          style="position: absolute;top: 0px;left: 0px"></span>
+    <div class="caption video-title">{{video.title}}</div>
+    <span class="glyphicon glyphicon-remove-circle" ng-show="hover" ng-style="closeIconStyle" ng-click="remove($index)"></span>
   </div>
 </div>

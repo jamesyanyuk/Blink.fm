@@ -5,45 +5,48 @@ queue
   function($rootScope, $scope, $location, authSrv) {
     $scope.isBroadcaster = false;
     $rootScope.playingQueue = [];
-    if (sessionStorage.getItem('queue')) {
-      $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('queue'));
-    }
-    $rootScope.$watch('playingQueue', function(newValue, oldValue) {
-      sessionStorage.setItem('queue', JSON.stringify(newValue));
-    }, true);
+    $scope.play = play;
+    $scope.remove = remove;
+    $scope.thumbnailStyle = {
+      position: 'relative',
+      'background-color': 'transparent',
+      display: 'inline-block',
+      border: 'none',
+      width: '25%',
+      'vertical-align': 'top'
+    };
+    $scope.closeIconStyle = {
+      position:'absolute',
+      top:0,
+      right:0
+    };
+
+
     function getRadioIdFromPath(path) {
       return path.substring(1);
     }
+    //only show the queue to the broadcaster
     authSrv.getCurrentUser(function(user) {
       if (user && user.username) {
         $scope.isBroadcaster = (user.username === getRadioIdFromPath($location.path()));
       }
     });
-    $scope.draggedObject = {};
-    $scope.dragStart = function(index) {
-      $scope.draggedObject = $rootScope.playingQueue.splice(index, 1)[0];
-      console.log('drag started');
+    //get 'queue' item from sessionStorage when loading up the page
+    if (sessionStorage.getItem('queue')) {
+      $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('queue'));
     }
-    $scope.move = function() {
-      console.log('moved');
-    }
-    $scope.copy = function() {
-      console.log('copied');
-    }
-    $scope.dragover = function() {
-      console.log('dragged over');
-    }
-    $scope.drop = function(event, index, item, type) {
-      $rootScope.playingQueue.splice(index, 0, item);
-      console.log('dropped');
-    }
-    $scope.play = function(index) {
-      var removedVideo = $rootScope.playingQueue.splice(index, 1)[0];
+    //update item 'queue' in sessionStorage
+    $rootScope.$watch('playingQueue', function(newValue, oldValue) {
+      sessionStorage.setItem('queue', JSON.stringify(newValue));
+    }, true);
+
+    function play(index) {
+      var removedVideo = $scope.remove(index);
       $rootScope.player.loadVideoById(removedVideo.videoId);
-    }
-    $scope.remove = function(index) {
-      $rootScope.playingQueue.splice(index, 1);
-    }
+    };
+    function remove(index) {
+      return $rootScope.playingQueue.splice(index, 1)[0];
+    };
 }])
 .directive('playingQueue', function() {
   return {

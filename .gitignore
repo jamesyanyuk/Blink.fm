@@ -29,3 +29,6 @@ node_modules
 .idea/workspace.xml
 .idea/*
 projectFilesBackup/*
+
+# System-generated files
+.DS_Store
