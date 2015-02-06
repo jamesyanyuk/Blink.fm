@@ -7,7 +7,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
   function ($scope, $rootScope, $routeParams, socket, authSrv, nicknameSrv) {
     $rootScope.radioid = $scope.radioId = $routeParams.username;
 
-    $scope.chat = {}
+    $scope.chat = {};
     $scope.chat.messages = [];
     $scope.$parent.isBroadcasterConnected = true;
 
@@ -38,7 +38,7 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
           $scope.chat.message = '';
         }
       });
-    }
+    };
 
     socket.on('update_chat', function (data) {
       $scope.chat.messages.push(data.message);

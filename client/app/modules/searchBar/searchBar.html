@@ -1,16 +1,16 @@
 <form ng-controller="SearchBarCtrl" role="search">
-  <div class="form-group">
-    <input type="text" ng-model="keywords" ng-focus="onFocus()" ng-blur="onBlur()" ng-change="onInputUpdated()" class="form-control" placeholder="Search for a song..." size="70">
+  <div class="form-group" ng-keyup="updateFocusIndex($event)">
+    <input type="text" ng-model="keywords" ng-focus="onFocus()" ng-blur="onBlur()" ng-change="onInputUpdated()"
+           class="form-control" placeholder="Search for a song..." size="70">
     <button type="submit" class="btn btn-default" ng-click="search(keywords)" ng-blur="onBlur()">Search</button>
   </div>
   <div ng-show="showSearchResults" class="search-container" ng-switch="searchResults.length">
     <p class="search-result" ng-switch-when="0">No results found.</p>
-    <div class="search-result" ng-switch-default ng-repeat="result in searchResults">
-      <div>
-        <a href="" class="glyphicon glyphicon-play" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Play this video" ng-click="play(result.videoId)"></a>
-        <a href="" class="glyphicon glyphicon-plus" ng-focus="onFocus()" ng-blur="onBlur()" data-toggle="tooltip" data-placement="bottom" title="Add this video to queue" ng-click="addToQueue(result)"></a>
-        <a ng-click="addToQueue(result)" ng-focus="onFocus()" ng-blur="onBlur()"><img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}</a>
-      </div>
+    <div class="search-result" ng-class="{'highlight-search-result': $index === searchFocusIndex}" ng-switch-default
+         ng-repeat="result in searchResults">
+      <a href="" target="_blank" ng-focus="onFocus()" ng-click="titleClick(result)">
+        <img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
+      </a>
     </div>
   </div>
 </form>

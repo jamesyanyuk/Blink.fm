@@ -10,8 +10,9 @@ myApp.constant('YT_event', {
 myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv, socket) {
   //initial settings
   $scope.yt = {
-    width: 600,
-    height: 480,
+    width: angular.element(".video-container").width(),
+    // 5:3 aspect ratio
+    height: angular.element(".video-container").height(),
     //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
@@ -105,7 +106,7 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
             modesbranding: 0,
             color: "white",
             iv_load_policy: 3,
-            showinfo: 1,
+            showinfo: 0,
             controls: 1
           },
 
@@ -147,6 +148,11 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
           }
         });
       };
+
+      angular.element($window).bind('resize',function() {
+        $rootScope.player.setSize(angular.element(".video-container").width(),
+          angular.element(".video-container").height());
+      });
 
       scope.$watch('yt.videoid', function (newValue, oldValue) {
         if (newValue == oldValue) {
