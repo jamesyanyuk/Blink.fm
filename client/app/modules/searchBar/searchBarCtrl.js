@@ -31,7 +31,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
 
     $scope.onInputUpdated = function () {
       var query = $scope.keywords;
-      if (query.length > 5)
+      if (query.length > 0)
         $scope.search(query);
     };
 
@@ -48,7 +48,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
             break;
           case KEYS.ENTER:
             if (index >= 0 && index < $scope.searchResults.length)
-              $scope.play($scope.searchResults[index].videoId);
+              $scope.play($scope.searchResults[index]);
         }
       }
     };

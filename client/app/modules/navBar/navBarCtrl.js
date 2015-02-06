@@ -5,8 +5,8 @@
  */
 
 angular.module('navBar', ['auth'])
-  .controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location',
-    function(authSrv, $scope, $rootScope, $location) {
+  .controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location', '$modal',
+    function (authSrv, $scope, $rootScope, $location, $modal) {
       $scope.hasCurrentUser = false;
       $scope.showSearchBar = $location.path() !== '/';
 
@@ -20,21 +20,25 @@ angular.module('navBar', ['auth'])
         }
       });
 
-      $rootScope.$on('/auth/login', function(event) {
+      $rootScope.$on('/auth/login', function (event) {
         $scope.hasCurrentUser = true;
       });
 
-      $rootScope.$on('/auth/logout', function(event) {
+      $rootScope.$on('/auth/logout', function (event) {
         $scope.hasCurrentUser = false;
       });
 
-      $scope.logout = function() {
+      $scope.logout = function () {
         authSrv.logout();
+      };
+
+      $scope.openWaitListModal = openWaitlistModal;
+
+      function openWaitlistModal() {
+        $modal.open({
+          templateUrl: 'modules/modals/waitlist_modal.html',
+          controller: 'WaitListModalCtrl',
+          size: 'sm'
+        });
       }
-    }])
-  .directive('navBar', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'modules/navBar/navBar.html'
-    };
-  });
+    }]);
