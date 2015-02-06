@@ -5,7 +5,7 @@
     .module('recommendation')
     .directive('recommendation', recommendation);
 
-  recommendationDrt.$inject = [];
+  recommendation.$inject = [];
 
   /* @ngInject */
   function recommendation() {
