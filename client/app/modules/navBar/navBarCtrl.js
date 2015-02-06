@@ -5,8 +5,8 @@
  */
 
 angular.module('navBar', ['auth'])
-  .controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location', '$modal',
-    function (authSrv, $scope, $rootScope, $location, $modal) {
+  .controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location', '$modal', 'gAnalytics',
+    function (authSrv, $scope, $rootScope, $location, $modal, gAnalytics) {
       $scope.hasCurrentUser = false;
       $scope.showSearchBar = $location.path() !== '/';
 
@@ -35,6 +35,7 @@ angular.module('navBar', ['auth'])
       $scope.openWaitListModal = openWaitlistModal;
 
       function openWaitlistModal() {
+        gAnalytics.eventTrack('user-acquisition', 'open-waitlist-modal');
         $modal.open({
           templateUrl: 'modules/modals/waitlist_modal.html',
           controller: 'WaitListModalCtrl',

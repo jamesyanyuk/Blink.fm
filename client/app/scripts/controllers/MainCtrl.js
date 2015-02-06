@@ -29,7 +29,7 @@
     _enforcePageReloadOnce();
 
     if ($routeParams.reload) {
-      gAnalytics.trackPage('/' + $routeParams.username);
+      gAnalytics.pageTrack('/' + $routeParams.username);
     }
 
     $scope.viewerCount = 0;

@@ -10,13 +10,17 @@ angular.module('apollonApp')
       /*
        Constantly broadcast event to keep the session alive on GA.
        */
-      trackPage: function (pageUrl) {
+      pageTrack: function (pageUrl) {
         $analytics.pageTrack(pageUrl);
         $interval(function () {
-          if ($rootScope.player && $rootScope.player.getPlayerState() === 1){
+          if ($rootScope.player && $rootScope.player.getPlayerState() === 1) {
             $analytics.eventTrack('user_live', {category: 'test', label: 'test'});
           }
         }, 30000);
+      },
+
+      eventTrack: function (eventCategory, eventAction) {
+        $analytics.eventTrack(eventAction, {category: eventCategory});
       }
     };
   }]);
