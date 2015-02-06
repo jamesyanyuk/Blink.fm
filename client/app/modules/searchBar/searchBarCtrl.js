@@ -31,7 +31,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
 
     $scope.onInputUpdated = function () {
       var query = $scope.keywords;
-      if (query.length > 5)
+      if (query.length > 0)
         $scope.search(query);
     };
 
