@@ -149,10 +149,14 @@ module.exports = function(io) {
 		});
 
 		socket.on('broadcast_player_status', function(data) {
-			io.sockets.in('radio_' + data.radioId).emit('update_player_status', data);
+			// Temporary server-side player update authentication
+			if (radioMap[data.radioId] && (radioMap[data.radioId].socketid === socket.id))
+				io.sockets.in('radio_' + data.radioId).emit('update_player_status', data);
 		});
 
 		socket.on('send_message', function(data) {
+			console.log(radioMap);
+			console.log(socketMap);
 			io.sockets.in('radio_' + data.radioid).emit('update_chat', {
 				message: {
 					sender: data.nickname,
