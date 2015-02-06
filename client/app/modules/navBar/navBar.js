@@ -35,6 +35,6 @@ angular.module('navBar', ['auth'])
   .directive('navBar', function() {
     return {
       restrict: 'E',
-      templateUrl: 'modules/navBar/nav_bar.html'
+      templateUrl: 'modules/navBar/navBar.html'
     };
   });
