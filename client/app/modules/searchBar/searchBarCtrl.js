@@ -48,7 +48,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
             break;
           case KEYS.ENTER:
             if (index >= 0 && index < $scope.searchResults.length)
-              $scope.play($scope.searchResults[index].videoId);
+              $scope.play($scope.searchResults[index]);
         }
       }
     };
