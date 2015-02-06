@@ -1,0 +1,14 @@
+<div>
+  <div class="modal-header">
+    <h3 class="modal-title">Want to be a Blinkcaster?</h3>
+  </div>
+  <div class="alert alert-danger" ng-if="errorMessage.length != 0">
+    {{errorMessage}}
+  </div>
+  <div class="modal-body">
+    <input type="text" class="form-control" ng-model="email" placeholder="Enter your email" style="width: 79%">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="submit()">Submit</button>
+  </div>
+</div>

@@ -6,8 +6,8 @@
 
 var navBar = angular.module('navBar', ['auth']);
 
-navBar.controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location',
-  function (authSrv, $scope, $rootScope, $location) {
+navBar.controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$modal',
+  function (authSrv, $scope, $rootScope, $modal) {
     $scope.hasCurrentUser = false;
     authSrv.getCurrentUser(function (currentUser) {
       if (currentUser && currentUser.username) {
@@ -25,7 +25,15 @@ navBar.controller('NavBarCtrl', ['authSrv', '$scope', '$rootScope', '$location',
 
     $scope.logout = function () {
       authSrv.logout();
-    }
+    };
+
+    $scope.openWaitListModal = function () {
+      $modal.open({
+        templateUrl: 'modules/modals/waitlist_modal.html',
+        controller: 'WaitListModalCtrl',
+        size: 'sm'
+      });
+    };
   }]);
 
 navBar.directive('navBar', function () {

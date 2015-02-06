@@ -7,5 +7,8 @@
     <button type="submit" ng-show="hasCurrentUser" ng-click="logout()" class="btn btn-danger navbar-btn pull-right">
       Logout
     </button>
+    <button ng-show="!hasCurrentUser" ng-click="openWaitListModal()" class="btn btn-success navbar-btn pull-right">
+      Become a Blinkcaster
+    </button>
   </div>
 </nav>
