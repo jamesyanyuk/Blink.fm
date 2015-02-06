@@ -11,7 +11,7 @@
 angular
   .module('apollonApp', [
     'auth',
-    'angulartics', 
+    'angulartics',
     'angulartics.google.analytics',
     'navBar',
     'ngAnimate',
@@ -25,6 +25,7 @@ angular
     'YouTubeApp',
     'chat',
     'searchBar',
+    'recommendation',
     'ui.bootstrap',
     'btford.socket-io',
     'luegg.directives',

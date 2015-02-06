@@ -1,0 +1,27 @@
+<p ng-show="recVideos.length">User Suggestion</p>
+<div ng-show="!recVideos.length" class="ng-hide">
+  No song in the suggested list now.
+  <span ng-switch="hasCurrentUser">
+    <span ng-switch-when="true"> Search for a song ... </span>
+    <span ng-switch-when="false"> Suggest a song ... </span>
+  </span>
+</div>
+<ol class="list-unstyled">
+  <li ng-repeat="video in recVideos">
+    <div class="row">
+      <div class="col-sm-6 thumb-container">
+        <img src="{{video.thumbnail}}" height="75" width="90">
+      </div>
+      <div class="col-sm-6 title-container">
+        {{video.title}}
+      </div>
+    </div>
+    <div style="text-align: right; padding-right:5px">
+      <a href="" ng-show="hasCurrentUser" ng-click="play(video.id)" tooltip-placement="bottom" tooltip="Play Now"><i class="fa fa-play-circle"></i></a>
+      <a href="" ng-show="hasCurrentUser" ng-click="addToQueue(video.id)" tooltip-placement="bottom" tooltip="Add To Queue"><i class="fa fa-plus-square"></i></a> <!-- To be implement -->
+      {{video.likes_cnt}}
+      <a href=""><i class="fa fa-thumbs-o-up" ng-click="like(video.id)" tooltip-placement="bottom" tooltip="Like"></i></a>
+    </div>
+  </li>
+</ol>
+

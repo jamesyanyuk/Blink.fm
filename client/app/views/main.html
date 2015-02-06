@@ -1,21 +1,10 @@
-<div class="row">
-  <div class="col-sm-7" ng-switch="isBroadcasterConnected">
-    <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> The host is online now </span>
-    <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> The host is offline now </span>
+<recommendation class="col-sm-2 rec-container" ng-controller="RecommendationCtrl"></recommendation>
+
+<div class="col-sm-7 video-container">
+  <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px; height: {{yt.height}}">
+    <div channel-info class="channel-info-container"></div>
+    <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-7">
-    <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px">
-      <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
-    </div>
-    <div>
-      {{viewerCount}} people watching
-    </div>
-  </div>
-
-  <chat-window class="col-sm-5" ng-controller="ChatCtrl"></chat-window>
-</div>
-
-
+<chat-window class="col-sm-3 chat-container" ng-controller="ChatCtrl"></chat-window>

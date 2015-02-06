@@ -1,0 +1,16 @@
+<nav ng-controller="NavBarCtrl" class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header col-sm-2">
+      <a class="navbar-brand"><strong>Blink.fm Beta</strong></a>
+    </div>
+    <div class="col-sm-10">
+      <div col-sm-1></div>
+      <search-bar ng-show="showSearchBar" class="navbar-form navbar-left col-sm-8"></search-bar>
+      <div col-sm-3>
+        <button type="submit" ng-show="hasCurrentUser" ng-click="logout()" class="btn btn-danger navbar-btn pull-right">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
