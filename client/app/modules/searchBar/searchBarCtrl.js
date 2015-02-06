@@ -116,7 +116,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     function _addVideoSuccess(response, video) {
       if (response && response.videoId)
         authSrv.getCurrentUser(function (res) {
-          if (res.username) {
+          if (res.username && res.username === $rootScope.radioid) {
             $rootScope.player.loadVideoById(response.videoId);
           } else {
             socket.emit('recommendation:addVideo', video);

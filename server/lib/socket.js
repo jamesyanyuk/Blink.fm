@@ -68,7 +68,7 @@ module.exports = function(io) {
 					'nickname': data.username,
 					'radioid': data.radioid
 				};
-				io.sockets.in('radio_' + data.radioid).emit('update_recommendation_list', radioMap[data.radioid]['recommendationList']);
+				io.sockets.in('radio_' + data.radioid).emit('recommendation:updateRecVideos', radioMap[data.radioid]['recommendationList']);
 			}
 			// The guest connect to the radio
 			else {
@@ -134,7 +134,7 @@ module.exports = function(io) {
 					});
 				}
 				radioMap[data.radioid]['guests'][socket.id] = true;
-				io.sockets.in('radio_' + data.radioid).emit('update_recommendation_list', radioMap[data.radioid]['recommendationList']);
+				io.sockets.in('radio_' + data.radioid).emit('recommendation:updateRecVideos', radioMap[data.radioid]['recommendationList']);
 				// if applicable update socketid and status of the guest in radioMap
 				if (data.username && radioMap[data.username]) {
 					radioMap[data.username]['socketid'] = socket.id;
@@ -169,7 +169,7 @@ module.exports = function(io) {
 			var radioid = socketMap[socket.id]['radioid'];
 			var recVideos = radioMap[radioid]['recommendationList'];
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === data.videoId) {
+				if (recVideos[i]['videoId'] === data.videoId) {
 					recVideos[i]['likes'][socket.id] = true;
 					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
 					io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
@@ -187,7 +187,7 @@ module.exports = function(io) {
 			var radioid = socketMap[socket.id]['radioid'];
 			var recVideos = radioMap[radioid]['recommendationList'];
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === data.videoId) {
+				if (recVideos[i]['videoId'] === data.videoId) {
 					recVideos[i]['likes'][socket.id] = true;
 					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
 					break;
@@ -204,7 +204,7 @@ module.exports = function(io) {
 			var recVideos = radioMap[radioid]['recommendationList'];
 			var pos;
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === data.videoId) {
+				if (recVideos[i]['videoId'] === data.videoId) {
 					pos = i;
 					break;
 				}
