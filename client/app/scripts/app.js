@@ -11,8 +11,9 @@
 angular
   .module('apollonApp', [
     'auth',
-    'angulartics', 
+    'angulartics',
     'angulartics.google.analytics',
+    'modals',
     'navBar',
     'ngAnimate',
     'ngAria',

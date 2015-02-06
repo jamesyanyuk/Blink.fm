@@ -2,7 +2,9 @@
  * Created by tungpham31 on 2/3/15.
  */
 
-angular.module('chat')
+angular.module('modals', [])
   .controller('WaitListModalCtrl', function ($scope, $modalInstance) {
-    $scope.errorMessage = '';
+    $scope.close = function () {
+      $modalInstance.close();
+    }
   });
