@@ -26,6 +26,7 @@ angular
     'YouTubeApp',
     'chat',
     'searchBar',
+    'recommendation',
     'ui.bootstrap',
     'btford.socket-io',
     'luegg.directives',
