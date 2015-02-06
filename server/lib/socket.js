@@ -43,7 +43,7 @@ module.exports = function(io) {
 				// broadcaster came from another channel --> notify that channel
 				if (socketMap[socket.id]) {
 					var prevRadio = socketMap[socket.id]['radioid'];
-					socket.leave['radio_' + prevRadio];
+					socket.leave('radio_' + prevRadio);
 					delete radioMap[prevRadio]['guests'][socket.id];
 
 					//update viewer count for the previous channel

@@ -83,9 +83,6 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
       }
     }
 
-    function _searchSuccess(keywords){
-
-    }
     function _searchSuccess(data, keywords) {
       // this callback will be called asynchronously
       // when the response is available

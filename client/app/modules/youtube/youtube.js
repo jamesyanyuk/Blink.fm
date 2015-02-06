@@ -11,9 +11,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   //initial settings
   $scope.yt = {
     width: angular.element(".video-container").width(),
-    // 5:3 aspect ratio
     height: angular.element(".video-container").height(),
-    //videoid: "KRaWnd3LJfs", default video for testing purpose.
     playerStatus: "NOT PLAYING"
   };
 
