@@ -9,10 +9,6 @@ angular.module('recommendation', [])
       $scope.recVideos = [];
       $scope.hasCurrentUser = false;
 
-      $scope.$on('$locationChangeSuccess', function (event) {
-        console.log(event);
-      });
-
       authSrv.getCurrentUser(function (currentUser) {
         if (currentUser && currentUser.username) {
           $scope.hasCurrentUser = true;
