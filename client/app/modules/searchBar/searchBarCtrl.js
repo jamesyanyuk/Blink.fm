@@ -10,14 +10,25 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     'ARROW_DOWN': 40,
     'ENTER': 13
   })
-  .controller('SearchBarCtrl', function ($scope, $rootScope, $http, authSrv, YOUTUBE_API, KEYS) {
+  .controller('SearchBarCtrl', function ($scope, $rootScope, $http, $location, authSrv, YOUTUBE_API, KEYS) {
     $scope.searchResults = [];
     // -1 is the default value
     $scope.searchFocusIndex = -1;
     $scope.showSearchResults = false;
+    $scope.isBroadcaster = false;
 
     $scope.search = search;
     $scope.titleClick = titleClick;
+    $scope.play = play;
+
+    authSrv.getCurrentUser(function (currentUser) {
+      if (currentUser && currentUser.username) {
+        $scope.isBroadcaster = (currentUser.username === getRadioIdFromPath($location.path()))
+      }
+    });
+    function getRadioIdFromPath(path) {
+      return path.substring(1);
+    }
 
     $scope.onFocus = function () {
       $scope.searchFocusIndex = -1;
@@ -67,6 +78,10 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
           _searchSuccess(data, keywords)
         });
       }
+    }
+
+    function play(video) {
+      $rootScope.player.loadVideoById(video.videoId);
     }
 
     function titleClick(video) {
