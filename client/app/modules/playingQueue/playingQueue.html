@@ -1,0 +1,8 @@
+<div id="playing-queue" class="row" ui-sortable ng-model="playingQueue">
+  <div class="thumbnail video" ng-repeat="video in playingQueue track by $index" ng-style="thumbnailStyle"
+      ng-model="hover" ng-mouseenter="hover=true;" ng-mouseleave="hover=false;">
+    <img src="{{video.thumbnail}}" height="90" width="120" ng-click="play($index)">
+    <div class="caption video-title">{{video.title}}</div>
+    <span class="glyphicon glyphicon-remove-circle" ng-show="hover" ng-style="closeIconStyle" ng-click="remove($index)"></span>
+  </div>
+</div>

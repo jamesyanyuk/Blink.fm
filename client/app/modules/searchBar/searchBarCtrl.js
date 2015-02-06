@@ -17,7 +17,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     $scope.showSearchResults = false;
 
     $scope.search = search;
-    $scope.play = play;
+    $scope.titleClick = titleClick;
 
     $scope.onFocus = function () {
       $scope.searchFocusIndex = -1;
@@ -69,7 +69,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
       }
     }
 
-    function play(video) {
+    function titleClick(video) {
       $scope.showSearchResults = false;
       $scope.searchResults = [];
       $scope.keywords = '';
@@ -114,7 +114,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
       if (response && response.videoId)
         authSrv.getCurrentUser(function (res) {
           if (res.username && res.username === $rootScope.radioid) {
-            $rootScope.player.loadVideoById(response.videoId);
+            $rootScope.playingQueue.push(video);
           } else {
             socket.emit('recommendation:addVideo', video);
           }

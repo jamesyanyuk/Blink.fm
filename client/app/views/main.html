@@ -5,6 +5,7 @@
     <div channel-info class="channel-info-container"></div>
     <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
   </div>
+  <playing-queue ng-controller="QueueCtrl" ng-show="isBroadcaster"></playing-queue>
 </div>
 
 <chat-window class="col-sm-3 chat-container" ng-controller="ChatCtrl"></chat-window>

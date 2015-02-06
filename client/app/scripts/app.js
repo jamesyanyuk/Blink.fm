@@ -23,13 +23,15 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'playingQueue',
     'YouTubeApp',
     'chat',
     'searchBar',
     'recommendation',
     'ui.bootstrap',
+    'ui.sortable',
     'btford.socket-io',
-    'luegg.directives',
+    'luegg.directives'
   ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

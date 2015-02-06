@@ -175,11 +175,17 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
 
       scope.$on(YT_event.STATUS_CHANGE, function (event, message) {
         if (message === "ENDED") {
-          $http.get('recommendation-engine/next').success(function (response) {
-            if (response && response.videoId) {
-              $rootScope.player.loadVideoById(response.videoId);
-            }
-          })
+          if ($rootScope.playingQueue.length > 0) {
+            var nextVideo = $rootScope.playingQueue.shift();
+            $rootScope.player.loadVideoById(nextVideo.videoId);
+          }
+          else {
+            $http.get('recommendation-engine/next').success(function (response) {
+              if (response && response.videoId) {
+                $rootScope.player.loadVideoById(response.videoId);
+              }
+            })
+          }
         }
       })
 

@@ -170,7 +170,6 @@ html, body {
 .red-icon {
   color: #CF000F;
 }
-
 .rec-container {
   padding-right: 4px;
   background-color: #F8F8F8;
@@ -226,6 +225,19 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(51,102,153,0.4);
+  background: rgba(51, 102, 153, 0.4);
+}
+
+#playing-queue {
+  display:block;
+  width:100%;
+  overflow-x:scroll;
+  white-space:nowrap;
+}
+
+.video-title {
+  width:100%;
+  display:block;
+  white-space:pre-line
 }
 
