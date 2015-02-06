@@ -1,6 +1,4 @@
-var queue = angular.module('PlayingQueue', []);
-
-queue
+angular.module('playingQueue', [])
 .controller('QueueCtrl', ['$rootScope', '$scope', '$location', 'authSrv',
   function($rootScope, $scope, $location, authSrv) {
     $scope.isBroadcaster = false;
@@ -25,21 +23,24 @@ queue
     function getRadioIdFromPath(path) {
       return path.substring(1);
     }
-    //only show the queue to the broadcaster
+    // only show the queue to the broadcaster
     authSrv.getCurrentUser(function(user) {
       if (user && user.username) {
         $scope.isBroadcaster = (user.username === getRadioIdFromPath($location.path()));
       }
     });
-    //get 'queue' item from sessionStorage when loading up the page
-    if (sessionStorage.getItem('queue')) {
-      $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('queue'));
+    // get 'queue' item from sessionStorage when loading up the page
+    if (sessionStorage.getItem('playingQueue')) {
+      $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('playingQueue'));
     }
-    //update item 'queue' in sessionStorage
+    // update item 'playingQueue' in sessionStorage
     $rootScope.$watch('playingQueue', function(newValue, oldValue) {
-      sessionStorage.setItem('queue', JSON.stringify(newValue));
+      sessionStorage.setItem('playingQueue', JSON.stringify(newValue));
     }, true);
-
+    // listen for the logout event, in which case we remove the queue from storage
+    $rootScope.$on('/auth/logout', function() {
+      sessionStorage.removeItem('playingQueue');
+    });
     function play(index) {
       var removedVideo = $scope.remove(index);
       $rootScope.player.loadVideoById(removedVideo.videoId);
@@ -47,10 +48,4 @@ queue
     function remove(index) {
       return $rootScope.playingQueue.splice(index, 1)[0];
     };
-}])
-.directive('playingQueue', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'modules/playingQueue/playingQueue.html'
-  };
-});
+}]);

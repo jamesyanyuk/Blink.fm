@@ -22,7 +22,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'PlayingQueue',
+    'playingQueue',
     'YouTubeApp',
     'chat',
     'searchBar',
