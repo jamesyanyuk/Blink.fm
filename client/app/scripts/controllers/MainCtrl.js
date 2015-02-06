@@ -1,25 +1,57 @@
-'use strict';
-
 /**
  * @ngdoc function
  * @name clientApp.controller:MainCtrl
  * @description
  * # MainCtrl
  * Controller of the clientApp
+ * Created by tungpham31 on 2/6/15.
  */
-angular.module('apollonApp')
-  .controller('MainCtrl', ['$analytics', '$scope', 'authSrv', 'gAnalytics', 'socket',
-    function ($analytics, $scope, authSrv, gAnalytics, socket) {
-      gAnalytics.track();
 
-      $scope.viewerCount = 0;
+(function () {
+  'use strict';
 
-      authSrv.getCurrentUser(function (currentUser) {
-        $scope.currentUser = currentUser;
-      });
+  angular
+    .module('apollonApp')
+    .controller('MainCtrl', MainCtrl);
 
-      socket.on('update_viewer_count', function (data) {
-        $scope.viewerCount = data.count;
-        $scope.$apply();
-      });
-    }]);
+  MainCtrl.$inject = [
+    '$window',
+    '$location',
+    '$routeParams',
+    '$scope',
+    'authSrv',
+    'gAnalytics',
+    'socket'
+  ];
+
+  /* @ngInject */
+  function MainCtrl($window, $location, $routeParams, $scope, authSrv, gAnalytics, socket) {
+    enforcePageReloadOnce();
+
+    gAnalytics.track();
+
+    $scope.viewerCount = 0;
+
+    authSrv.getCurrentUser(function (currentUser) {
+      $scope.currentUser = currentUser;
+    });
+
+    socket.on('update_viewer_count', function (data) {
+      $scope.viewerCount = data.count;
+      $scope.$apply();
+    });
+
+    ////////////////
+
+    /*
+     Enforce a full page reload once for YouTube player to work correctly.
+     */
+    function enforcePageReloadOnce() {
+      if (!$routeParams.reload) {
+        $location.search('reload', 1);
+        $window.location.href = $window.location.href + "?reload=1";
+        $window.location.reload();
+      }
+    }
+  }
+})();
