@@ -161,29 +161,29 @@ module.exports = function(io) {
 			});
 		});
 
-		socket.on('recommendation:addVideo', function(video) {
+		socket.on('recommendation:addVideo', function(data) {
 			var radioid = socketMap[socket.id]['radioid'];
 			var recVideos = radioMap[radioid]['recommendationList'];
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === video.id) {
+				if (recVideos[i]['id'] === data.videoId) {
 					recVideos[i]['likes'][socket.id] = true;
 					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
 					io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 					return;
 				}
 			}
-			video['likes'] = {};
-			video['likes'][socket.id] = true;
-			video['likes_cnt'] = 1;
-			recVideos.push(video);
+			data['likes'] = {};
+			data['likes'][socket.id] = true;
+			data['likes_cnt'] = 1;
+			recVideos.push(data);
 			io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 		});
 
-		socket.on('recommendation:likeVideo', function(video) {
+		socket.on('recommendation:likeVideo', function(data) {
 			var radioid = socketMap[socket.id]['radioid'];
 			var recVideos = radioMap[radioid]['recommendationList'];
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === video.id) {
+				if (recVideos[i]['id'] === data.videoId) {
 					recVideos[i]['likes'][socket.id] = true;
 					recVideos[i]['likes_cnt'] = Object.keys(recVideos[i]['likes']).length;
 					break;
@@ -195,12 +195,12 @@ module.exports = function(io) {
 			io.sockets.in('radio_' + radioid).emit('recommendation:updateRecVideos', recVideos);
 		});
 
-		socket.on('recommendation:removeVideo', function(video) {
+		socket.on('recommendation:removeVideo', function(data) {
 			var radioid = socketMap[socket.id]['radioid'];
 			var recVideos = radioMap[radioid]['recommendationList'];
 			var pos;
 			for (var i = 0; i < recVideos.length; i++) {
-				if (recVideos[i]['id'] === video.id) {
+				if (recVideos[i]['id'] === data.videoId) {
 					pos = i;
 					break;
 				}

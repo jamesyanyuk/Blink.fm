@@ -17,11 +17,6 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
     playerStatus: "NOT PLAYING"
   };
 
-  angular.element(window).bind('resize',function() {
-    $rootScope.player.setSize(angular.element(".video-container").width(),
-                      angular.element(".video-container").height());
-  });
-
   $scope.YT_event = YT_event;
 
   $scope.sendControlEvent = function (ctrlEvent) {
@@ -154,6 +149,11 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
         });
       };
 
+      angular.element($window).bind('resize',function() {
+        $rootScope.player.setSize(angular.element(".video-container").width(),
+          angular.element(".video-container").height());
+      });
+
       scope.$watch('yt.videoid', function (newValue, oldValue) {
         if (newValue == oldValue) {
           return;
@@ -186,12 +186,5 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
       })
 
     }
-  };
-});
-
-myApp.directive('youtubeControls', function () {
-  return {
-    restrict: 'A',
-    templateUrl: 'modules/youtube/controls.html'
   };
 });

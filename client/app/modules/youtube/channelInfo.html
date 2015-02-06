@@ -1,9 +1,9 @@
-<div class="yt-controls-info">
-  <div ng-switch="isBroadcasterConnected" class="yt-controls-info-left">
+<div class="channel-info">
+  <div ng-switch="isBroadcasterConnected" class="channel-info-left">
     <span ng-switch-when="true"> <i class="fa fa-circle green-icon"></i> LIVE </span>
     <span ng-switch-when="false"> <i class="fa fa-circle red-icon"></i> OFFLINE </span>
   </div>
-  <div style="text-align: right" class="yt-controls-info-right">
+  <div class="channel-info-right">
     {{viewerCount}} <i class="fa fa-users"></i>
   </div>
 </div>

@@ -19,20 +19,20 @@ angular.module('recommendation', [])
         }
       });
 
-      socket.on('recommendation:updateRecVideos', function (data) {
-        $scope.recVideos = data;
+      socket.on('recommendation:updateRecVideos', function (videos) {
+        $scope.recVideos = videos;
       });
 
       $scope.like = function (videoId) {
         socket.emit('recommendation:likeVideo', {
-          id: videoId
+          videoId: videoId
         });
       };
 
       $scope.play = function (videoId) {
         $rootScope.player.loadVideoById(videoId);
         socket.emit('recommendation:removeVideo', {
-          id: videoId
+          videoId: videoId
         });
       };
     }]);

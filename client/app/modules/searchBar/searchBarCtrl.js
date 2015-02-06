@@ -16,6 +16,9 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     $scope.searchFocusIndex = -1;
     $scope.showSearchResults = false;
 
+    $scope.search = search;
+    $scope.play = play;
+
     $scope.onFocus = function () {
       $scope.searchFocusIndex = -1;
       if ($scope.searchResults.length > 0)
@@ -50,7 +53,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
       }
     };
 
-    $scope.search = function (keywords) {
+    function search(keywords) {
       if (keywords.length > 0) {
         $http.get(YOUTUBE_API.URL, {
           params: {
@@ -60,72 +63,65 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
             'order': 'relevance',
             'maxResults': YOUTUBE_API.MAX_RESULTS
           }
-        })
-          .success(function (data, status, headers, config) {
-            // this callback will be called asynchronously
-            // when the response is available
-
-            if (keywords === $scope.keywords) {
-              $scope.searchResults = [];
-
-              for (i = 0; i < data.items.length; i++) {
-                $scope.searchResults.push({
-                  videoId: data.items[i].id.videoId,
-                  title: function () {
-                    var cutoffLen = 50;
-                    var title = data.items[i].snippet.title;
-
-                    if (title.length > cutoffLen)
-                      title = title.substr(0, cutoffLen - 3) + '...';
-
-                    return title;
-                  }(),
-                  thumbnail: data.items[i].snippet.thumbnails.default.url
-                });
-              }
-
-              if ($scope.searchResults.length > 0)
-                $scope.showSearchResults = true;
-            }
-          })
-          .error(function (data, status, headers, config) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            console.log('Failed to retrieve list of videos from Youtube!');
-            console.log(data);
-          });
+        }).success( function(data) {
+          _searchSuccess(data, keywords)
+        });
       }
-    };
+    }
 
-    $scope.play = function (video) {
+    function play(video) {
       $scope.showSearchResults = false;
       $scope.searchResults = [];
       $scope.keywords = '';
 
       if (video && video.videoId) {
         $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
-          $http.get('recommendation-engine/next').success(function (response) {
-            if (response && response.videoId) {
-              authSrv.getCurrentUser(function (res) {
-                if (res.username) {
-                  $rootScope.player.loadVideoById(response.videoId);
-                } else {
-                  socket.emit('recommendation:addVideo', {
-                    id: video.videoId,
-                    title: video.title,
-                    thumbnail: video.thumbnail
-                  });
-                }
-              });
-            }
-          })
+          $http.get('recommendation-engine/next').success(function(response){
+            _addVideoSuccess(response, video);
+          });
         });
       }
-    };
-  })
-  .directive('searchBar', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'modules/searchBar/searchBar.html'
-    };
+    }
+
+    function _searchSuccess(keywords){
+
+    }
+    function _searchSuccess(data, keywords) {
+      // this callback will be called asynchronously
+      // when the response is available
+      if (keywords === $scope.keywords) {
+        $scope.searchResults = [];
+
+        for (i = 0; i < data.items.length; i++) {
+          $scope.searchResults.push({
+            videoId: data.items[i].id.videoId,
+            title: function () {
+              var cutoffLen = 50;
+              var title = data.items[i].snippet.title;
+
+              if (title.length > cutoffLen)
+                title = title.substr(0, cutoffLen - 3) + '...';
+
+              return title;
+            }(),
+            thumbnail: data.items[i].snippet.thumbnails.default.url
+          });
+        }
+
+        if ($scope.searchResults.length > 0)
+          $scope.showSearchResults = true;
+      }
+    }
+
+    function _addVideoSuccess(response, video) {
+      if (response && response.videoId)
+        authSrv.getCurrentUser(function (res) {
+          if (res.username) {
+            $rootScope.player.loadVideoById(response.videoId);
+          } else {
+            socket.emit('recommendation:addVideo', video);
+          }
+        });
+    }
+
   });
