@@ -26,9 +26,11 @@
 
   /* @ngInject */
   function MainCtrl($window, $location, $routeParams, $scope, authSrv, gAnalytics, socket) {
-    enforcePageReloadOnce();
+    _enforcePageReloadOnce();
 
-    gAnalytics.track();
+    if ($routeParams.reload) {
+      gAnalytics.trackPage('/' + $routeParams.username);
+    }
 
     $scope.viewerCount = 0;
 
@@ -46,7 +48,7 @@
     /*
      Enforce a full page reload once for YouTube player to work correctly.
      */
-    function enforcePageReloadOnce() {
+    function _enforcePageReloadOnce() {
       if (!$routeParams.reload) {
         $location.search('reload', 1);
         $window.location.href = $window.location.href + "?reload=1";

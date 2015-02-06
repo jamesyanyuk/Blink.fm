@@ -33,7 +33,7 @@ angular
     'btford.socket-io',
     'luegg.directives'
   ])
-  .config(function ($routeProvider, $locationProvider) {
+  .config(function ($analyticsProvider, $routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/login.html',
@@ -48,6 +48,9 @@ angular
       });
 
     $locationProvider.html5Mode(true);
+
+    // Turn off automatic tracking.
+    $analyticsProvider.virtualPageviews(false);
   })
   .factory('socket', function(socketFactory) {
     return socketFactory();
