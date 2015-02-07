@@ -52,7 +52,6 @@
       if (!$routeParams.reload) {
         $location.search('reload', 1);
         $window.location.href = $window.location.href + "?reload=1";
-        $window.location.reload();
       }
     }
   }
