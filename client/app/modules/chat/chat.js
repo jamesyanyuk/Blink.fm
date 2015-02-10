@@ -11,6 +11,8 @@ chat.controller('ChatCtrl', ['$scope', '$rootScope', '$routeParams', 'socket', '
     $scope.chat.messages = [];
     $scope.$parent.isBroadcasterConnected = true;
 
+    authSrv.getNickname(nicknameSrv);
+
     authSrv.getCurrentUser(function (user) {
       if (user && user.username) {
         socket.emit('join_radio', {
