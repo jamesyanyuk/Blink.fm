@@ -11,7 +11,7 @@
       <a href="" class="glyphicon glyphicon-play" ng-show="isBroadcaster" target="_blank" ng-focus="onFocus()" ng-click="play(result)" tooltip-placement="left" tooltip="Play Now"></a>
       <a href="" class="glyphicon glyphicon-plus" ng-show="isBroadcaster" target="_blank" ng-focus="onFocus()" ng-click="titleClick(result)" tooltip-placement="bottom" tooltip="Add To Queue"></a>
       <a href="" target="_blank" ng-focus="onFocus()" ng-click="titleClick(result)">
-        <img src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
+        <img ng-src="{{result.thumbnail}}" height="30" width="40"> {{result.title}}
       </a>
     </div>
   </div>

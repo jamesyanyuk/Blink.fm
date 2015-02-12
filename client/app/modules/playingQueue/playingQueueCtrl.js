@@ -18,6 +18,10 @@ angular.module('playingQueue', [])
       top:0,
       right:0
     };
+    $scope.sortableOptions = {
+      // helper option to prevent Firefox automatically invoking the click event
+      'helper': 'clone'
+    };
 
 
     function getRadioIdFromPath(path) {

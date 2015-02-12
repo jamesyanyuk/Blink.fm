@@ -1,7 +1,7 @@
 <p ng-show="recVideos.length">User Suggestion</p>
 <div ng-show="!recVideos.length" class="ng-hide">
   No song in the suggested list now.
-  <span ng-switch="hasCurrentUser">
+  <span ng-switch="isBroadcaster">
     <span ng-switch-when="true"> Search for a song ... </span>
     <span ng-switch-when="false"> Suggest a song ... </span>
   </span>
