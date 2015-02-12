@@ -81,6 +81,9 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     }
 
     function play(video) {
+      $scope.showSearchResults = false;
+      $scope.searchResults = [];
+      $scope.keywords = '';
       $rootScope.player.loadVideoById(video.videoId);
     }
 
