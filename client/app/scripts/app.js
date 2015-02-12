@@ -13,6 +13,7 @@ angular
     'auth',
     'angulartics',
     'angulartics.google.analytics',
+    'firebase',
     'modals',
     'navBar',
     'ngAnimate',

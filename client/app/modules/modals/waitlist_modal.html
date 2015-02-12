@@ -1,18 +1,18 @@
-<div>
+<form name="waitlistForm">
   <div class="modal-header">
     <h4 class="modal-title">Wanna be a Blinkcaster?</h4>
   </div>
   <div class="modal-body">
-    <p>Blink.fm is currently in private beta version. Join our
-      <a target="_blank"
-         ng-click="onFBLinkClick()"
-         style="text-decoration: underline"
-         href="https://www.facebook.com/groups/968332449844066/">
-        Facebook Group</a>
-      to become a beta Blinkcaster and we will give you early access soon.
-    </p>
+    <input
+      type="email"
+      name="email"
+      class="form-control"
+      ng-model="email"
+      placeholder="Enter your email address"
+      required/>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" ng-click="close()">Gotcha</button>
+    <button class="btn btn-success" ng-click="submit()">Sign me up</button>
+    <button class="btn btn-warning" ng-click="close()">Cancel</button>
   </div>
-</div>
+</form>
