@@ -84,7 +84,15 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
       $scope.showSearchResults = false;
       $scope.searchResults = [];
       $scope.keywords = '';
-      $rootScope.player.loadVideoById(video.videoId);
+
+      // http call to load next songs from the recommendation engine if queue is empty
+      if (video && video.videoId) {
+        $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
+          $http.get('recommendation-engine/next').success(function(response){
+            $rootScope.player.loadVideoById(video.videoId);
+          });
+        });
+      }
     }
 
     function titleClick(video) {
