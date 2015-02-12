@@ -17,6 +17,7 @@ angular.module('chat')
         $scope.submit();
       }
     }
+
     function submit() {
       if (!$scope.nickname) {
         $scope.message = 'Nickname cannot be empty!';
