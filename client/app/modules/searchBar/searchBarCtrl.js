@@ -81,7 +81,18 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     }
 
     function play(video) {
-      $rootScope.player.loadVideoById(video.videoId);
+      $scope.showSearchResults = false;
+      $scope.searchResults = [];
+      $scope.keywords = '';
+
+      // http call to load next songs from the recommendation engine if queue is empty
+      if (video && video.videoId) {
+        $http.get('recommendation-engine/add-video/' + video.videoId).success(function () {
+          $http.get('recommendation-engine/next').success(function(response){
+            $rootScope.player.loadVideoById(video.videoId);
+          });
+        });
+      }
     }
 
     function titleClick(video) {
