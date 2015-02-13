@@ -1,4 +1,4 @@
-<form name="waitlistForm">
+<form name="waitlistForm" ng-show="!formSubmitted">
   <div class="modal-header">
     <h4 class="modal-title">Wanna be a Blinkcaster?</h4>
   </div>
@@ -16,3 +16,15 @@
     <button class="btn btn-warning" ng-click="close()">Cancel</button>
   </div>
 </form>
+
+<div ng-show="formSubmitted">
+  <div class="modal-header">
+    <h4 class="modal-title">Thank you for signing up!</h4>
+  </div>
+  <div class="modal-body">
+    <p>We have added your email to the signup queue. We will notify you soon when the app is ready for beta users.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" ng-click="close()">Gotcha</button>
+  </div>
+</div>

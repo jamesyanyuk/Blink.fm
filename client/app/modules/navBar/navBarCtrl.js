@@ -39,7 +39,8 @@ angular.module('navBar', ['auth'])
         $modal.open({
           templateUrl: 'modules/modals/waitlist_modal.html',
           controller: 'WaitListModalCtrl',
-          size: 'sm'
+          size: 'sm',
+          backdrop: 'static'
         });
       }
     }]);

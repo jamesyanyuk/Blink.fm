@@ -8,6 +8,7 @@ angular.module('modals', [])
     var sync = $firebase(ref);
 
     $scope.email = "";
+    $scope.formSubmitted = false;
     $scope.submit = submit;
 
     $scope.close = function () {
@@ -22,7 +23,7 @@ angular.module('modals', [])
     function submit() {
       if ($scope.waitlistForm.email.$valid) {
         sync.$set(hashCode($scope.email), $scope.email);
-        $modalInstance.close();
+        $scope.formSubmitted = true;
       }
     };
 
