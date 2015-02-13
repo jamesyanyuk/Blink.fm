@@ -21,9 +21,11 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
     $scope.titleClick = titleClick;
     $scope.play = play;
 
+    $scope.searchBarPlaceholder = 'Suggest a song...';
     authSrv.getCurrentUser(function (currentUser) {
       if (currentUser && currentUser.username) {
-        $scope.isBroadcaster = (currentUser.username === getRadioIdFromPath($location.path()))
+        $scope.isBroadcaster = (currentUser.username === getRadioIdFromPath($location.path()));
+        $scope.searchBarPlaceholder = 'Search for a song...';
       }
     });
     function getRadioIdFromPath(path) {
