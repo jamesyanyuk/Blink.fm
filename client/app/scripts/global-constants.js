@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('')
-    .constants('gatekeeper', {
+    .module('apollonApp')
+    .constant('gatekeeper', {
       USE_TEST_FEATURE: true
     });
 })();
