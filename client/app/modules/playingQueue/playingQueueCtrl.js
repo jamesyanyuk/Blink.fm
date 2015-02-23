@@ -1,55 +1,61 @@
 angular.module('playingQueue', [])
-.controller('QueueCtrl', ['$rootScope', '$scope', '$location', 'authSrv',
-  function($rootScope, $scope, $location, authSrv) {
+.controller('QueueCtrl', ['$location', '$rootScope', '$scope', 'authSrv',
+  function($location, $rootScope, $scope, authSrv) {
     $scope.isBroadcaster = false;
     $rootScope.playingQueue = [];
     $scope.play = play;
     $scope.remove = remove;
-    $scope.thumbnailStyle = {
-      position: 'relative',
-      'background-color': 'transparent',
-      display: 'inline-block',
-      border: 'none',
-      width: '25%',
-      'vertical-align': 'top'
-    };
-    $scope.closeIconStyle = {
-      position:'absolute',
-      top:0,
-      right:0
-    };
     $scope.sortableOptions = {
       // helper option to prevent Firefox automatically invoking the click event
       'helper': 'clone'
     };
 
-
-    function getRadioIdFromPath(path) {
-      return path.substring(1);
-    }
-    // only show the queue to the broadcaster
+    // Only show the queue to the broadcaster.
     authSrv.getCurrentUser(function(user) {
       if (user && user.username) {
-        $scope.isBroadcaster = (user.username === getRadioIdFromPath($location.path()));
+        $scope.isBroadcaster = (user.username === _getRadioIdFromPath($location.path()));
       }
     });
-    // get 'queue' item from sessionStorage when loading up the page
+
+    // Load 'queue' item from sessionStorage when loading up the page.
     if (sessionStorage.getItem('playingQueue')) {
       $rootScope.playingQueue = JSON.parse(sessionStorage.getItem('playingQueue'));
     }
-    // update item 'playingQueue' in sessionStorage
-    $rootScope.$watch('playingQueue', function(newValue, oldValue) {
-      sessionStorage.setItem('playingQueue', JSON.stringify(newValue));
-    }, true);
-    // listen for the logout event, in which case we remove the queue from storage
+
+    $rootScope.$watch('playingQueue', onQueueChange, true);
+
+    // Listen for the logout event, in which case we remove the queue from storage.
     $rootScope.$on('/auth/logout', function() {
       sessionStorage.removeItem('playingQueue');
     });
+
+    //////////////
+
+    function _getRadioIdFromPath(path) {
+      return path.substring(1);
+    }
+
     function play(index) {
       var removedVideo = $scope.remove(index);
       $rootScope.player.loadVideoById(removedVideo.videoId);
-    };
+    }
+
     function remove(index) {
       return $rootScope.playingQueue.splice(index, 1)[0];
-    };
+    }
+
+    /*
+     *  Listen to changes and update 'playingQueue' in sessionStorage, trigger event to resize youtube player.
+     */
+    function onQueueChange(newQueue, oldQueue) {
+      sessionStorage.setItem('playingQueue', JSON.stringify(newQueue));
+      if (newQueue.length > 0) {
+        angular.element(".video-container").height("80%");
+        angular.element(".video-container").trigger("resize");
+      }
+      else {
+        angular.element(".video-container").height("100%");
+        angular.element(".video-container").trigger("resize");
+      }
+    }
 }]);

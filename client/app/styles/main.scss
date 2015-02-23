@@ -1,5 +1,6 @@
 @import "variables";
 @import "partials/searchbar";
+@import "partials/playingqueue";
 
 // bower:scss
 // endbower
@@ -101,13 +102,21 @@ html, body {
 }
 
 .video-container {
+  position: relative;
   padding: 0px;
-  height: 75%;
+  height: 100%;
+}
+
+.central-container {
+  height: 100%;
+  padding: 0px;
 }
 
 .channel-info-container {
   position: absolute;
   width: 100%;
+  left: 0;
+  right: 0;
 }
 
 .channel-info {
@@ -122,8 +131,6 @@ html, body {
 .channel-info-left {
   width: 50%;
   float: left;
-  margin-top: auto;
-  margin-bottom: auto;
   position: absolute;
 }
 
@@ -226,18 +233,5 @@ html, body {
 
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(51, 102, 153, 0.4);
-}
-
-#playing-queue {
-  display:block;
-  width:100%;
-  overflow-x:scroll;
-  white-space:nowrap;
-}
-
-.video-title {
-  width:100%;
-  display:block;
-  white-space:pre-line
 }
 
