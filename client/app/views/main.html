@@ -1,7 +1,7 @@
 <recommendation class="col-sm-2 rec-container" ng-controller="RecommendationCtrl"></recommendation>
 
-<div class="col-sm-7 video-container">
-  <div ng-controller="YouTubeCtrl" style="width: {{yt.width}}px; height: {{yt.height}}">
+<div class="col-sm-7 central-container">
+  <div class="video-container" ng-controller="YouTubeCtrl">
     <div channel-info class="channel-info-container"></div>
     <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
   </div>

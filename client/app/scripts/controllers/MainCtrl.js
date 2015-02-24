@@ -15,9 +15,6 @@
     .controller('MainCtrl', MainCtrl);
 
   MainCtrl.$inject = [
-    '$window',
-    '$location',
-    '$routeParams',
     '$scope',
     'authSrv',
     'gAnalytics',
@@ -25,12 +22,8 @@
   ];
 
   /* @ngInject */
-  function MainCtrl($window, $location, $routeParams, $scope, authSrv, gAnalytics, socket) {
-    _enforcePageReloadOnce();
-
-    if ($routeParams.reload) {
-      gAnalytics.pageTrack('/' + $routeParams.username);
-    }
+  function MainCtrl($scope, authSrv, gAnalytics, socket) {
+    gAnalytics.keepSessionAlive();
 
     $scope.viewerCount = 0;
 
@@ -44,15 +37,5 @@
     });
 
     ////////////////
-
-    /*
-     Enforce a full page reload once for YouTube player to work correctly.
-     */
-    function _enforcePageReloadOnce() {
-      if (!$routeParams.reload) {
-        $location.search('reload', 1);
-        $window.location.href = $window.location.href + "?reload=1";
-      }
-    }
   }
 })();

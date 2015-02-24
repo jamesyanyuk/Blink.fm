@@ -72,7 +72,7 @@ myApp.controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv,
   });
 
   socket.on('update_broadcaster_status', function (data){
-    if ($rootScope.player){
+    if ($scope.isPlayerReady && $rootScope.player){
       if (!data.isBroadcasterConnected){
         $rootScope.player.loadVideoById(null); // hacky way to stop the radio.
       } else {
@@ -90,12 +90,36 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
     template: '<div></div>',
 
     link: function (scope, element, attrs) {
-      var tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      var ytScriptTag = document.getElementById("youtube-script-tag");
+      if (ytScriptTag) {
+        onYouTubeIframeAPIReady();
+      } else {
+        ytScriptTag = document.createElement('script');
+        ytScriptTag.src = "https://www.youtube.com/iframe_api";
+        ytScriptTag.id = "youtube-script-tag";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(ytScriptTag, firstScriptTag);
+        $window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+      }
+
       scope.isPlayerReady = false;
-      $window.onYouTubeIframeAPIReady = function () {
+
+      /*
+      Function to grab the current size of .video-container and set size of youtube player accordingly.
+       */
+      function resizePlayer() {
+        var width = angular.element(".video-container").width();
+        var height = angular.element(".video-container").height();
+        if ($rootScope.player) {
+          $rootScope.player.setSize(width, height);
+        }
+      }
+
+      angular.element(".video-container").bind('resize', resizePlayer);
+
+      angular.element($window).bind('resize', resizePlayer);
+
+      function onYouTubeIframeAPIReady() {
         $rootScope.player = new YT.Player(element.children()[0], {
           playerVars: {
             autoplay: 0,
@@ -144,13 +168,13 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
               scope.isPlayerReady = true;
             }
           }
-        });
-      };
 
-      angular.element($window).bind('resize',function() {
-        $rootScope.player.setSize(angular.element(".video-container").width(),
-          angular.element(".video-container").height());
-      });
+        });
+        /** resize player right after creation if a queue is loaded from sessionStorage,
+         * has to be put here to make sure both $rootScope.player and $rootScope.playingQueue have been created
+         */
+        resizePlayer();
+      };
 
       scope.$watch('yt.videoid', function (newValue, oldValue) {
         if (newValue == oldValue) {

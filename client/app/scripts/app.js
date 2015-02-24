@@ -49,9 +49,6 @@ angular
       });
 
     $locationProvider.html5Mode(true);
-
-    // Turn off automatic tracking.
-    $analyticsProvider.virtualPageviews(false);
   })
   .factory('socket', function(socketFactory) {
     return socketFactory();

@@ -1,0 +1,29 @@
+#playing-queue {
+  display:block;
+  width:100%;
+  overflow-x:scroll;
+  white-space:nowrap;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.video-title {
+  width:100%;
+  display:block;
+  white-space:pre-line
+}
+
+.queue-item {
+  position: relative;
+  background-color: transparent;
+  display: inline-block;
+  border: none;
+  width: 25%;
+  vertical-align: top;
+}
+
+.item-remove-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
