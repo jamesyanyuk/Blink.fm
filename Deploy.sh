@@ -2,7 +2,7 @@ git submodule add -f -b production https://github.com/tungpham31/Apollon.git dep
 cd deployment-environment
 git submodule init
 git submodule update --force
-git pull origin production -f
+git pull -f origin production
 cd client
 rm -f .gitignore
 npm install
