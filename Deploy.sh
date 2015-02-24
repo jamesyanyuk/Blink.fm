@@ -1,5 +1,6 @@
-git submodule add -f -b production https://github.com/tungpham31/Apollon.git deployment_environment
+git submodule add -f https://github.com/tungpham31/Apollon.git deployment_environment
 cd deployment_environment
+git checkout production
 git submodule init
 git submodule update --force
 cd client
