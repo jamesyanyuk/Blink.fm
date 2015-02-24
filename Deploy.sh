@@ -10,6 +10,7 @@ bower install
 grunt --force
 cd ..
 echo "cd server" > aws-start.sh
+echo "npm install" >> aws-start.sh
 echo "npm start" >> aws-start.sh
 git add --all
 git commit -am "AWS Push"
