@@ -3,7 +3,7 @@ logs
 *.log
 
 # Production deployment environment
-deployment_environment
+deployment-environment
 
 # Runtime data
 pids
