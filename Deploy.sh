@@ -2,9 +2,10 @@ git submodule add -f https://github.com/tungpham31/Apollon.git deployment-enviro
 cd deployment-environment
 git submodule init
 git submodule update --force
+git pull -f
 cd client
 rm -f .gitignore
-npm install
+npm install grunt
 bower install
 grunt --force
 cd ..
