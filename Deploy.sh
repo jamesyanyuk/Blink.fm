@@ -12,4 +12,5 @@ grunt --force
 cd ..
 git add --all
 git commit -am "AWS Push"
+mkdir -p .gitAWS
 git aws.push

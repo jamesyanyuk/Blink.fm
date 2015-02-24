@@ -4,6 +4,7 @@ logs
 
 # Production deployment environment
 deployment-environment
+server/dist
 
 # Runtime data
 pids
