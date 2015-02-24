@@ -3,7 +3,8 @@
   "version": "1.1.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production nodemon ./bin/www",
+    // NODE_ENV is set in AWS for production
+    "start": "node ./bin/www",
     "test": "NODE_ENV=development nodemon ./bin/www"
   },
   "dependencies": {

@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var google = require('googleapis');
 var youtube = google.youtube('v3');
-var keys = require('../config/keys');
+var keys = require('../config/keys')();
 
 router.get('/add-video/:videoId', function (req, res) {
     var videoId = req.params.videoId;

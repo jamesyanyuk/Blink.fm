@@ -14,7 +14,7 @@ var auth = require('./routes/auth');
 var api = require('./routes/api');
 var recommendation_engine = require('./routes/recommendation_engine');
 
-var keys = require('./config/keys');
+var keys = require('./config/keys')();
 
 // Passport authentication strategy configuration
 var configPassport = require('./config/passport');

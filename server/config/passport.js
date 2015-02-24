@@ -1,6 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-var secrets = require('./keys');
+var secrets = require('./keys')();
 
 //For Testing purpose only
 var HARDCODED_USERS = [

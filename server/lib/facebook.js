@@ -1,5 +1,5 @@
 var FB = require('fb');
-var facebook = require('../config/keys.js').facebook;
+var facebook = require('../config/keys.js')().facebook;
 
 //Map from username to facebook radio map
 var radioMap = {}
