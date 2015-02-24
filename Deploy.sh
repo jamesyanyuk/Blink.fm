@@ -5,7 +5,7 @@ git submodule update --force
 git pull origin production -f
 cd client
 rm -f .gitignore
-npm install grunt
+npm install
 bower install
 grunt --force
 cd ..
