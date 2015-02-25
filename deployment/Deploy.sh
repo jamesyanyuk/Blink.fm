@@ -15,9 +15,5 @@ cd ..
 git add --all
 git commit -am "AWS Push"
 mkdir -p .gitAWS
-if [ $1 == "windows" ]; then
-    ../../deployment/AWSDevTools/Windows/AWSDevTools-RepositorySetup.bat
-else
-    sh ../../deployment/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
-fi
+sh ../deployment/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
 git aws.push
