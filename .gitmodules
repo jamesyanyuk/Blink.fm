@@ -1,0 +1,4 @@
+[submodule "deployment-environment"]
+	path = deployment-environment
+	url = https://github.com/tungpham31/Apollon.git
+	branch = production
