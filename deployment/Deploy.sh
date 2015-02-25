@@ -1,3 +1,5 @@
+cd ..
+rm -rf deployment-environment
 git submodule add -f -b production https://github.com/tungpham31/Apollon.git deployment-environment
 cd deployment-environment
 git submodule init
@@ -13,4 +15,9 @@ cd ..
 git add --all
 git commit -am "AWS Push"
 mkdir -p .gitAWS
+if [ $1 == "windows" ]; then
+    ../../deployment/AWSDevTools/Windows/AWSDevTools-RepositorySetup.bat
+else
+    sh ../../deployment/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
+fi
 git aws.push
