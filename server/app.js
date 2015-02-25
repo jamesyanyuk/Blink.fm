@@ -69,23 +69,41 @@ if (app.get('env') === 'development') {
  * Production Settings
  */
 if (app.get('env') === 'production') {
+	// This will change in production since we'll be using the dist folder
+	app.use(express.static(path.join(__dirname, '../client')));
+	// This covers serving up the index page
+	app.use(express.static(path.join(__dirname, '../client/.tmp')));
+	app.use(express.static(path.join(__dirname, '../client/app')));
 
-	// changes it to use the optimized version for production
-	app.use(express.static(path.join(__dirname, '/dist')));
-
-	// production error handler
-	// no stacktraces leaked to user
+	// Error Handling
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
 		// res.render('error', {
 		// 	message: err.message,
-		// 	error: {}
+		// 	error: err
 		// });
 	});
 
 	app.get('*', function (req, res) {
-		res.sendFile(path.join(__dirname, '/dist', 'index.html'));
+		res.sendFile(path.join(__dirname, '../client/app', 'index.html'));
 	});
+
+	//// changes it to use the optimized version for production
+	//app.use(express.static(path.join(__dirname, '/dist')));
+    //
+	//// production error handler
+	//// no stacktraces leaked to user
+	//app.use(function (err, req, res, next) {
+	//	res.status(err.status || 500);
+	//	// res.render('error', {
+	//	// 	message: err.message,
+	//	// 	error: {}
+	//	// });
+	//});
+    //
+	//app.get('*', function (req, res) {
+	//	res.sendFile(path.join(__dirname, '/dist', 'index.html'));
+	//});
 }
 
 module.exports = app;

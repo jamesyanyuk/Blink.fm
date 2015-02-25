@@ -16,9 +16,8 @@
 # License.
 
 SCRIPTDIR="$( cd "$( dirname "$0" )" && pwd )"
-# GIT_DIRECTORY=$GIT_DIR
-# if [ -z "$GIT_DIRECTORY" ]; then GIT_DIRECTORY=.git; fi
-GIT_DIRECTORY=.gitAWS
+GIT_DIRECTORY=$GIT_DIR
+if [ -z "$GIT_DIRECTORY" ]; then GIT_DIRECTORY=.git; fi
 
 rm -rf $GIT_DIRECTORY/AWSDevTools
 cp -r "$SCRIPTDIR"/scripts $GIT_DIRECTORY/AWSDevTools
