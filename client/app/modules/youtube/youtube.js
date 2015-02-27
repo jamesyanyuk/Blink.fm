@@ -197,13 +197,8 @@ myApp.directive('youtube', function ($window, YT_event, $rootScope, $http) {
         $rootScope.player.pauseVideo();
       });
 
-      // remembers the last time video ended to prevent receiving 2 end messages
-      var lastEndTime = 0;
-      var timeIntervalToIgnoreEnd = 2000; // milliseconds
-
       scope.$on(YT_event.STATUS_CHANGE, function (event, message) {
-        if (message === "ENDED" && (new Date).getTime() > lastEndTime + timeIntervalToIgnoreEnd) {
-          lastEndTime = (new Date).getTime();
+        if (message === "ENDED") {
 
           if ($rootScope.playingQueue.length > 0) {
             var nextVideo = $rootScope.playingQueue.shift();
