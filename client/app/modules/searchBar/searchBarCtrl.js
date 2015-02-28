@@ -74,7 +74,8 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
             'key': YOUTUBE_API.KEY,
             'q': keywords,
             'order': 'relevance',
-            'maxResults': YOUTUBE_API.MAX_RESULTS
+            'maxResults': YOUTUBE_API.MAX_RESULTS,
+            'type': 'video'
           }
         }).success( function(data) {
           _searchSuccess(data, keywords)
