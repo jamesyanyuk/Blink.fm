@@ -36,3 +36,6 @@ projectFilesBackup/*
 
 # System-generated files
 .DS_Store
+
+# Patch file
+*.rej
