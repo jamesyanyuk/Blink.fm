@@ -13,6 +13,7 @@ angular
     'auth',
     'angulartics',
     'angulartics.google.analytics',
+    'angular-md5',
     'firebase',
     'modals',
     'navBar',
