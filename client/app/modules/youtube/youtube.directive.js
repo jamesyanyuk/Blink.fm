@@ -45,13 +45,13 @@
         var videoId = videoData ? videoData.video_id : null;
 
         if (videoId && videoId !== lastVideoId && videoData.title && currentUser) {
-          $http.post("/api/broadcast-song-to-fb", {
+         /* $http.post("/api/broadcast-song-to-fb", {
             song: {
               video_id: videoId,
               title: videoData.title
             },
             user: currentUser
-          })
+          })*/
         }
 
         if (message === "ENDED") {

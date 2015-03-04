@@ -1,5 +1,5 @@
 var FB = require('fb');
-var Q = require('Q');
+var Q = require('q');
 
 var facebook = require('../config/keys.js')().facebook;
 
