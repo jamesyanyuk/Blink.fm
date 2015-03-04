@@ -26,14 +26,14 @@ angular
     'ngSanitize',
     'ngTouch',
     'playingQueue',
-    'YouTubeApp',
+    'youtube',
     'chat',
     'searchBar',
     'recommendation',
     'ui.bootstrap',
     'ui.sortable',
     'btford.socket-io',
-    'luegg.directives'
+    'luegg.directives',
   ])
   .config(function ($analyticsProvider, $routeProvider, $locationProvider) {
     $routeProvider

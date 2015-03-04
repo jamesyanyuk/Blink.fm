@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('YouTubeApp')
+    .module('youtube')
     .directive('channelInfo', channelInfo);
 
   channelInfo.$inject = [];
@@ -12,7 +12,7 @@
 
     var directive = {
       restrict: 'A',
-      templateUrl: 'modules/youtube/channelInfo.html'
+      templateUrl: 'modules/youtube/channel_info.html'
     };
 
     return directive;

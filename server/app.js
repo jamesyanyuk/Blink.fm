@@ -28,9 +28,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(session({ secret: keys.sessionSecret,
-				  resave: true,
-				  saveUninitialized: true }));
+app.use(session({
+    secret: keys.sessionSecret,
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -38,7 +40,7 @@ app.use(flash());
 configPassport(passport);
 
 app.use('/auth', auth);
-app.use('/api',api);
+app.use('/api', api);
 app.use('/recommendation-engine', recommendation_engine);
 
 /**

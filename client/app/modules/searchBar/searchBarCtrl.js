@@ -1,4 +1,4 @@
-angular.module('searchBar', ['YouTubeApp', 'auth'])
+angular.module('searchBar', ['youtube', 'auth'])
   .constant('YOUTUBE_API', {
     'URL': 'https://www.googleapis.com/youtube/v3/search',
     'KEY': 'AIzaSyC_FcJlUP1Sv5niC5ItHOTkqwoC8mwKccU',
@@ -28,6 +28,7 @@ angular.module('searchBar', ['YouTubeApp', 'auth'])
         $scope.searchBarPlaceholder = 'Search for a song...';
       }
     });
+
     function getRadioIdFromPath(path) {
       return path.substring(1);
     }
