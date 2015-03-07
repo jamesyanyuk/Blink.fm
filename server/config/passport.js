@@ -16,7 +16,8 @@ var HARDCODED_USERS = [
     {'username': 'jake', 'password': 'jakeb'},
     {'username': 'anand', 'password': 'anands'},
     {'username': 'ricki', 'password': 'rickic'},
-    {'username': 'crisposity', 'password': 'kg'}
+    {'username': 'crisposity', 'password': 'kg'},
+    {'username': 'HackNY', 'password': 'iloveNYC'}
 ];
 
 /* For Google/Facebook authentication */
