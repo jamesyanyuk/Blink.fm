@@ -3,8 +3,8 @@
  */
 
 angular.module('recommendation', [])
-  .controller('RecommendationCtrl', ['$scope', '$rootScope', '$location', 'socket', 'authSrv',
-    function ($scope, $rootScope, $location, socket, authSrv) {
+  .controller('RecommendationCtrl', ['$scope', '$rootScope', '$location', 'authSrv', 'playingQueueSrv', 'socket',
+    function ($scope, $rootScope, $location, authSrv, playingQueueSrv, socket) {
 
       $scope.recVideos = [];
       $scope.isBroadcaster = false;
@@ -39,7 +39,7 @@ angular.module('recommendation', [])
       }
 
       function addToQueue(video) {
-        $rootScope.playingQueue.push(video);
+        playingQueueSrv.addVideo(video);
         socket.emit('recommendation:removeVideo', {
           videoId: video.videoId
         });

@@ -1,8 +1,8 @@
-<div ui-sortable="sortableOptions" id="playing-queue" class="row" ng-model="playingQueue">
-  <div class="thumbnail queue-item" ng-repeat="video in playingQueue track by $index"
+<div ui-sortable="playingQueueVm.sortableOptions" id="playing-queue" class="row" ng-model="playingQueueVm.queue">
+  <div class="thumbnail queue-item" ng-repeat="video in playingQueueVm.queue track by $index"
       ng-model="hover" ng-mouseenter="hover=true;" ng-mouseleave="hover=false;">
-    <img ng-src="{{video.thumbnail}}" width="50%" ng-click="play($index)">
+    <img ng-src="{{video.thumbnail}}" width="50%" ng-click="playingQueueVm.playByIndex($index)">
     <div class="caption video-title">{{video.title}}</div>
-    <span class="glyphicon glyphicon-remove-circle item-remove-icon" ng-show="hover" ng-click="remove($index)"></span>
+    <span class="glyphicon glyphicon-remove-circle item-remove-icon" ng-show="hover" ng-click="playingQueueVm.removeByIndex($index)"></span>
   </div>
 </div>

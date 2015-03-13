@@ -9,10 +9,10 @@
     .module('youtube')
     .directive('youtube', youtube);
 
-  youtube.$inject = ['$http', '$rootScope', '$window', 'authSrv', 'youtubeSrv', 'YT_event'];
+  youtube.$inject = ['$http', '$rootScope', '$window', 'authSrv', 'playingQueueSrv', 'youtubeSrv', 'YT_event'];
 
   /* @ngInject */
-  function youtube($http, $rootScope, $window, authSrv, youtubeSrv, YT_event) {
+  function youtube($http, $rootScope, $window, authSrv, playingQueueSrv, youtubeSrv, YT_event) {
     var directive = {
       restrict: 'E',
       template: '<div></div>',
@@ -55,9 +55,8 @@
         }
 
         if (message === "ENDED") {
-          if ($rootScope.playingQueue.length > 0) {
-            var nextVideo = $rootScope.playingQueue.shift();
-            $rootScope.player.loadVideoById(nextVideo.videoId);
+          if (playingQueueSrv.hasNext()) {
+            playingQueueSrv.playNext();
           }
           else {
             $http.get('recommendation-engine/next').success(function (response) {

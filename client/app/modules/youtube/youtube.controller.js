@@ -1,6 +1,6 @@
 angular
   .module('youtube')
-  .controller('YouTubeCtrl', function ($scope, $rootScope, YT_event, authSrv, socket) {
+  .controller('YouTubeCtrl', function ($scope, $rootScope, $routeParams, YT_event, authSrv, socket) {
   //initial settings
   $scope.yt = {
     width: angular.element(".video-container").width(),
@@ -22,7 +22,7 @@ angular
   authSrv.getCurrentUser(function (user) {
     currentUser = user;
     // Changed polling rate to 500, since we're not expecting much load for the MVP
-    if (currentUser) {
+    if (currentUser && (currentUser.username === $routeParams.username)) {
       setInterval(function () {
         if ($scope.isPlayerReady) {
           socket.emit('broadcast_player_status', {

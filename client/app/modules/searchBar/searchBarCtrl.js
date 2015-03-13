@@ -10,7 +10,7 @@ angular.module('searchBar', ['youtube', 'auth'])
     'ARROW_DOWN': 40,
     'ENTER': 13
   })
-  .controller('SearchBarCtrl', function ($scope, $rootScope, $http, $location, authSrv, YOUTUBE_API, KEYS) {
+  .controller('SearchBarCtrl', function ($scope, $rootScope, $http, $routeParams, authSrv, playingQueueSrv, YOUTUBE_API, KEYS) {
     $scope.searchResults = [];
     // -1 is the default value
     $scope.searchFocusIndex = -1;
@@ -24,14 +24,10 @@ angular.module('searchBar', ['youtube', 'auth'])
     $scope.searchBarPlaceholder = 'Suggest a song...';
     authSrv.getCurrentUser(function (currentUser) {
       if (currentUser && currentUser.username) {
-        $scope.isBroadcaster = (currentUser.username === getRadioIdFromPath($location.path()));
+        $scope.isBroadcaster = (currentUser.username === $routeParams.username);
         $scope.searchBarPlaceholder = 'Search for a song...';
       }
     });
-
-    function getRadioIdFromPath(path) {
-      return path.substring(1);
-    }
 
     $scope.onFocus = function () {
       $scope.searchFocusIndex = -1;
@@ -62,7 +58,7 @@ angular.module('searchBar', ['youtube', 'auth'])
             break;
           case KEYS.ENTER:
             if (index >= 0 && index < $scope.searchResults.length)
-              $scope.play($scope.searchResults[index]);
+              titleClick($scope.searchResults[index]);
         }
       }
     };
@@ -144,7 +140,7 @@ angular.module('searchBar', ['youtube', 'auth'])
       if (response && response.videoId)
         authSrv.getCurrentUser(function (res) {
           if (res.username && res.username === $rootScope.radioid) {
-            $rootScope.playingQueue.push(video);
+            playingQueueSrv.addSong(video);
           } else {
             socket.emit('recommendation:addVideo', video);
           }
