@@ -1,5 +1,6 @@
 Blink.fm
 =======
+[View it live on http://blink.fm](http://blink.fm)
 
 Broadcast your music taste to the world
 
